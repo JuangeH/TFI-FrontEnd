@@ -1,13 +1,21 @@
 using InnoviaReach___TFI___FrontEnd.Data;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
+using MudBlazor.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
-builder.Services.AddSingleton<WeatherForecastService>();
+builder.Services.AddMudServices();
+builder.Services.AddHttpClient();
+builder.Services.AddSingleton<HttpClient>(sp =>
+{
+    var httpClient = new HttpClient();
+    httpClient.BaseAddress = new Uri("https://localhost:44369");
+    return httpClient;
+});
 
 var app = builder.Build();
 

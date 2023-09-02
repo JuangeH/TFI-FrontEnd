@@ -1,0 +1,40 @@
+C:\Users\Juan\Desktop\Repositorios\TFI-FrontEnd\InnoviaReach - TFI - FrontEnd\InnoviaReach - TFI - FrontEnd\bin\Debug\net6.0\appsettings.Development.json
+C:\Users\Juan\Desktop\Repositorios\TFI-FrontEnd\InnoviaReach - TFI - FrontEnd\InnoviaReach - TFI - FrontEnd\bin\Debug\net6.0\appsettings.json
+C:\Users\Juan\Desktop\Repositorios\TFI-FrontEnd\InnoviaReach - TFI - FrontEnd\InnoviaReach - TFI - FrontEnd\bin\Debug\net6.0\InnoviaReach - TFI - FrontEnd.staticwebassets.runtime.json
+C:\Users\Juan\Desktop\Repositorios\TFI-FrontEnd\InnoviaReach - TFI - FrontEnd\InnoviaReach - TFI - FrontEnd\bin\Debug\net6.0\InnoviaReach - TFI - FrontEnd.exe
+C:\Users\Juan\Desktop\Repositorios\TFI-FrontEnd\InnoviaReach - TFI - FrontEnd\InnoviaReach - TFI - FrontEnd\bin\Debug\net6.0\InnoviaReach - TFI - FrontEnd.deps.json
+C:\Users\Juan\Desktop\Repositorios\TFI-FrontEnd\InnoviaReach - TFI - FrontEnd\InnoviaReach - TFI - FrontEnd\bin\Debug\net6.0\InnoviaReach - TFI - FrontEnd.runtimeconfig.json
+C:\Users\Juan\Desktop\Repositorios\TFI-FrontEnd\InnoviaReach - TFI - FrontEnd\InnoviaReach - TFI - FrontEnd\bin\Debug\net6.0\InnoviaReach - TFI - FrontEnd.dll
+C:\Users\Juan\Desktop\Repositorios\TFI-FrontEnd\InnoviaReach - TFI - FrontEnd\InnoviaReach - TFI - FrontEnd\bin\Debug\net6.0\InnoviaReach - TFI - FrontEnd.pdb
+C:\Users\Juan\Desktop\Repositorios\TFI-FrontEnd\InnoviaReach - TFI - FrontEnd\InnoviaReach - TFI - FrontEnd\bin\Debug\net6.0\Microsoft.AspNetCore.Authorization.dll
+C:\Users\Juan\Desktop\Repositorios\TFI-FrontEnd\InnoviaReach - TFI - FrontEnd\InnoviaReach - TFI - FrontEnd\bin\Debug\net6.0\Microsoft.AspNetCore.Components.dll
+C:\Users\Juan\Desktop\Repositorios\TFI-FrontEnd\InnoviaReach - TFI - FrontEnd\InnoviaReach - TFI - FrontEnd\bin\Debug\net6.0\Microsoft.AspNetCore.Components.Forms.dll
+C:\Users\Juan\Desktop\Repositorios\TFI-FrontEnd\InnoviaReach - TFI - FrontEnd\InnoviaReach - TFI - FrontEnd\bin\Debug\net6.0\Microsoft.AspNetCore.Components.Web.dll
+C:\Users\Juan\Desktop\Repositorios\TFI-FrontEnd\InnoviaReach - TFI - FrontEnd\InnoviaReach - TFI - FrontEnd\bin\Debug\net6.0\Microsoft.AspNetCore.Metadata.dll
+C:\Users\Juan\Desktop\Repositorios\TFI-FrontEnd\InnoviaReach - TFI - FrontEnd\InnoviaReach - TFI - FrontEnd\bin\Debug\net6.0\Microsoft.Extensions.DependencyInjection.dll
+C:\Users\Juan\Desktop\Repositorios\TFI-FrontEnd\InnoviaReach - TFI - FrontEnd\InnoviaReach - TFI - FrontEnd\bin\Debug\net6.0\Microsoft.Extensions.Localization.dll
+C:\Users\Juan\Desktop\Repositorios\TFI-FrontEnd\InnoviaReach - TFI - FrontEnd\InnoviaReach - TFI - FrontEnd\bin\Debug\net6.0\Microsoft.Extensions.Localization.Abstractions.dll
+C:\Users\Juan\Desktop\Repositorios\TFI-FrontEnd\InnoviaReach - TFI - FrontEnd\InnoviaReach - TFI - FrontEnd\bin\Debug\net6.0\Microsoft.Extensions.Logging.Abstractions.dll
+C:\Users\Juan\Desktop\Repositorios\TFI-FrontEnd\InnoviaReach - TFI - FrontEnd\InnoviaReach - TFI - FrontEnd\bin\Debug\net6.0\Microsoft.JSInterop.dll
+C:\Users\Juan\Desktop\Repositorios\TFI-FrontEnd\InnoviaReach - TFI - FrontEnd\InnoviaReach - TFI - FrontEnd\bin\Debug\net6.0\MudBlazor.dll
+C:\Users\Juan\Desktop\Repositorios\TFI-FrontEnd\InnoviaReach - TFI - FrontEnd\InnoviaReach - TFI - FrontEnd\bin\Debug\net6.0\System.IO.Pipelines.dll
+C:\Users\Juan\Desktop\Repositorios\TFI-FrontEnd\InnoviaReach - TFI - FrontEnd\InnoviaReach - TFI - FrontEnd\obj\Debug\net6.0\InnoviaReach - TFI - FrontEnd.csproj.AssemblyReference.cache
+C:\Users\Juan\Desktop\Repositorios\TFI-FrontEnd\InnoviaReach - TFI - FrontEnd\InnoviaReach - TFI - FrontEnd\obj\Debug\net6.0\InnoviaReach - TFI - FrontEnd.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\Juan\Desktop\Repositorios\TFI-FrontEnd\InnoviaReach - TFI - FrontEnd\InnoviaReach - TFI - FrontEnd\obj\Debug\net6.0\InnoviaReach - TFI - FrontEnd.AssemblyInfoInputs.cache
+C:\Users\Juan\Desktop\Repositorios\TFI-FrontEnd\InnoviaReach - TFI - FrontEnd\InnoviaReach - TFI - FrontEnd\obj\Debug\net6.0\InnoviaReach - TFI - FrontEnd.AssemblyInfo.cs
+C:\Users\Juan\Desktop\Repositorios\TFI-FrontEnd\InnoviaReach - TFI - FrontEnd\InnoviaReach - TFI - FrontEnd\obj\Debug\net6.0\InnoviaReach - TFI - FrontEnd.csproj.CoreCompileInputs.cache
+C:\Users\Juan\Desktop\Repositorios\TFI-FrontEnd\InnoviaReach - TFI - FrontEnd\InnoviaReach - TFI - FrontEnd\obj\Debug\net6.0\InnoviaReach - TFI - FrontEnd.MvcApplicationPartsAssemblyInfo.cache
+C:\Users\Juan\Desktop\Repositorios\TFI-FrontEnd\InnoviaReach - TFI - FrontEnd\InnoviaReach - TFI - FrontEnd\obj\Debug\net6.0\InnoviaReach - TFI - FrontEnd.RazorAssemblyInfo.cache
+C:\Users\Juan\Desktop\Repositorios\TFI-FrontEnd\InnoviaReach - TFI - FrontEnd\InnoviaReach - TFI - FrontEnd\obj\Debug\net6.0\InnoviaReach - TFI - FrontEnd.RazorAssemblyInfo.cs
+C:\Users\Juan\Desktop\Repositorios\TFI-FrontEnd\InnoviaReach - TFI - FrontEnd\InnoviaReach - TFI - FrontEnd\obj\Debug\net6.0\staticwebassets.build.json
+C:\Users\Juan\Desktop\Repositorios\TFI-FrontEnd\InnoviaReach - TFI - FrontEnd\InnoviaReach - TFI - FrontEnd\obj\Debug\net6.0\staticwebassets.development.json
+C:\Users\Juan\Desktop\Repositorios\TFI-FrontEnd\InnoviaReach - TFI - FrontEnd\InnoviaReach - TFI - FrontEnd\obj\Debug\net6.0\scopedcss\Shared\MainLayout.razor.rz.scp.css
+C:\Users\Juan\Desktop\Repositorios\TFI-FrontEnd\InnoviaReach - TFI - FrontEnd\InnoviaReach - TFI - FrontEnd\obj\Debug\net6.0\scopedcss\Shared\NavMenu.razor.rz.scp.css
+C:\Users\Juan\Desktop\Repositorios\TFI-FrontEnd\InnoviaReach - TFI - FrontEnd\InnoviaReach - TFI - FrontEnd\obj\Debug\net6.0\scopedcss\bundle\InnoviaReach - TFI - FrontEnd.styles.css
+C:\Users\Juan\Desktop\Repositorios\TFI-FrontEnd\InnoviaReach - TFI - FrontEnd\InnoviaReach - TFI - FrontEnd\obj\Debug\net6.0\scopedcss\projectbundle\InnoviaReach - TFI - FrontEnd.bundle.scp.css
+C:\Users\Juan\Desktop\Repositorios\TFI-FrontEnd\InnoviaReach - TFI - FrontEnd\InnoviaReach - TFI - FrontEnd\obj\Debug\net6.0\InnoviaReach - TFI - FrontEnd.csproj.CopyComplete
+C:\Users\Juan\Desktop\Repositorios\TFI-FrontEnd\InnoviaReach - TFI - FrontEnd\InnoviaReach - TFI - FrontEnd\obj\Debug\net6.0\InnoviaReach - TFI - FrontEnd.dll
+C:\Users\Juan\Desktop\Repositorios\TFI-FrontEnd\InnoviaReach - TFI - FrontEnd\InnoviaReach - TFI - FrontEnd\obj\Debug\net6.0\refint\InnoviaReach - TFI - FrontEnd.dll
+C:\Users\Juan\Desktop\Repositorios\TFI-FrontEnd\InnoviaReach - TFI - FrontEnd\InnoviaReach - TFI - FrontEnd\obj\Debug\net6.0\InnoviaReach - TFI - FrontEnd.pdb
+C:\Users\Juan\Desktop\Repositorios\TFI-FrontEnd\InnoviaReach - TFI - FrontEnd\InnoviaReach - TFI - FrontEnd\obj\Debug\net6.0\InnoviaReach - TFI - FrontEnd.genruntimeconfig.cache
+C:\Users\Juan\Desktop\Repositorios\TFI-FrontEnd\InnoviaReach - TFI - FrontEnd\InnoviaReach - TFI - FrontEnd\obj\Debug\net6.0\ref\InnoviaReach - TFI - FrontEnd.dll

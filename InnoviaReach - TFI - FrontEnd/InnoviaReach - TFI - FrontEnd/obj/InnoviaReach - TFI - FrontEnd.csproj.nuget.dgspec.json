@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "G:\\Mi unidad\\UAI\\UAI\\5to Año\\Segundo cuatrimestre\\TRABAJO FINAL DE INGENIERÍA\\Tecnología\\InnoviaReach - TFI - FrontEnd\\InnoviaReach - TFI - FrontEnd\\InnoviaReach - TFI - FrontEnd.csproj": {}
+    "C:\\Users\\Juan\\Desktop\\Repositorios\\TFI-FrontEnd\\InnoviaReach - TFI - FrontEnd\\InnoviaReach - TFI - FrontEnd\\InnoviaReach - TFI - FrontEnd.csproj": {}
   },
   "projects": {
-    "G:\\Mi unidad\\UAI\\UAI\\5to Año\\Segundo cuatrimestre\\TRABAJO FINAL DE INGENIERÍA\\Tecnología\\InnoviaReach - TFI - FrontEnd\\InnoviaReach - TFI - FrontEnd\\InnoviaReach - TFI - FrontEnd.csproj": {
+    "C:\\Users\\Juan\\Desktop\\Repositorios\\TFI-FrontEnd\\InnoviaReach - TFI - FrontEnd\\InnoviaReach - TFI - FrontEnd\\InnoviaReach - TFI - FrontEnd.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "G:\\Mi unidad\\UAI\\UAI\\5to Año\\Segundo cuatrimestre\\TRABAJO FINAL DE INGENIERÍA\\Tecnología\\InnoviaReach - TFI - FrontEnd\\InnoviaReach - TFI - FrontEnd\\InnoviaReach - TFI - FrontEnd.csproj",
+        "projectUniqueName": "C:\\Users\\Juan\\Desktop\\Repositorios\\TFI-FrontEnd\\InnoviaReach - TFI - FrontEnd\\InnoviaReach - TFI - FrontEnd\\InnoviaReach - TFI - FrontEnd.csproj",
         "projectName": "InnoviaReach - TFI - FrontEnd",
-        "projectPath": "G:\\Mi unidad\\UAI\\UAI\\5to Año\\Segundo cuatrimestre\\TRABAJO FINAL DE INGENIERÍA\\Tecnología\\InnoviaReach - TFI - FrontEnd\\InnoviaReach - TFI - FrontEnd\\InnoviaReach - TFI - FrontEnd.csproj",
+        "projectPath": "C:\\Users\\Juan\\Desktop\\Repositorios\\TFI-FrontEnd\\InnoviaReach - TFI - FrontEnd\\InnoviaReach - TFI - FrontEnd\\InnoviaReach - TFI - FrontEnd.csproj",
         "packagesPath": "C:\\Users\\Juan\\.nuget\\packages\\",
-        "outputPath": "G:\\Mi unidad\\UAI\\UAI\\5to Año\\Segundo cuatrimestre\\TRABAJO FINAL DE INGENIERÍA\\Tecnología\\InnoviaReach - TFI - FrontEnd\\InnoviaReach - TFI - FrontEnd\\obj\\",
+        "outputPath": "C:\\Users\\Juan\\Desktop\\Repositorios\\TFI-FrontEnd\\InnoviaReach - TFI - FrontEnd\\InnoviaReach - TFI - FrontEnd\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
@@ -43,6 +43,12 @@
       "frameworks": {
         "net6.0": {
           "targetAlias": "net6.0",
+          "dependencies": {
+            "MudBlazor": {
+              "target": "Package",
+              "version": "[6.9.0, )"
+            }
+          },
           "imports": [
             "net461",
             "net462",

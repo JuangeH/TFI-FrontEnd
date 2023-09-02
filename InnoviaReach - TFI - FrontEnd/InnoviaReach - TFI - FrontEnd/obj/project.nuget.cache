@@ -1,8 +1,26 @@
 {
   "version": 2,
-  "dgSpecHash": "KIbfEA8nVguB0aBzDiOYNKU3LE1ONJYwVQ+YVywBmZ0jIleU9RmYY7hMW0SLEZ/vNHHKHZTlu4Tny8/V/0uhbA==",
+  "dgSpecHash": "ookaX0LFj047KCthiKVwqfOvDTQfTv8LqWbLi+2JPIcQKLRDrAWXJAk/ga3GYgoONu5qX8MTXMulwWeWtAzIYg==",
   "success": true,
-  "projectFilePath": "G:\\Mi unidad\\UAI\\UAI\\5to Año\\Segundo cuatrimestre\\TRABAJO FINAL DE INGENIERÍA\\Tecnología\\InnoviaReach - TFI - FrontEnd\\InnoviaReach - TFI - FrontEnd\\InnoviaReach - TFI - FrontEnd.csproj",
-  "expectedPackageFiles": [],
+  "projectFilePath": "C:\\Users\\Juan\\Desktop\\Repositorios\\TFI-FrontEnd\\InnoviaReach - TFI - FrontEnd\\InnoviaReach - TFI - FrontEnd\\InnoviaReach - TFI - FrontEnd.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\Juan\\.nuget\\packages\\microsoft.aspnetcore.authorization\\6.0.16\\microsoft.aspnetcore.authorization.6.0.16.nupkg.sha512",
+    "C:\\Users\\Juan\\.nuget\\packages\\microsoft.aspnetcore.components\\6.0.16\\microsoft.aspnetcore.components.6.0.16.nupkg.sha512",
+    "C:\\Users\\Juan\\.nuget\\packages\\microsoft.aspnetcore.components.analyzers\\6.0.16\\microsoft.aspnetcore.components.analyzers.6.0.16.nupkg.sha512",
+    "C:\\Users\\Juan\\.nuget\\packages\\microsoft.aspnetcore.components.forms\\6.0.16\\microsoft.aspnetcore.components.forms.6.0.16.nupkg.sha512",
+    "C:\\Users\\Juan\\.nuget\\packages\\microsoft.aspnetcore.components.web\\6.0.16\\microsoft.aspnetcore.components.web.6.0.16.nupkg.sha512",
+    "C:\\Users\\Juan\\.nuget\\packages\\microsoft.aspnetcore.metadata\\6.0.16\\microsoft.aspnetcore.metadata.6.0.16.nupkg.sha512",
+    "C:\\Users\\Juan\\.nuget\\packages\\microsoft.extensions.dependencyinjection\\6.0.1\\microsoft.extensions.dependencyinjection.6.0.1.nupkg.sha512",
+    "C:\\Users\\Juan\\.nuget\\packages\\microsoft.extensions.dependencyinjection.abstractions\\6.0.0\\microsoft.extensions.dependencyinjection.abstractions.6.0.0.nupkg.sha512",
+    "C:\\Users\\Juan\\.nuget\\packages\\microsoft.extensions.localization\\6.0.16\\microsoft.extensions.localization.6.0.16.nupkg.sha512",
+    "C:\\Users\\Juan\\.nuget\\packages\\microsoft.extensions.localization.abstractions\\6.0.16\\microsoft.extensions.localization.abstractions.6.0.16.nupkg.sha512",
+    "C:\\Users\\Juan\\.nuget\\packages\\microsoft.extensions.logging.abstractions\\6.0.3\\microsoft.extensions.logging.abstractions.6.0.3.nupkg.sha512",
+    "C:\\Users\\Juan\\.nuget\\packages\\microsoft.extensions.options\\6.0.0\\microsoft.extensions.options.6.0.0.nupkg.sha512",
+    "C:\\Users\\Juan\\.nuget\\packages\\microsoft.extensions.primitives\\6.0.0\\microsoft.extensions.primitives.6.0.0.nupkg.sha512",
+    "C:\\Users\\Juan\\.nuget\\packages\\microsoft.jsinterop\\6.0.16\\microsoft.jsinterop.6.0.16.nupkg.sha512",
+    "C:\\Users\\Juan\\.nuget\\packages\\mudblazor\\6.9.0\\mudblazor.6.9.0.nupkg.sha512",
+    "C:\\Users\\Juan\\.nuget\\packages\\system.io.pipelines\\6.0.3\\system.io.pipelines.6.0.3.nupkg.sha512",
+    "C:\\Users\\Juan\\.nuget\\packages\\system.runtime.compilerservices.unsafe\\6.0.0\\system.runtime.compilerservices.unsafe.6.0.0.nupkg.sha512"
+  ],
   "logs": []
 }
