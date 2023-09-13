@@ -1,0 +1,128 @@
+﻿@layout LoginLayout
+@page "/Registro"
+
+<PageTitle>Registro</PageTitle>
+@inject HttpClient httpClient
+@inject NavigationManager NavManager
+@inject IDialogService DialogService
+@using System.ComponentModel.DataAnnotations
+@using InnoviaReach___TFI___FrontEnd.Components
+@using InnoviaReach___TFI___FrontEnd.Data
+
+<EditForm Model="@_registerRequest" OnValidSubmit="OnValidSubmit">
+    <DataAnnotationsValidator />
+    <MudGrid Justify="Justify.Center">
+        <MudItem xs="12" sm="7">
+            <MudCard>
+                <MudCardContent>
+                    <MudTextField Label="Nombre"
+                                  @bind-Value="_registerRequest.FirstName" For="@(() => _registerRequest.FirstName)" />
+                    <MudTextField Label="Apellido"
+                                  @bind-Value="_registerRequest.LastName" For="@(() => _registerRequest.LastName)" />
+                    <MudTextField Label="Email" Class="mt-3"
+                                  @bind-Value="_registerRequest.Email" For="@(() => _registerRequest.Email)" />
+                    <MudTextField Label="Contraseña" Class="mt-3"
+                                  @bind-Value="_registerRequest.Password" For="@(() => _registerRequest.Password)" InputType="InputType.Password" />
+                    <MudTextField Label="Confirmar contraseña" Class="mt-3"
+                                  @bind-Value="_registerRequest.ConfirmPassword" For="@(() => _registerRequest.ConfirmPassword)" InputType="InputType.Password" />
+                    <MudTextField Label="Numero" Class="mt-3"
+                                  @bind-Value="_registerRequest.PhoneNumber" For="@(() => _registerRequest.PhoneNumber)"/>
+                    <MudSelect T="string" Label="Idioma preferido" For="@(() => _registerRequest.Idioma)" AnchorOrigin="Origin.BottomCenter" @bind-Value="_registerRequest.Idioma">
+                        <MudSelectItem Value="@("Español")" />
+                        <MudSelectItem Value="@("Ingles")" />
+                    </MudSelect>
+                    <MudSelect T="string" Label="Estilo de juego preferido" For="@(() => _registerRequest.Estilo_preferido)" AnchorOrigin="Origin.BottomCenter" @bind-Value="_registerRequest.Estilo_preferido">
+                        <MudSelectItem Value="@("Un jugador")" />
+                        <MudSelectItem Value="@("Multijugador")" />
+                        <MudSelectItem Value="@("Cooperativo")" />
+                    </MudSelect>
+                    <MudSelect T="string" Label="Genero de juego preferido" For="@(() => _registerRequest.Genero_preferido)" AnchorOrigin="Origin.BottomCenter" @bind-Value="_registerRequest.Genero_preferido">
+                        <MudSelectItem Value="@("Accion")" />
+                        <MudSelectItem Value="@("Rol")" />
+                        <MudSelectItem Value="@("Estrategia")" />
+                        <MudSelectItem Value="@("Aventura")" />
+                        <MudSelectItem Value="@("Simulacion")" />
+                        <MudSelectItem Value="@("Deportes y carreras")" />
+                    </MudSelect>
+
+                </MudCardContent>
+                <MudCardActions>
+                    <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary" OnClick="@Submit" Class="ml-auto">Registrarse</MudButton>
+                </MudCardActions>
+                <MudCardActions>
+                    <MudButton ButtonType="ButtonType.Submit" OnClick="@LogIn" Variant="Variant.Filled" Color="Color.Info" Class="ml-auto">Volver a inicio de sesión</MudButton>
+                </MudCardActions>
+            </MudCard>
+        </MudItem>
+    </MudGrid>
+</EditForm>
+
+@code {
+    bool success;
+    RegisterRequest _registerRequest = new RegisterRequest();
+
+    protected async Task Submit()
+    {
+        try
+        {
+            string body = "email=" + _registerRequest.Email
+            + "&firstName=" + _registerRequest.FirstName
+            + "&lastName=" + _registerRequest.LastName
+            + "&password=" + _registerRequest.Password
+            + "&confirmPassword=" + _registerRequest.ConfirmPassword
+            + "&phoneNumber=" + _registerRequest.PhoneNumber
+            + "&idioma=" + _registerRequest.Idioma
+            + "&estilo_preferido=" + _registerRequest.Estilo_preferido
+            + "&genero_preferido=" + _registerRequest.Genero_preferido;
+
+            string url = "https://localhost:44308/Auth/Register?" + body;
+            var result = await httpClient.PostAsJsonAsync(url, _registerRequest);
+
+            if (result.IsSuccessStatusCode)
+            {
+                await DialogService.ShowAsync<DialogVerificacion>("Registro exitoso");
+                Thread.Sleep(700);
+                NavManager.NavigateTo("/");
+            }
+            else
+            {
+                throw new Exception("Error");
+            }
+
+        }
+        catch (Exception ex)
+        {
+            DialogService.Show<DialogError>(ex.Message);
+        }
+
+    }
+    protected async Task Register()
+    {
+        try
+        {
+            NavManager.NavigateTo("/Registro");
+        }
+        catch (Exception ex)
+        {
+
+        }
+
+    }
+    protected async Task LogIn()
+    {
+        try
+        {
+            NavManager.NavigateTo("/");
+        }
+        catch (Exception ex)
+        {
+
+        }
+
+    }
+    private void OnValidSubmit(EditContext context)
+    {
+        success = true;
+        StateHasChanged();
+    }
+}

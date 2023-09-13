@@ -19,12 +19,32 @@ build_property._RazorSourceGeneratorDebug =
 build_metadata.AdditionalFiles.TargetPath = QXBwLnJhem9y
 build_metadata.AdditionalFiles.CssScope = 
 
-[C:/Users/Juan/Desktop/Repositorios/TFI-FrontEnd/InnoviaReach - TFI - FrontEnd/InnoviaReach - TFI - FrontEnd/Pages/Counter.razor]
-build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ291bnRlci5yYXpvcg==
+[C:/Users/Juan/Desktop/Repositorios/TFI-FrontEnd/InnoviaReach - TFI - FrontEnd/InnoviaReach - TFI - FrontEnd/Components/DialogError.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xEaWFsb2dFcnJvci5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Juan/Desktop/Repositorios/TFI-FrontEnd/InnoviaReach - TFI - FrontEnd/InnoviaReach - TFI - FrontEnd/Components/DialogVerificacion.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xEaWFsb2dWZXJpZmljYWNpb24ucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/Juan/Desktop/Repositorios/TFI-FrontEnd/InnoviaReach - TFI - FrontEnd/InnoviaReach - TFI - FrontEnd/Pages/FetchData.razor]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcRmV0Y2hEYXRhLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Juan/Desktop/Repositorios/TFI-FrontEnd/InnoviaReach - TFI - FrontEnd/InnoviaReach - TFI - FrontEnd/Pages/IniciarSesion.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcSW5pY2lhclNlc2lvbi5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Juan/Desktop/Repositorios/TFI-FrontEnd/InnoviaReach - TFI - FrontEnd/InnoviaReach - TFI - FrontEnd/Pages/Main.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcTWFpbi5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Juan/Desktop/Repositorios/TFI-FrontEnd/InnoviaReach - TFI - FrontEnd/InnoviaReach - TFI - FrontEnd/Pages/Registrarse.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcUmVnaXN0cmFyc2UucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Juan/Desktop/Repositorios/TFI-FrontEnd/InnoviaReach - TFI - FrontEnd/InnoviaReach - TFI - FrontEnd/Shared/LoginLayout.razor]
+build_metadata.AdditionalFiles.TargetPath = U2hhcmVkXExvZ2luTGF5b3V0LnJhem9y
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/Juan/Desktop/Repositorios/TFI-FrontEnd/InnoviaReach - TFI - FrontEnd/InnoviaReach - TFI - FrontEnd/Shared/SurveyPrompt.razor]

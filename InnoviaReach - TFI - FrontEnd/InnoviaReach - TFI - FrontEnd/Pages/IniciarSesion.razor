@@ -1,0 +1,79 @@
+﻿@layout LoginLayout
+@page "/"
+
+<PageTitle>Inicio de sesión</PageTitle>
+
+@using System.ComponentModel.DataAnnotations
+@using InnoviaReach___TFI___FrontEnd.Components
+@using InnoviaReach___TFI___FrontEnd.Data
+@inject HttpClient httpClient
+@inject NavigationManager NavManager
+@inject IDialogService DialogService
+@using System.Net.Http.Json
+
+<EditForm Model="@_loginRequest" OnValidSubmit="OnValidSubmit">
+<DataAnnotationsValidator/>
+<MudGrid Justify="Justify.Center">
+    <MudItem xs="12" sm="7">
+        <MudCard>
+            <MudCardContent>
+                <MudTextField Label="Email" Class="mt-3"
+                                  @bind-Value="_loginRequest.username" For="@(() => _loginRequest.username)" />
+                <MudTextField Label="Password" Class="mt-3"
+                                  @bind-Value="_loginRequest.password" InputType="InputType.Password" For="@(() => _loginRequest.password)" />
+            </MudCardContent>
+            <MudCardActions>
+                    <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary" OnClick="@Submit" Class="ml-auto">Iniciar sesión</MudButton>
+            </MudCardActions>
+            <MudCardActions>
+                    <MudButton ButtonType="ButtonType.Button" Variant="Variant.Filled" Color="Color.Secondary" OnClick="@Register" Class="ml-auto">Registrarse</MudButton>
+            </MudCardActions>
+        </MudCard>
+    </MudItem>
+</MudGrid>
+</EditForm>
+@code {
+    bool success;
+    LoginRequest _loginRequest = new LoginRequest();
+
+    protected async Task Submit()
+    {
+        try
+        {
+            string url = "https://localhost:44308/Auth/Login?username=" + _loginRequest.username + "&password=" + _loginRequest.username;
+            var result = await httpClient.PostAsJsonAsync(url,_loginRequest);
+
+            if (result.IsSuccessStatusCode)
+            {
+                NavManager.NavigateTo("/main");
+            }
+            else{
+                throw new Exception("Error");
+            }
+
+        }
+        catch (Exception ex)
+        {
+            DialogService.Show<DialogError>(ex.Message);
+        }
+
+    }
+    protected async Task Register()
+    {
+        try
+        {
+            NavManager.NavigateTo("/Registro");
+        }
+        catch (Exception ex)
+        {
+
+        }
+
+    }
+    private void OnValidSubmit(EditContext context)
+    {
+        success = true;
+        StateHasChanged();
+    }
+
+}
