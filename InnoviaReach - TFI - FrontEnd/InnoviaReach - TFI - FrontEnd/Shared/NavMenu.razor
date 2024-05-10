@@ -1,4 +1,4 @@
-﻿<div class="top-row ps-3 navbar navbar-dark">
+﻿@*<div class="top-row ps-3 navbar navbar-dark">
     <div class="container-fluid">
         <a class="navbar-brand" href="">InnoviaReach</a>
         <button title="Navigation menu" class="navbar-toggler" @onclick="ToggleNavMenu">
@@ -10,22 +10,108 @@
 <div class="@NavMenuCssClass" @onclick="ToggleNavMenu">
     <nav class="flex-column">
         <div class="nav-item px-3">
-            <NavLink class="nav-link" href="Catalogo" Match="NavLinkMatch.All">
-                <span class="oi oi-home" aria-hidden="true"></span> Home
+            <NavLink class="nav-link" href="Main" Match="NavLinkMatch.All">
+                <span class="oi oi-home" aria-hidden="true"></span> Inicio
             </NavLink>
         </div>
         <div class="nav-item px-3">
-            <NavLink class="nav-link" href="counter">
-                <span class="oi oi-plus" aria-hidden="true"></span> Counter
+            <NavLink class="nav-link" href="Catalogo">
+                <span class="oi oi-list-rich" aria-hidden="true"></span> Catalogo
             </NavLink>
         </div>
         <div class="nav-item px-3">
-            <NavLink class="nav-link" href="fetchdata">
-                <span class="oi oi-list-rich" aria-hidden="true"></span> Fetch data
+            <NavLink class="nav-link" href="Foro">
+                <span class="oi oi-people" aria-hidden="true"></span> Foros
+            </NavLink>
+        </div>
+        <div class="nav-item px-3">
+            <NavLink class="nav-link" href="Auditoria">
+                <span class="oi oi-briefcase" aria-hidden="true"></span> Auditoría
+            </NavLink>
+        </div>
+        <div class="nav-item px-3">
+            <NavLink class="nav-link" href="Bitacora">
+                <span class="oi oi-list" aria-hidden="true"></span> Bitácora
             </NavLink>
         </div>
     </nav>
+</div>*@
+
+<div class="root-toolbar">
+    <nav>
+        <div class="sidebar-top">
+            <a class="logo__wrapper">
+                <img src="assets/Toolbar/logo.svg" alt="Logo" class="logo">
+            </a>
+            <div class="expand-btn">
+                <img src="assets/Toolbar/chevron.svg" alt="Chevron">
+            </div>
+        </div>
+        <div class="sidebar-links">
+            <ul>
+                <li>
+                    <a href="Catalogo" title="Catalogo" class="tooltip">
+                        <img src="assets/Toolbar/dashboard.svg" alt="Catalogo">
+                        <span class="link hide">Catalogo</span>
+                        <span class="tooltip__content">Catalogo</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="Foros" title="Foros" class="tooltip">
+                        <img src="assets/Toolbar/analytics.svg" alt="Foros">
+                        <span class="link hide">Foros</span>
+                        <span class="tooltip__content">Foros</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="Auditoría" title="Auditoría" class="tooltip">
+                        <img src="assets/Toolbar/performance.svg" alt="Auditoría">
+                        <span class="link hide">Auditoría</span>
+                        <span class="tooltip__content">Auditoría</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="Bitácora" title="Bitácora" class="tooltip">
+                        <img src="assets/Toolbar/funds.svg" alt="Bitácora">
+                        <span class="link hide">Bitácora</span>
+                        <span class="tooltip__content">Bitácora</span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+        <div class="sidebar-bottom">
+            <div class="sidebar-links">
+                <ul>
+                    <li>
+                        <a href="#help" title="Help" class="tooltip">
+                            <img src="assets/Toolbar/help.svg" alt="Help">
+                            <span class="link hide">Help</span>
+                            <span class="tooltip__content">Help</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="#settings" title="Settings" class="tooltip">
+                            <img src="assets/Toolbar/settings.svg" alt="Settings">
+                            <span class="link hide">Settings</span>
+                            <span class="tooltip__content">Settings</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <div class="sidebar__profile">
+                <div class="avatar__wrapper">
+                    <img class="avatar" src="assets/Toolbar/profile.jpg" alt="Profile">
+                    <div class="online__status"></div>
+                </div>
+                <div class="avatar__name hide">
+                    <div class="user-name">Joe Doe</div>
+                    <div class="email">joe.doe@atheros.ai</div>
+                </div>
+            </div>
+        </div>
+    </nav>
 </div>
+
 
 @code {
     private bool collapseNavMenu = true;
@@ -36,4 +122,6 @@
     {
         collapseNavMenu = !collapseNavMenu;
     }
+
+
 }

@@ -7,19 +7,14 @@
 <MudDataGrid T="VideojuegoModel" MultiSelection="true" Items="@Elements" SortMode="SortMode.Multiple" Filterable="true" QuickFilter="@_quickFilter"
              Hideable="true" RowClick="@RowClicked" SelectedItemsChanged="@SelectedItemsChanged">
     <ToolBarContent>
-        <MudText Typo="Typo.h6">Periodic Elements</MudText>
+        <MudText Typo="Typo.h6">Videojuegos</MudText>
         <MudSpacer />
         <MudTextField @bind-Value="_searchString" Placeholder="Search" Adornment="Adornment.Start" Immediate="true"
                       AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0"></MudTextField>
     </ToolBarContent>
     <Columns>
         <SelectColumn T="VideojuegoModel" />
-        @*<PropertyColumn Property="x => x.Number" Title="Nr" Sortable="false" Filterable="false" />
-        <PropertyColumn Property="x => x.Sign" />
-        <PropertyColumn Property="x => x.Name" SortBy="@_sortBy" />
-        <PropertyColumn Property="x => x.Position" />
-        <PropertyColumn Property="x => x.Molar" Title="Molar mass" />
-        <PropertyColumn Property="x => x.Group" Title="Category" />*@
+        <PropertyColumn Property="x => x.Nombre" Title="Nr" Sortable="false" Filterable="false" />
     </Columns>
     <PagerContent>
         <MudDataGridPager T="VideojuegoModel" />
@@ -53,7 +48,7 @@
    
     protected override async Task OnInitializedAsync()
     {
-        //Elements = await httpClient.GetFromJsonAsync<List<VideojuegoModel>>("https://localhost:44308/Videojuego/ObtenerVideojuegos");
+        Elements = await httpClient.GetFromJsonAsync<List<VideojuegoModel>>("https://localhost:44309/Videojuego/ObtenerVideojuegos");
     }
 
     // events

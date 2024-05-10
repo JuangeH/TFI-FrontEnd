@@ -27,8 +27,20 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xEaWFsb2dWZXJpZmljYWNpb24ucmF6b3I=
 build_metadata.AdditionalFiles.CssScope = 
 
+[C:/Users/Juan/Desktop/Repositorios/TFI-FrontEnd/InnoviaReach - TFI - FrontEnd/InnoviaReach - TFI - FrontEnd/Pages/Auditoria.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQXVkaXRvcmlhLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Juan/Desktop/Repositorios/TFI-FrontEnd/InnoviaReach - TFI - FrontEnd/InnoviaReach - TFI - FrontEnd/Pages/Bitacora.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQml0YWNvcmEucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
 [C:/Users/Juan/Desktop/Repositorios/TFI-FrontEnd/InnoviaReach - TFI - FrontEnd/InnoviaReach - TFI - FrontEnd/Pages/Catalogo.razor]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ2F0YWxvZ28ucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Juan/Desktop/Repositorios/TFI-FrontEnd/InnoviaReach - TFI - FrontEnd/InnoviaReach - TFI - FrontEnd/Pages/Foro.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcRm9yby5yYXpvcg==
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/Juan/Desktop/Repositorios/TFI-FrontEnd/InnoviaReach - TFI - FrontEnd/InnoviaReach - TFI - FrontEnd/Pages/IniciarSesion.razor]
@@ -37,6 +49,10 @@ build_metadata.AdditionalFiles.CssScope =
 
 [C:/Users/Juan/Desktop/Repositorios/TFI-FrontEnd/InnoviaReach - TFI - FrontEnd/InnoviaReach - TFI - FrontEnd/Pages/Main.razor]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcTWFpbi5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Juan/Desktop/Repositorios/TFI-FrontEnd/InnoviaReach - TFI - FrontEnd/InnoviaReach - TFI - FrontEnd/Pages/Recomendaciones.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcUmVjb21lbmRhY2lvbmVzLnJhem9y
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/Juan/Desktop/Repositorios/TFI-FrontEnd/InnoviaReach - TFI - FrontEnd/InnoviaReach - TFI - FrontEnd/Pages/Registrarse.razor]
