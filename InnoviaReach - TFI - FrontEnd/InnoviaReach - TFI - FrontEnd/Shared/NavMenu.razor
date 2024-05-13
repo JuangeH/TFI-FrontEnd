@@ -1,4 +1,6 @@
-﻿@*<div class="top-row ps-3 navbar navbar-dark">
+﻿@inject IJSRuntime JSRuntime
+
+@*<div class="top-row ps-3 navbar navbar-dark">
     <div class="container-fluid">
         <a class="navbar-brand" href="">InnoviaReach</a>
         <button title="Navigation menu" class="navbar-toggler" @onclick="ToggleNavMenu">
@@ -37,83 +39,108 @@
     </nav>
 </div>*@
 
-<div class="root-toolbar">
-    <nav>
-        <div class="sidebar-top">
-            <a class="logo__wrapper">
-                <img src="assets/Toolbar/logo.svg" alt="Logo" class="logo">
-            </a>
-            <div class="expand-btn">
-                <img src="assets/Toolbar/chevron.svg" alt="Chevron">
-            </div>
-        </div>
+<nav>
+    <div class="sidebar-top">
+        <span class="expand-btn">
+            <img src="assets/ToolBar/chevron.svg" alt="Chevron">
+        </span>
+        <img src="assets/ToolBar/logo.svg"
+             class="logo"
+             alt="Laplace Logo">
+        <h3 class="hide">Laplace</h3>
+    </div>
+    <div class="sidebar-links">
+        <ul>
+            <li>
+                <a href="Recomendaciones" class="active" title="Portfolio link">
+                    <div class="icon">
+                        <img src="assets/ToolBar/portfolio.svg" title="Portfolio Icon">
+                    </div>
+                    <span class="link hide">Inicio</span>
+                </a>
+            </li>
+            <li>
+                <a href="Catalogo" title="Portfolio link">
+                    <div class="icon">
+                        <img src="assets/ToolBar/portfolio.svg" title="Portfolio Icon">
+                    </div>
+                    <span class="link hide">Portfolio</span>
+                </a>
+            </li>
+            <li>
+                <a href="Foro" title="Analytics link">
+                    <div class="icon">
+                        <img src="assets/ToolBar/analytics.svg" title="Analytics Icon">
+                    </div>
+                    <span class="link hide">Analytics</span>
+                </a>
+            </li>
+            <li>
+                <a href="Auditoria" title="Performance link">
+                    <div class="icon">
+                        <img src="assets/ToolBar/dashboard.svg" title="Performance Icon">
+                    </div>
+                    <span class="link hide">Performance</span>
+                </a>
+            </li>
+            <li>
+                <a href="Bitacora" title="Reports Link">
+                    <div class="icon">
+                        <img src="assets/ToolBar/reports.svg" title="Reports Icon">
+                    </div>
+                    <span class="link hide">Reports</span>
+                </a>
+            </li>
+        </ul>
+    </div>
+    <div class="sidebar-bottom">
         <div class="sidebar-links">
             <ul>
                 <li>
-                    <a href="Catalogo" title="Catalogo" class="tooltip">
-                        <img src="assets/Toolbar/dashboard.svg" alt="Catalogo">
-                        <span class="link hide">Catalogo</span>
-                        <span class="tooltip__content">Catalogo</span>
+                    <a href="#help" title="Help" class="tooltip">
+                        <img src="assets/ToolBar/help.svg" alt="Help">
+                        <span class="link hide">Help</span>
+                        <span class="tooltip__content">Help</span>
                     </a>
                 </li>
                 <li>
-                    <a href="Foros" title="Foros" class="tooltip">
-                        <img src="assets/Toolbar/analytics.svg" alt="Foros">
-                        <span class="link hide">Foros</span>
-                        <span class="tooltip__content">Foros</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="Auditoría" title="Auditoría" class="tooltip">
-                        <img src="assets/Toolbar/performance.svg" alt="Auditoría">
-                        <span class="link hide">Auditoría</span>
-                        <span class="tooltip__content">Auditoría</span>
-                    </a>
-                </li>
-                <li>
-                    <a href="Bitácora" title="Bitácora" class="tooltip">
-                        <img src="assets/Toolbar/funds.svg" alt="Bitácora">
-                        <span class="link hide">Bitácora</span>
-                        <span class="tooltip__content">Bitácora</span>
+                    <a href="#settings" title="Settings" class="tooltip">
+                        <img src="assets/ToolBar/settings.svg" alt="Settings">
+                        <span class="link hide">Settings</span>
+                        <span class="tooltip__content">Settings</span>
                     </a>
                 </li>
             </ul>
         </div>
-        <div class="sidebar-bottom">
-            <div class="sidebar-links">
-                <ul>
-                    <li>
-                        <a href="#help" title="Help" class="tooltip">
-                            <img src="assets/Toolbar/help.svg" alt="Help">
-                            <span class="link hide">Help</span>
-                            <span class="tooltip__content">Help</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#settings" title="Settings" class="tooltip">
-                            <img src="assets/Toolbar/settings.svg" alt="Settings">
-                            <span class="link hide">Settings</span>
-                            <span class="tooltip__content">Settings</span>
-                        </a>
-                    </li>
-                </ul>
-            </div>
-            <div class="sidebar__profile">
-                <div class="avatar__wrapper">
-                    <img class="avatar" src="assets/Toolbar/profile.jpg" alt="Profile">
-                    <div class="online__status"></div>
-                </div>
-                <div class="avatar__name hide">
-                    <div class="user-name">Joe Doe</div>
-                    <div class="email">joe.doe@atheros.ai</div>
-                </div>
+        <div class="sidebar__profile">
+            <a href="UsuarioMenu" class="avatar__wrapper">
+                <img class="avatar" src="assets/ToolBar/profile.jpg" alt="Profile">
+            </a>
+            @*<div class="avatar__wrapper">
+                <img class="avatar" src="assets/ToolBar/profile.jpg" alt="Profile">
+                <div class="online__status"></div>
+            </div>*@
+            <div class="avatar__name hide">
+                <div class="user-name">Baldu</div>
+                <div class="email">pedeeeeeelo@gmail.com</div>
             </div>
         </div>
-    </nav>
-</div>
+    </div>
+</nav>
+
 
 
 @code {
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await JSRuntime.InvokeVoidAsync("expandCollapseBody");
+            await JSRuntime.InvokeVoidAsync("activateLinks");
+        }
+    }
+
     private bool collapseNavMenu = true;
 
     private string? NavMenuCssClass => collapseNavMenu ? "collapse" : null;

@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "g3h64N5z5rDaUlNmcdhYLgJji18jZJhNmnYj4UZVjoo=",
+  "Hash": "dXQJSWem66iQPaUIsfirAjLmKVLo7Gpc37etHOgP9Q8=",
   "Source": "InnoviaReach - TFI - FrontEnd",
   "BasePath": "_content/InnoviaReach - TFI - FrontEnd",
   "Mode": "Default",
@@ -85,12 +85,12 @@
       "OriginalItemSpec": "C:\\Users\\Juan\\Desktop\\Repositorios\\TFI-FrontEnd\\InnoviaReach - TFI - FrontEnd\\InnoviaReach - TFI - FrontEnd\\obj\\Debug\\net6.0\\scopedcss\\projectbundle\\InnoviaReach - TFI - FrontEnd.bundle.scp.css"
     },
     {
-      "Identity": "C:\\Users\\Juan\\Desktop\\Repositorios\\TFI-FrontEnd\\InnoviaReach - TFI - FrontEnd\\InnoviaReach - TFI - FrontEnd\\wwwroot\\assets\\avatar.png",
+      "Identity": "C:\\Users\\Juan\\Desktop\\Repositorios\\TFI-FrontEnd\\InnoviaReach - TFI - FrontEnd\\InnoviaReach - TFI - FrontEnd\\wwwroot\\assets\\Iniciar sesion\\apple.png",
       "SourceId": "InnoviaReach - TFI - FrontEnd",
       "SourceType": "Discovered",
       "ContentRoot": "C:\\Users\\Juan\\Desktop\\Repositorios\\TFI-FrontEnd\\InnoviaReach - TFI - FrontEnd\\InnoviaReach - TFI - FrontEnd\\wwwroot\\",
       "BasePath": "_content/InnoviaReach - TFI - FrontEnd",
-      "RelativePath": "assets/avatar.png",
+      "RelativePath": "assets/Iniciar sesion/apple.png",
       "AssetKind": "All",
       "AssetMode": "All",
       "AssetRole": "Primary",
@@ -99,15 +99,15 @@
       "AssetTraitValue": "",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\assets\\avatar.png"
+      "OriginalItemSpec": "wwwroot\\assets\\Iniciar sesion\\apple.png"
     },
     {
-      "Identity": "C:\\Users\\Juan\\Desktop\\Repositorios\\TFI-FrontEnd\\InnoviaReach - TFI - FrontEnd\\InnoviaReach - TFI - FrontEnd\\wwwroot\\assets\\background.jpg",
+      "Identity": "C:\\Users\\Juan\\Desktop\\Repositorios\\TFI-FrontEnd\\InnoviaReach - TFI - FrontEnd\\InnoviaReach - TFI - FrontEnd\\wwwroot\\assets\\Iniciar sesion\\avatar.png",
       "SourceId": "InnoviaReach - TFI - FrontEnd",
       "SourceType": "Discovered",
       "ContentRoot": "C:\\Users\\Juan\\Desktop\\Repositorios\\TFI-FrontEnd\\InnoviaReach - TFI - FrontEnd\\InnoviaReach - TFI - FrontEnd\\wwwroot\\",
       "BasePath": "_content/InnoviaReach - TFI - FrontEnd",
-      "RelativePath": "assets/background.jpg",
+      "RelativePath": "assets/Iniciar sesion/avatar.png",
       "AssetKind": "All",
       "AssetMode": "All",
       "AssetRole": "Primary",
@@ -116,15 +116,15 @@
       "AssetTraitValue": "",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\assets\\background.jpg"
+      "OriginalItemSpec": "wwwroot\\assets\\Iniciar sesion\\avatar.png"
     },
     {
-      "Identity": "C:\\Users\\Juan\\Desktop\\Repositorios\\TFI-FrontEnd\\InnoviaReach - TFI - FrontEnd\\InnoviaReach - TFI - FrontEnd\\wwwroot\\assets\\google.png",
+      "Identity": "C:\\Users\\Juan\\Desktop\\Repositorios\\TFI-FrontEnd\\InnoviaReach - TFI - FrontEnd\\InnoviaReach - TFI - FrontEnd\\wwwroot\\assets\\Iniciar sesion\\background.jpg",
       "SourceId": "InnoviaReach - TFI - FrontEnd",
       "SourceType": "Discovered",
       "ContentRoot": "C:\\Users\\Juan\\Desktop\\Repositorios\\TFI-FrontEnd\\InnoviaReach - TFI - FrontEnd\\InnoviaReach - TFI - FrontEnd\\wwwroot\\",
       "BasePath": "_content/InnoviaReach - TFI - FrontEnd",
-      "RelativePath": "assets/google.png",
+      "RelativePath": "assets/Iniciar sesion/background.jpg",
       "AssetKind": "All",
       "AssetMode": "All",
       "AssetRole": "Primary",
@@ -133,15 +133,15 @@
       "AssetTraitValue": "",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\assets\\google.png"
+      "OriginalItemSpec": "wwwroot\\assets\\Iniciar sesion\\background.jpg"
     },
     {
-      "Identity": "C:\\Users\\Juan\\Desktop\\Repositorios\\TFI-FrontEnd\\InnoviaReach - TFI - FrontEnd\\InnoviaReach - TFI - FrontEnd\\wwwroot\\assets\\laplace.svg",
+      "Identity": "C:\\Users\\Juan\\Desktop\\Repositorios\\TFI-FrontEnd\\InnoviaReach - TFI - FrontEnd\\InnoviaReach - TFI - FrontEnd\\wwwroot\\assets\\Iniciar sesion\\google.png",
       "SourceId": "InnoviaReach - TFI - FrontEnd",
       "SourceType": "Discovered",
       "ContentRoot": "C:\\Users\\Juan\\Desktop\\Repositorios\\TFI-FrontEnd\\InnoviaReach - TFI - FrontEnd\\InnoviaReach - TFI - FrontEnd\\wwwroot\\",
       "BasePath": "_content/InnoviaReach - TFI - FrontEnd",
-      "RelativePath": "assets/laplace.svg",
+      "RelativePath": "assets/Iniciar sesion/google.png",
       "AssetKind": "All",
       "AssetMode": "All",
       "AssetRole": "Primary",
@@ -150,7 +150,41 @@
       "AssetTraitValue": "",
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\assets\\laplace.svg"
+      "OriginalItemSpec": "wwwroot\\assets\\Iniciar sesion\\google.png"
+    },
+    {
+      "Identity": "C:\\Users\\Juan\\Desktop\\Repositorios\\TFI-FrontEnd\\InnoviaReach - TFI - FrontEnd\\InnoviaReach - TFI - FrontEnd\\wwwroot\\assets\\Iniciar sesion\\laplace.svg",
+      "SourceId": "InnoviaReach - TFI - FrontEnd",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\Juan\\Desktop\\Repositorios\\TFI-FrontEnd\\InnoviaReach - TFI - FrontEnd\\InnoviaReach - TFI - FrontEnd\\wwwroot\\",
+      "BasePath": "_content/InnoviaReach - TFI - FrontEnd",
+      "RelativePath": "assets/Iniciar sesion/laplace.svg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\assets\\Iniciar sesion\\laplace.svg"
+    },
+    {
+      "Identity": "C:\\Users\\Juan\\Desktop\\Repositorios\\TFI-FrontEnd\\InnoviaReach - TFI - FrontEnd\\InnoviaReach - TFI - FrontEnd\\wwwroot\\assets\\Iniciar sesion\\returns.png",
+      "SourceId": "InnoviaReach - TFI - FrontEnd",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\Juan\\Desktop\\Repositorios\\TFI-FrontEnd\\InnoviaReach - TFI - FrontEnd\\InnoviaReach - TFI - FrontEnd\\wwwroot\\",
+      "BasePath": "_content/InnoviaReach - TFI - FrontEnd",
+      "RelativePath": "assets/Iniciar sesion/returns.png",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\assets\\Iniciar sesion\\returns.png"
     },
     {
       "Identity": "C:\\Users\\Juan\\Desktop\\Repositorios\\TFI-FrontEnd\\InnoviaReach - TFI - FrontEnd\\InnoviaReach - TFI - FrontEnd\\wwwroot\\assets\\Registrarse\\logo.svg",
@@ -168,23 +202,6 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\assets\\Registrarse\\logo.svg"
-    },
-    {
-      "Identity": "C:\\Users\\Juan\\Desktop\\Repositorios\\TFI-FrontEnd\\InnoviaReach - TFI - FrontEnd\\InnoviaReach - TFI - FrontEnd\\wwwroot\\assets\\returns.png",
-      "SourceId": "InnoviaReach - TFI - FrontEnd",
-      "SourceType": "Discovered",
-      "ContentRoot": "C:\\Users\\Juan\\Desktop\\Repositorios\\TFI-FrontEnd\\InnoviaReach - TFI - FrontEnd\\InnoviaReach - TFI - FrontEnd\\wwwroot\\",
-      "BasePath": "_content/InnoviaReach - TFI - FrontEnd",
-      "RelativePath": "assets/returns.png",
-      "AssetKind": "All",
-      "AssetMode": "All",
-      "AssetRole": "Primary",
-      "RelatedAsset": "",
-      "AssetTraitName": "",
-      "AssetTraitValue": "",
-      "CopyToOutputDirectory": "Never",
-      "CopyToPublishDirectory": "PreserveNewest",
-      "OriginalItemSpec": "wwwroot\\assets\\returns.png"
     },
     {
       "Identity": "C:\\Users\\Juan\\Desktop\\Repositorios\\TFI-FrontEnd\\InnoviaReach - TFI - FrontEnd\\InnoviaReach - TFI - FrontEnd\\wwwroot\\assets\\Toolbar\\analytics.svg",
@@ -306,6 +323,23 @@
       "OriginalItemSpec": "wwwroot\\assets\\Toolbar\\performance.svg"
     },
     {
+      "Identity": "C:\\Users\\Juan\\Desktop\\Repositorios\\TFI-FrontEnd\\InnoviaReach - TFI - FrontEnd\\InnoviaReach - TFI - FrontEnd\\wwwroot\\assets\\Toolbar\\portfolio.svg",
+      "SourceId": "InnoviaReach - TFI - FrontEnd",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\Juan\\Desktop\\Repositorios\\TFI-FrontEnd\\InnoviaReach - TFI - FrontEnd\\InnoviaReach - TFI - FrontEnd\\wwwroot\\",
+      "BasePath": "_content/InnoviaReach - TFI - FrontEnd",
+      "RelativePath": "assets/Toolbar/portfolio.svg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\assets\\Toolbar\\portfolio.svg"
+    },
+    {
       "Identity": "C:\\Users\\Juan\\Desktop\\Repositorios\\TFI-FrontEnd\\InnoviaReach - TFI - FrontEnd\\InnoviaReach - TFI - FrontEnd\\wwwroot\\assets\\Toolbar\\profile.jpg",
       "SourceId": "InnoviaReach - TFI - FrontEnd",
       "SourceType": "Discovered",
@@ -323,6 +357,23 @@
       "OriginalItemSpec": "wwwroot\\assets\\Toolbar\\profile.jpg"
     },
     {
+      "Identity": "C:\\Users\\Juan\\Desktop\\Repositorios\\TFI-FrontEnd\\InnoviaReach - TFI - FrontEnd\\InnoviaReach - TFI - FrontEnd\\wwwroot\\assets\\Toolbar\\reports.svg",
+      "SourceId": "InnoviaReach - TFI - FrontEnd",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\Juan\\Desktop\\Repositorios\\TFI-FrontEnd\\InnoviaReach - TFI - FrontEnd\\InnoviaReach - TFI - FrontEnd\\wwwroot\\",
+      "BasePath": "_content/InnoviaReach - TFI - FrontEnd",
+      "RelativePath": "assets/Toolbar/reports.svg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\assets\\Toolbar\\reports.svg"
+    },
+    {
       "Identity": "C:\\Users\\Juan\\Desktop\\Repositorios\\TFI-FrontEnd\\InnoviaReach - TFI - FrontEnd\\InnoviaReach - TFI - FrontEnd\\wwwroot\\assets\\Toolbar\\settings.svg",
       "SourceId": "InnoviaReach - TFI - FrontEnd",
       "SourceType": "Discovered",
@@ -338,6 +389,74 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\assets\\Toolbar\\settings.svg"
+    },
+    {
+      "Identity": "C:\\Users\\Juan\\Desktop\\Repositorios\\TFI-FrontEnd\\InnoviaReach - TFI - FrontEnd\\InnoviaReach - TFI - FrontEnd\\wwwroot\\assets\\Usuario Menu\\jane.jpg",
+      "SourceId": "InnoviaReach - TFI - FrontEnd",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\Juan\\Desktop\\Repositorios\\TFI-FrontEnd\\InnoviaReach - TFI - FrontEnd\\InnoviaReach - TFI - FrontEnd\\wwwroot\\",
+      "BasePath": "_content/InnoviaReach - TFI - FrontEnd",
+      "RelativePath": "assets/Usuario Menu/jane.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\assets\\Usuario Menu\\jane.jpg"
+    },
+    {
+      "Identity": "C:\\Users\\Juan\\Desktop\\Repositorios\\TFI-FrontEnd\\InnoviaReach - TFI - FrontEnd\\InnoviaReach - TFI - FrontEnd\\wwwroot\\assets\\Usuario Menu\\joe.jpg",
+      "SourceId": "InnoviaReach - TFI - FrontEnd",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\Juan\\Desktop\\Repositorios\\TFI-FrontEnd\\InnoviaReach - TFI - FrontEnd\\InnoviaReach - TFI - FrontEnd\\wwwroot\\",
+      "BasePath": "_content/InnoviaReach - TFI - FrontEnd",
+      "RelativePath": "assets/Usuario Menu/joe.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\assets\\Usuario Menu\\joe.jpg"
+    },
+    {
+      "Identity": "C:\\Users\\Juan\\Desktop\\Repositorios\\TFI-FrontEnd\\InnoviaReach - TFI - FrontEnd\\InnoviaReach - TFI - FrontEnd\\wwwroot\\assets\\Usuario Menu\\profile.jpg",
+      "SourceId": "InnoviaReach - TFI - FrontEnd",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\Juan\\Desktop\\Repositorios\\TFI-FrontEnd\\InnoviaReach - TFI - FrontEnd\\InnoviaReach - TFI - FrontEnd\\wwwroot\\",
+      "BasePath": "_content/InnoviaReach - TFI - FrontEnd",
+      "RelativePath": "assets/Usuario Menu/profile.jpg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\assets\\Usuario Menu\\profile.jpg"
+    },
+    {
+      "Identity": "C:\\Users\\Juan\\Desktop\\Repositorios\\TFI-FrontEnd\\InnoviaReach - TFI - FrontEnd\\InnoviaReach - TFI - FrontEnd\\wwwroot\\assets\\Usuario Menu\\verified.svg",
+      "SourceId": "InnoviaReach - TFI - FrontEnd",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\Juan\\Desktop\\Repositorios\\TFI-FrontEnd\\InnoviaReach - TFI - FrontEnd\\InnoviaReach - TFI - FrontEnd\\wwwroot\\",
+      "BasePath": "_content/InnoviaReach - TFI - FrontEnd",
+      "RelativePath": "assets/Usuario Menu/verified.svg",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\assets\\Usuario Menu\\verified.svg"
     },
     {
       "Identity": "C:\\Users\\Juan\\Desktop\\Repositorios\\TFI-FrontEnd\\InnoviaReach - TFI - FrontEnd\\InnoviaReach - TFI - FrontEnd\\wwwroot\\css\\bootstrap\\bootstrap.min.css",
@@ -578,6 +697,23 @@
       "OriginalItemSpec": "wwwroot\\css\\pages\\ToolBar.css"
     },
     {
+      "Identity": "C:\\Users\\Juan\\Desktop\\Repositorios\\TFI-FrontEnd\\InnoviaReach - TFI - FrontEnd\\InnoviaReach - TFI - FrontEnd\\wwwroot\\css\\pages\\UsuarioMenu.css",
+      "SourceId": "InnoviaReach - TFI - FrontEnd",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\Juan\\Desktop\\Repositorios\\TFI-FrontEnd\\InnoviaReach - TFI - FrontEnd\\InnoviaReach - TFI - FrontEnd\\wwwroot\\",
+      "BasePath": "_content/InnoviaReach - TFI - FrontEnd",
+      "RelativePath": "css/pages/UsuarioMenu.css",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\css\\pages\\UsuarioMenu.css"
+    },
+    {
       "Identity": "C:\\Users\\Juan\\Desktop\\Repositorios\\TFI-FrontEnd\\InnoviaReach - TFI - FrontEnd\\InnoviaReach - TFI - FrontEnd\\wwwroot\\css\\site.css",
       "SourceId": "InnoviaReach - TFI - FrontEnd",
       "SourceType": "Discovered",
@@ -644,6 +780,23 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\js\\ToolBar.js"
+    },
+    {
+      "Identity": "C:\\Users\\Juan\\Desktop\\Repositorios\\TFI-FrontEnd\\InnoviaReach - TFI - FrontEnd\\InnoviaReach - TFI - FrontEnd\\wwwroot\\js\\UsuarioMenu.js",
+      "SourceId": "InnoviaReach - TFI - FrontEnd",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\Juan\\Desktop\\Repositorios\\TFI-FrontEnd\\InnoviaReach - TFI - FrontEnd\\InnoviaReach - TFI - FrontEnd\\wwwroot\\",
+      "BasePath": "_content/InnoviaReach - TFI - FrontEnd",
+      "RelativePath": "js/UsuarioMenu.js",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\js\\UsuarioMenu.js"
     }
   ]
 }
