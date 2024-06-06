@@ -10,6 +10,7 @@
 @inject NavigationManager NavManager
 @inject IDialogService DialogService
 @using System.Net.Http.Json
+@using Newtonsoft.Json
 
 @*<EditForm Model="@_loginRequest" OnValidSubmit="OnValidSubmit">
 <DataAnnotationsValidator/>
@@ -104,17 +105,23 @@
 @code {
     bool success;
     LoginRequest _loginRequest = new LoginRequest();
+    [Inject]
+    private ISessionStorageService _sessionStorageService { get; set; }
 
     protected async Task Submit()
     {
         try
         {
             string url = "https://localhost:44308/Auth/Login?username=" + _loginRequest.username + "&password=" + _loginRequest.password;
-            var result = await httpClient.PostAsJsonAsync(url,_loginRequest);
+            var response = await httpClient.PostAsJsonAsync(url,_loginRequest);
 
-            if (result.IsSuccessStatusCode)
+            if (response.IsSuccessStatusCode)
             {
-                NavManager.NavigateTo("/main");
+                string content = await response.Content.ReadAsStringAsync();
+                LoginTokenResponse login = JsonConvert.DeserializeObject<LoginTokenResponse>(content) ?? throw new Exception("Ocurrió un error");
+                await _sessionStorageService.SetItemAsync("user", login);
+
+                NavManager.NavigateTo("/");
             }
             else{
                 throw new Exception("Error");

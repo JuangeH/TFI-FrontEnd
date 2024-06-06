@@ -1,9 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "ookaX0LFj047KCthiKVwqfOvDTQfTv8LqWbLi+2JPIcQKLRDrAWXJAk/ga3GYgoONu5qX8MTXMulwWeWtAzIYg==",
+  "dgSpecHash": "zQ1jANja50HXmXl+MG5Gsg/S9iytu2xdpy3rej8o3psVMWv1LuhDg+hWKkxmxAbTVG5kHU64+axDtO1NWWGGEQ==",
   "success": true,
   "projectFilePath": "C:\\Users\\Juan\\Desktop\\Repositorios\\TFI-FrontEnd\\InnoviaReach - TFI - FrontEnd\\InnoviaReach - TFI - FrontEnd\\InnoviaReach - TFI - FrontEnd.csproj",
   "expectedPackageFiles": [
+    "C:\\Users\\Juan\\.nuget\\packages\\blazored.sessionstorage\\2.4.0\\blazored.sessionstorage.2.4.0.nupkg.sha512",
     "C:\\Users\\Juan\\.nuget\\packages\\microsoft.aspnetcore.authorization\\6.0.16\\microsoft.aspnetcore.authorization.6.0.16.nupkg.sha512",
     "C:\\Users\\Juan\\.nuget\\packages\\microsoft.aspnetcore.components\\6.0.16\\microsoft.aspnetcore.components.6.0.16.nupkg.sha512",
     "C:\\Users\\Juan\\.nuget\\packages\\microsoft.aspnetcore.components.analyzers\\6.0.16\\microsoft.aspnetcore.components.analyzers.6.0.16.nupkg.sha512",
@@ -19,6 +20,7 @@
     "C:\\Users\\Juan\\.nuget\\packages\\microsoft.extensions.primitives\\6.0.0\\microsoft.extensions.primitives.6.0.0.nupkg.sha512",
     "C:\\Users\\Juan\\.nuget\\packages\\microsoft.jsinterop\\6.0.16\\microsoft.jsinterop.6.0.16.nupkg.sha512",
     "C:\\Users\\Juan\\.nuget\\packages\\mudblazor\\6.9.0\\mudblazor.6.9.0.nupkg.sha512",
+    "C:\\Users\\Juan\\.nuget\\packages\\newtonsoft.json\\13.0.3\\newtonsoft.json.13.0.3.nupkg.sha512",
     "C:\\Users\\Juan\\.nuget\\packages\\system.io.pipelines\\6.0.3\\system.io.pipelines.6.0.3.nupkg.sha512",
     "C:\\Users\\Juan\\.nuget\\packages\\system.runtime.compilerservices.unsafe\\6.0.0\\system.runtime.compilerservices.unsafe.6.0.0.nupkg.sha512"
   ],

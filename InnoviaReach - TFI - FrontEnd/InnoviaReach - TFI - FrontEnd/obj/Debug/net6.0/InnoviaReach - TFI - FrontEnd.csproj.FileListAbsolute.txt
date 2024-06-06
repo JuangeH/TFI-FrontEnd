@@ -38,3 +38,7 @@ C:\Users\Juan\Desktop\Repositorios\TFI-FrontEnd\InnoviaReach - TFI - FrontEnd\In
 C:\Users\Juan\Desktop\Repositorios\TFI-FrontEnd\InnoviaReach - TFI - FrontEnd\InnoviaReach - TFI - FrontEnd\obj\Debug\net6.0\InnoviaReach - TFI - FrontEnd.pdb
 C:\Users\Juan\Desktop\Repositorios\TFI-FrontEnd\InnoviaReach - TFI - FrontEnd\InnoviaReach - TFI - FrontEnd\obj\Debug\net6.0\InnoviaReach - TFI - FrontEnd.genruntimeconfig.cache
 C:\Users\Juan\Desktop\Repositorios\TFI-FrontEnd\InnoviaReach - TFI - FrontEnd\InnoviaReach - TFI - FrontEnd\obj\Debug\net6.0\ref\InnoviaReach - TFI - FrontEnd.dll
+C:\Users\Juan\Desktop\Repositorios\TFI-FrontEnd\InnoviaReach - TFI - FrontEnd\InnoviaReach - TFI - FrontEnd\bin\Debug\net6.0\Blazored.SessionStorage.dll
+C:\Users\Juan\Desktop\Repositorios\TFI-FrontEnd\InnoviaReach - TFI - FrontEnd\InnoviaReach - TFI - FrontEnd\bin\Debug\net6.0\Newtonsoft.Json.dll
+C:\Users\Juan\Desktop\Repositorios\TFI-FrontEnd\InnoviaReach - TFI - FrontEnd\InnoviaReach - TFI - FrontEnd\bin\Debug\net6.0\InnoviaReach.Domain.dll
+C:\Users\Juan\Desktop\Repositorios\TFI-FrontEnd\InnoviaReach - TFI - FrontEnd\InnoviaReach - TFI - FrontEnd\bin\Debug\net6.0\InnoviaReach.Domain.pdb
