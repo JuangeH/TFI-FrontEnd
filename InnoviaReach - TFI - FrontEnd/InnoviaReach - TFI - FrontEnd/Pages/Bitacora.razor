@@ -1,6 +1,57 @@
 ﻿<h3>Bitacora</h3>
 @page "/Bitacora"
 
+@using System.Net.Http.Json
+@using InnoviaReach___TFI___FrontEnd.Data
+@inject HttpClient httpClient
+<MudTable Items="@Elements" Filter="new Func<LogTableModel,bool>(FilterFunc1)" @bind-SelectedItem="selectedItem1">
+    <ToolBarContent>
+        <MudText Typo="Typo.h6">Logs</MudText>
+        <MudSpacer />
+        <MudTextField @bind-Value="searchString1" Placeholder="Search" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0"></MudTextField>
+    </ToolBarContent>
+    <HeaderContent>
+        <MudTh>Message</MudTh>
+        <MudTh>Level</MudTh>
+        <MudTh>Timestamp</MudTh>
+    </HeaderContent>
+    <RowTemplate>
+        <MudTd DataLabel="Message">@context.Message</MudTd>
+        <MudTd DataLabel="Level">@context.Level</MudTd>
+        <MudTd DataLabel="Timestamp">@context.Timestamp</MudTd>
+    </RowTemplate>
+    <PagerContent>
+        <MudTablePager />
+    </PagerContent>
+</MudTable>
+
 @code {
+    private string searchString1 = "";
+    private LogTableModel selectedItem1 = null;
+    private HashSet<LogTableModel> selectedItems = new HashSet<LogTableModel>();
+
+    private IEnumerable<LogTableModel> Elements = new List<LogTableModel>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        //Elements = await httpClient.GetFromJsonAsync<List<LogTableModel>>("https://localhost:44308/LogTable/ObtenerLogs");
+    }
+
+    private bool FilterFunc1(LogTableModel element) => FilterFunc(element, searchString1);
+
+    private bool FilterFunc(LogTableModel element, string searchString)
+    {
+        if (string.IsNullOrWhiteSpace(searchString))
+            return true;
+        if (element.Message.Contains(searchString, StringComparison.OrdinalIgnoreCase))
+            return true;
+        if (element.Level.Contains(searchString, StringComparison.OrdinalIgnoreCase))
+            return true;
+        if ($"{element.Timestamp}".Contains(searchString))
+            return true;
+        return false;
+
+    }
+
 
 }

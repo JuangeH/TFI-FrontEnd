@@ -51,12 +51,13 @@
 
 .UsuarioMenuBody {
     font-family: 'Manrope', sans-serif;
-    background: var(--bg);
+    /*background: var(--bg);*/
     display: flex;
     justify-content: center;
     flex-direction: column;
-    height: 100vh;
+    /*height: 100vh;*/
     user-select: none;
+    padding: 4rem;
 }
 
 .profile {

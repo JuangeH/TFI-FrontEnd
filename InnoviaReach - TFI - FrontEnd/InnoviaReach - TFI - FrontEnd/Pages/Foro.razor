@@ -1,6 +1,306 @@
-﻿<h3>Foro</h3>
-@page "/Foro"
+﻿@page "/foros"
+@using InnoviaReach___TFI___FrontEnd.Data
+@inherits LayoutComponentBase
+@inject IJSRuntime JSRuntime
+
+<div>
+    <header class="foro-header" id="foro-header">
+        <div class="foro-row">
+            <div class="foro-container">
+                <div class="foro-header-content">
+                    <div class="foro-logo">
+                        <a href="index.html">
+                            <img src="img/hondashadow_net.svg" alt="logo" />
+                        </a>
+                    </div>
+                    <div class="foro-nav-search">
+                        <div class="foro-form-group">
+                            <input type="text" placeholder="Search Community" />
+                            <i class="fa-solid fa-magnifying-glass"></i>
+                        </div>
+                    </div>
+                    <div class="foro-nav-group">
+                        <ul>
+                            <li>
+                                <a href="#"><i class="fa-solid fa-comment"></i></a>
+                            </li>
+                            <li>
+                                <a href="#"><i class="fa-solid fa-list-ul"></i></a>
+                            </li>
+                            <li class="foro-join">
+                                <a href="#">
+                                    <i class="fa-solid fa-user"></i>
+                                    <span>login / join</span>
+                                </a>
+                            </li>
+                            <li>
+                                <a href="#"><i class="fa-solid fa-ellipsis-vertical"></i></a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+    <main>
+        <div class="foro-container">
+            <div class="foro-row">
+                <section class="foro-left">
+                    <h2>Recommended for you</h2>
+                    <div class="foro-inner-left">
+                        <div class="foro-box">
+                            <div class="foro-img">
+                                <img src="img/302688.jpg" alt="" />
+                            </div>
+                            <div class="foro-details">
+                                <p>technical discussion</p>
+                                <h3>93 shadow vt1100c</h3>
+                                <div class="foro-sub-details">
+                                    <span>jason.aalbers95.</span>
+                                    <span>9 h ago.</span>
+                                    <span>jason.aalbers95</span>
+                                    <span>replied</span>
+                                    <span>5 h ago</span>
+                                    <div class="foro-comment">
+                                        <i class="fa-solid fa-comment"></i>
+                                        <span>6</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="foro-box">
+                            <div class="foro-img">
+                                <img src="img/302688.jpg" alt="" />
+                            </div>
+                            <div class="foro-details">
+                                <p>technical discussion</p>
+                                <h3>93 shadow vt1100c</h3>
+                                <div class="foro-sub-details">
+                                    <span>jason.aalbers95.</span>
+                                    <span>9 h ago.</span>
+                                    <span>jason.aalbers95</span>
+                                    <span>replied</span>
+                                    <span>5 h ago</span>
+                                    <div class="foro-comment">
+                                        <i class="fa-solid fa-comment"></i>
+                                        <span>6</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="foro-box">
+                            <div class="foro-img">
+                                <img src="img/302688.jpg" alt="" />
+                            </div>
+                            <div class="foro-details">
+                                <p>technical discussion</p>
+                                <h3>93 shadow vt1100c</h3>
+                                <div class="foro-sub-details">
+                                    <span>jason.aalbers95.</span>
+                                    <span>9 h ago.</span>
+                                    <span>jason.aalbers95</span>
+                                    <span>replied</span>
+                                    <span>5 h ago</span>
+                                    <div class="foro-comment">
+                                        <i class="fa-solid fa-comment"></i>
+                                        <span>6</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="foro-box">
+                            <div class="foro-img">
+                                <img src="img/302688.jpg" alt="" />
+                            </div>
+                            <div class="foro-details">
+                                <p>technical discussion</p>
+                                <h3>93 shadow vt1100c</h3>
+                                <div class="foro-sub-details">
+                                    <span>jason.aalbers95.</span>
+                                    <span>9 h ago.</span>
+                                    <span>jason.aalbers95</span>
+                                    <span>replied</span>
+                                    <span>5 h ago</span>
+                                    <div class="foro-comment">
+                                        <i class="fa-solid fa-comment"></i>
+                                        <span>6</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="foro-box">
+                            <div class="foro-img">
+                                <img src="img/302688.jpg" alt="" />
+                            </div>
+                            <div class="foro-details">
+                                <p>technical discussion</p>
+                                <h3>93 shadow vt1100c</h3>
+                                <div class="foro-sub-details">
+                                    <span>jason.aalbers95.</span>
+                                    <span>9 h ago.</span>
+                                    <span>jason.aalbers95</span>
+                                    <span>replied</span>
+                                    <span>5 h ago</span>
+                                    <div class="foro-comment">
+                                        <i class="fa-solid fa-comment"></i>
+                                        <span>6</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="foro-box">
+                            <div class="foro-img">
+                                <img src="img/302688.jpg" alt="" />
+                            </div>
+                            <div class="foro-details">
+                                <p>technical discussion</p>
+                                <h3>93 shadow vt1100c</h3>
+                                <div class="foro-sub-details">
+                                    <span>jason.aalbers95.</span>
+                                    <span>9 h ago.</span>
+                                    <span>jason.aalbers95</span>
+                                    <span>replied</span>
+                                    <span>5 h ago</span>
+                                    <div class="foro-comment">
+                                        <i class="fa-solid fa-comment"></i>
+                                        <span>6</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="foro-box">
+                            <div class="foro-img">
+                                <img src="img/302688.jpg" alt="" />
+                            </div>
+                            <div class="foro-details">
+                                <p>technical discussion</p>
+                                <h3>93 shadow vt1100c</h3>
+                                <div class="foro-sub-details">
+                                    <span>jason.aalbers95.</span>
+                                    <span>9 h ago.</span>
+                                    <span>jason.aalbers95</span>
+                                    <span>replied</span>
+                                    <span>5 h ago</span>
+                                    <div class="foro-comment">
+                                        <i class="fa-solid fa-comment"></i>
+                                        <span>6</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+                <section class="foro-right">
+                    <div class="foro-box foro-first">
+                        <h3>honda shadow forums</h3>
+                        <span>since 2007</span>
+                        <p>
+                            Welcome to Honda Shadow Forum. Come in and discuss any Honda
+                            Shadow models: VT1100, VT250, VT750 and the VT500.
+                        </p>
+                        <div class="foro-stats">
+                            <div>
+                                <h4>1.6M</h4>
+                                <span>posts</span>
+                            </div>
+                            <div>
+                                <h4>79.4k</h4>
+                                <span>members</span>
+                            </div>
+                        </div>
+                        <div class="foro-buttons">
+                            <a href="#" class="foro-btn foro-btn-red"><i class="fa-solid fa-user-large"></i> join community</a>
+                            <a href="#" class="foro-btn foro-btn-white"><i class="fa-solid fa-store"></i> grow your business</a>
+                        </div>
+                    </div>
+                    <div class="foro-box foro-top-forums">
+                        <h3>our top forums</h3>
+                        <a href="#">View All <i class="fa-solid fa-arrow-right"></i></a>
+                        <div class="foro-inner-box">
+                            <h4><a href="#">general bike discussion</a></h4>
+                            <div class="foro-stats">
+                                <div class="foro-stat foro-comments">
+                                    <i class="fa-solid fa-comment"></i><span> 709.4k</span>
+                                </div>
+                                <div class="foro-stat foro-views">
+                                    <i class="fa-regular fa-eye"></i><span>104.4M</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="foro-inner-box">
+                            <h4><a href="#">technical discussion</a></h4>
+                            <div class="foro-stats">
+                                <div class="foro-stat foro-comments">
+                                    <i class="fa-solid fa-comment"></i><span> 599.1k</span>
+                                </div>
+                                <div class="foro-stat foro-views">
+                                    <i class="fa-regular fa-eye"></i><span>81.3M</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="foro-inner-box">
+                            <h4><a href="#">member introductions</a></h4>
+                            <div class="foro-stats">
+                                <div class="foro-stat foro-comments">
+                                    <i class="fa-solid fa-comment"></i><span> 189.5k</span>
+                                </div>
+                                <div class="foro-stat foro-views">
+                                    <i class="fa-regular fa-eye"></i><span>19.5M</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="foro-inner-box">
+                            <h4><a href="#">road stories</a></h4>
+                            <div class="foro-stats">
+                                <div class="foro-stat foro-comments">
+                                    <i class="fa-solid fa-comment"></i><span> 133.5k</span>
+                                </div>
+                                <div class="foro-stat foro-views">
+                                    <i class="fa-regular fa-eye"></i><span>7.7M</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="foro-inner-box">
+                            <h4><a href="#">honda shadow videos</a></h4>
+                            <div class="foro-stats">
+                                <div class="foro-stat foro-comments">
+                                    <i class="fa-solid fa-comment"></i><span> 123.1k</span>
+                                </div>
+                                <div class="foro-stat foro-views">
+                                    <i class="fa-regular fa-eye"></i><span>16.3M</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </main>
+</div>
+
 
 @code {
+    ////private List<Data.Data.ForoClass> forosGenerales = new();
+    ////private Data.Data.ForoClass selectedForo;
 
+    ////protected override async Task OnInitializedAsync()
+    ////{
+    ////    // Aquí deberías cargar las listas de foros desde tu fuente de datos (API, base de datos, etc.)
+    ////    forosGenerales = await ObtenerForosGenerales();
+    ////}
+
+    ////private Task<List<Data.Data.ForoClass>> ObtenerForosGenerales()
+    ////{
+    ////    // Lógica para obtener los foros generales desde la API o base de datos
+    ////    return global::System.Threading.Tasks.global::System.<global::System.Collections.Generic.List<global::InnoviaReach___TFI___FrontEnd.Data.ForoClass>>(Tglobal::System.Collections.Generic.List<global::InnoviaReach___TFI___FrontEnd.Data.ForoClass>)hreaglobal::System.Collections.Generic.ding.global::InnoviaReach___TFI___FrontEnd.Data.Tasks.Task.FromResult<global::System.Collections.Generic.List<global::InnoviaReach___TFI___FrontEnd.Data.ForoClass>>((global::System.Collections.Generic.List<global::InnoviaReach___TFI___FrontEnd.Data.ForoClass>)new global::System.Collections.Generic.List<global::InnoviaReach___TFI___FrontEnd.Data.ForoClass>
+    ////    {
+    ////        new global::InnoviaReach___TFI___FrontEnd.Data.global::InnoviaReach___TFI___FrontEnd.Data.ForoClass { Id = 1, Titulo = "Foro 1", Descripcion = "Descripción del Foro 1", Creador = "Usuario1", CantidadParticipantes = 5, CantidadComentarios = 10, PuntuacionMedia = 4.5 },
+    ////        new global::InnoviaReach___TFI___FrontEnd.Data.global::InnoviaReach___TFI___FrontEnd.Data.ForoClass { Id = 2, Titulo = "Foro 2", Descripcion = "Descripción del Foro 2", Creador = "Usuario2", CantidadParticipantes = 8, CantidadComentarios = 20, PuntuacionMedia = 4.8 }
+    ////    });
+    ////}
+
+    ////private void CrearNuevoForo()
+    ////{
+    ////    // Lógica para crear un nuevo foro
+    ////}
 }

@@ -1,0 +1,384 @@
+﻿main .foro-left h2 {
+    margin-bottom: 2.7rem;
+    font-size: var(--fs24);
+    color: var(--lightBlackColor);
+}
+
+main .foro-left .foro-inner-left .foro-box {
+    display: flex;
+    align-items: center;
+    background-color: var(--whiteColor);
+    padding: 0.9rem 1.2rem;
+    border-radius: 0.7rem;
+    margin-bottom: 0.9rem;
+    box-shadow: 0 0.2rem 0.4rem rgba(0, 0, 0, 0.11), 0 0.1rem 0.1rem rgba(0, 0, 0, 0.04);
+}
+
+    main .foro-left .foro-inner-left .foro-box .foro-img {
+        display: none;
+        width: 4.8rem;
+        height: 4.8rem;
+        border-radius: 0.8rem;
+        overflow: hidden;
+    }
+
+    main .foro-left .foro-inner-left .foro-box .foro-details {
+        padding-left: 1.2rem;
+    }
+
+        main .foro-left .foro-inner-left .foro-box .foro-details p {
+            font-size: 1.3rem;
+            text-transform: capitalize;
+            color: var(--darkGrayColor);
+        }
+
+        main .foro-left .foro-inner-left .foro-box .foro-details h3 {
+            font-weight: 700;
+            color: var(--darkRedColor);
+            font-size: var(--fs18);
+            letter-spacing: -0.02em;
+        }
+
+        main .foro-left .foro-inner-left .foro-box .foro-details .foro-sub-details {
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 0.4rem;
+        }
+
+            main .foro-left .foro-inner-left .foro-box .foro-details .foro-sub-details span {
+                color: var(--darkGrayColor);
+            }
+
+            main .foro-left .foro-inner-left .foro-box .foro-details .foro-sub-details .foro-comment {
+                padding: 0.2rem 0.8rem 0;
+                background-color: var(--lightWhiteColor);
+                color: var(--darkGrayColor);
+                font-size: 1.3rem;
+                height: 2rem;
+                display: flex;
+                align-items: center;
+                gap: 0.4rem;
+                border-radius: 0.3rem;
+            }
+
+main .foro-right {
+    display: none;
+}
+
+    main .foro-right .foro-box {
+        padding: 1.8rem;
+        border-radius: 0.7rem;
+        margin-bottom: 0.9rem;
+        background-color: var(--whiteColor);
+        box-shadow: 0 0.2rem 0.4rem rgba(0, 0, 0, 0.11), 0 0.1rem 0.1rem rgba(0, 0, 0, 0.04);
+    }
+
+    main .foro-right .foro-first h3 {
+        text-transform: capitalize;
+        font-size: var(--fs24);
+        line-height: 2.7rem;
+        margin-bottom: 0.5rem;
+        color: var(--lightBlackColor);
+    }
+
+    main .foro-right .foro-first span {
+        display: block;
+        color: var(--darkGrayColor);
+        text-transform: capitalize;
+        font-size: var(--fs14);
+        margin-bottom: 1.8rem;
+        letter-spacing: -0.01rem;
+    }
+
+    main .foro-right .foro-first p {
+        font-size: var(--fs14);
+        line-height: 1.5;
+        margin-bottom: 0.3rem;
+        color: var(--darkGrayColor);
+        max-height: 23rem;
+    }
+
+    main .foro-right .foro-first .foro-stats {
+        display: flex;
+        align-items: center;
+    }
+
+        main .foro-right .foro-first .foro-stats div {
+            display: flex;
+            flex-direction: column;
+        }
+
+            main .foro-right .foro-first .foro-stats div:first-of-type {
+                border-right: 0.1rem solid var(--mediumGray);
+                padding-right: 2.7rem;
+            }
+
+            main .foro-right .foro-first .foro-stats div:last-of-type {
+                margin-left: 2.7rem;
+            }
+
+            main .foro-right .foro-first .foro-stats div h4 {
+                font-size: 3rem;
+                font-weight: 500;
+                letter-spacing: -0.3rem;
+                color: var(--lightBlackColor);
+            }
+
+            main .foro-right .foro-first .foro-stats div span {
+                text-transform: lowercase;
+                font-size: var(--fs14);
+                color: var(--darkGrayColor);
+                letter-spacing: -0.1px;
+            }
+
+    main .foro-right .foro-first .foro-buttons {
+        display: flex;
+        flex-direction: column;
+    }
+
+        main .foro-right .foro-first .foro-buttons .foro-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.9rem;
+            width: 100%;
+            padding: 2rem;
+            min-width: 8rem;
+            text-transform: capitalize;
+            transition: var(--transition);
+        }
+
+        main .foro-right .foro-first .foro-buttons .foro-btn-red {
+            margin: 1.2rem 0;
+        }
+
+    main .foro-right .foro-top-forums h3,
+    main .foro-right .foro-top-contributors h3,
+    main .foro-right .foro-recommended-communities h3 {
+        font-size: var(--fs18);
+        font-weight: 700;
+        text-transform: capitalize;
+        color: var(--lightBlackColor);
+    }
+
+    main .foro-right .foro-top-forums > a,
+    main .foro-right .foro-top-contributors > a {
+        display: block;
+        font-size: var(--fs14);
+        font-weight: 500;
+        margin-bottom: 1rem;
+    }
+
+    main .foro-right .foro-top-forums a i {
+        margin-left: 0.4rem;
+    }
+
+    main .foro-right .foro-top-forums .foro-inner-box:not(:last-child) {
+        margin-bottom: 1rem;
+    }
+
+    main .foro-right .foro-top-forums .foro-inner-box h4 a {
+        text-transform: capitalize;
+        font-weight: 400;
+    }
+
+    main .foro-right .foro-top-forums .foro-inner-box .foro-stats {
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+    }
+
+        main .foro-right .foro-top-forums .foro-inner-box .foro-stats .foro-stat {
+            flex: 0 0 10rem;
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+            color: var(--darkGrayColor);
+        }
+
+            main .foro-right .foro-top-forums .foro-inner-box .foro-stats .foro-stat i {
+                font-size: 1.6rem;
+            }
+
+    main .foro-right .foro-top-contributors .foro-inner-box,
+    main .foro-right .foro-recommended-communities .foro-inner-box {
+        display: flex;
+        align-items: center;
+        margin-bottom: 1.8rem;
+    }
+
+        main .foro-right .foro-top-contributors .foro-inner-box .foro-img,
+        main .foro-right .foro-recommended-communities .foro-inner-box .foro-img {
+            width: 3.6rem;
+            height: 3.6rem;
+            overflow: hidden;
+        }
+
+            main .foro-right .foro-top-contributors .foro-inner-box .foro-img img,
+            main .foro-right .foro-recommended-communities .foro-inner-box .foro-img img {
+                border-radius: 15%;
+            }
+
+        main .foro-right .foro-top-contributors .foro-inner-box .foro-details,
+        main .foro-right .foro-recommended-communities .foro-inner-box .foro-details {
+            display: flex;
+            flex-direction: column;
+            margin-left: 0.9rem;
+        }
+
+            main .foro-right .foro-top-contributors .foro-inner-box .foro-details a,
+            main .foro-right .foro-recommended-communities .foro-inner-box .foro-details a {
+                font-weight: 500;
+            }
+
+            main .foro-right .foro-top-contributors .foro-inner-box .foro-details span,
+            main .foro-right .foro-recommended-communities .foro-inner-box .foro-details span {
+                font-size: var(--fs14);
+                color: var(--darkGrayColor);
+            }
+
+    main .foro-right .foro-recommended-communities h3 {
+        margin-bottom: 0.5rem;
+    }
+
+/*Overlay*/
+.foro-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 999;
+    background-color: rgba(0 0 0 / 0.35);
+    transition: var(--transition);
+    padding: 0 1.5rem;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.5s, visibility 0.5s;
+}
+
+    .foro-overlay.foro-active {
+        opacity: 1;
+        visibility: visible;
+    }
+
+.foro-login {
+    position: relative;
+    border-radius: 0.4rem;
+    padding: 1rem;
+    background-color: var(--whiteColor);
+    max-width: 80rem;
+    width: 100%;
+    margin: 4rem auto 1rem;
+    margin-top: 25vh;
+    box-shadow: 0 0.5rem 2rem rgba(0, 0, 0, 0.35);
+    overflow: hidden;
+}
+
+    .foro-login h2 {
+        color: var(--lightBlackColor);
+        text-transform: capitalize;
+        font-size: var(--fs24);
+        margin-bottom: 2.4rem;
+    }
+
+    .foro-login form {
+        max-width: 35rem;
+        margin-inline: auto;
+    }
+
+        .foro-login form input {
+            width: 100%;
+            height: 3.4rem;
+            margin-bottom: 1.2rem;
+            background-color: var(--whiteColor);
+            padding: 0.7rem 1.2rem;
+            font-size: var(--fs14);
+            color: var(--lightBlackColor);
+            border: 0.1rem solid var(--mediumGray);
+        }
+
+            .foro-login form input:focus-visible {
+                outline: none;
+            }
+
+        .foro-login form .foro-forgot {
+            color: var(--lightBlackColor);
+            font-size: var(--fs14);
+            display: block;
+            margin: 1.2rem 0;
+        }
+
+            .foro-login form .foro-forgot:hover {
+                text-decoration: underline;
+            }
+
+        .foro-login form button {
+            width: 100%;
+            padding: 0.8rem 0;
+            text-transform: capitalize;
+            font-size: var(--fs18);
+            font-weight: 500;
+            background-color: var(--redColor);
+            color: var(--whiteColor);
+            margin-bottom: 1.2rem;
+        }
+
+        .foro-login form .foro-login-signup {
+            font-size: var(--fs14);
+        }
+
+            .foro-login form .foro-login-signup a {
+                color: var(--redColor);
+            }
+
+    .foro-login .foro-close-login {
+        position: absolute;
+        right: 2rem;
+        top: 2rem;
+        font-size: 2rem;
+        color: var(--lightBlackColor);
+        transition: var(--transition);
+    }
+
+        .foro-login .foro-close-login:hover {
+            color: var(--darkRedColor);
+        }
+
+    .foro-login .foro-login-with {
+        margin-top: 2.7rem;
+        text-align: center;
+        font-size: var(--fs14);
+    }
+
+        .foro-login .foro-login-with .foro-socials {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+        }
+
+            .foro-login .foro-login-with .foro-socials a {
+                display: inline-flex;
+                justify-content: center;
+                align-items: center;
+                color: var(--whiteColor);
+                width: 5rem;
+                height: 4.8rem;
+                border-radius: 0.3rem;
+                transition: var(--transition);
+                margin-top: 1.2rem;
+            }
+
+                .foro-login .foro-login-with .foro-socials a:hover {
+                    opacity: 0.8;
+                }
+
+            .foro-login .foro-login-with .foro-socials .foro-facebook {
+                background-color: #3b5998;
+            }
+
+            .foro-login .foro-login-with .foro-socials .foro-google {
+                background-color: #dd4b39;
+            }
+
+            .foro-login .foro-login-with .foro-socials .foro-github {
+                background-color: #333333;
+            }

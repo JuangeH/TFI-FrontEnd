@@ -5,7 +5,7 @@ VisualStudioVersion = 17.3.32929.385
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InnoviaReach - TFI - FrontEnd", "InnoviaReach - TFI - FrontEnd\InnoviaReach - TFI - FrontEnd.csproj", "{A2632222-5525-4CCC-88F7-172ED93B7550}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "InnoviaReach.Domain", "InnoviaReach.Domain\InnoviaReach.Domain.csproj", "{1B7891F4-876B-4D43-B5A5-8E3E3AD46DCC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "InnoviaReach.Domain", "InnoviaReach.Domain\InnoviaReach.Domain.csproj", "{1B7891F4-876B-4D43-B5A5-8E3E3AD46DCC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
