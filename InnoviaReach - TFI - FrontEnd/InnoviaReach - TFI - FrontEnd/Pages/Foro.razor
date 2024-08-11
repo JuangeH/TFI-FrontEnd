@@ -2,6 +2,7 @@
 @using InnoviaReach___TFI___FrontEnd.Data
 @inherits LayoutComponentBase
 @inject IJSRuntime JSRuntime
+@inject HttpClient httpClient
 
 <div class="foro-principal">
     <header class="foro-header" id="foro-header">
@@ -30,7 +31,49 @@
                     <div class="foro-row">
                         <section class="foro-left">
                             <div class="foro-inner-left">
+
+                                @foreach (var foro in ForosGenerales)
+                                {
+                                    <div class="foro-box">
+                                        <div class="foro-img">
+                                            <img src="img/302688.jpg" alt="" />
+                                        </div>
+                                        <div class="foro-details">
+                                            <p>Discusion de mogolicos</p>
+                                            <h3>@foro.Titulo</h3>
+                                            <div class="foro-sub-details">
+                                                <span>jason.aalbers95.</span> <!--Aca va el usuario creador, el nombre-->
+                                                <span>9 h ago.</span> <!--Aca va el diferencial de hace cuanto se creó-->
+                                                <div class="foro-comment">
+                                                    <i class="fa-solid fa-comment"></i>
+                                                    <span>6</span> <!--Aca va la cantidad de comentarios-->
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                }
+
                                 <div class="foro-box">
+                                    <div class="foro-img">
+                                        <img src="img/302688.jpg" alt="" />
+                                    </div>
+                                    <div class="foro-details">
+                                        <p>technical discussion</p>
+                                        <h3>93 shadow vt1100c</h3>
+                                        <div class="foro-sub-details">
+                                            <span>jason.aalbers95.</span>
+                                            <span>9 h ago.</span>
+                                            <span>jason.aalbers95</span>
+                                            <span>replied</span>
+                                            <span>5 h ago</span>
+                                            <div class="foro-comment">
+                                                <i class="fa-solid fa-comment"></i>
+                                                <span>6</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                @* <div class="foro-box">
                                     <div class="foro-img">
                                         <img src="img/302688.jpg" alt="" />
                                     </div>
@@ -149,27 +192,7 @@
                                             </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="foro-box">
-                                    <div class="foro-img">
-                                        <img src="img/302688.jpg" alt="" />
-                                    </div>
-                                    <div class="foro-details">
-                                        <p>technical discussion</p>
-                                        <h3>93 shadow vt1100c</h3>
-                                        <div class="foro-sub-details">
-                                            <span>jason.aalbers95.</span>
-                                            <span>9 h ago.</span>
-                                            <span>jason.aalbers95</span>
-                                            <span>replied</span>
-                                            <span>5 h ago</span>
-                                            <div class="foro-comment">
-                                                <i class="fa-solid fa-comment"></i>
-                                                <span>6</span>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+                                </div> *@
                             </div>
                         </section>
                         <section class="foro-right">
@@ -271,6 +294,13 @@
 
 
 @code {
+    public List<ForoModel> ForosGenerales = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        ForosGenerales = await httpClient.GetFromJsonAsync<List<ForoModel>>("Foro/ObtenerForosGenerales");
+    }
+
     ////private List<Data.Data.ForoClass> forosGenerales = new();
     ////private Data.Data.ForoClass selectedForo;
 

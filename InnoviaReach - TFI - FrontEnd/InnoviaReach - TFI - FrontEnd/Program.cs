@@ -2,6 +2,7 @@ using Blazored.SessionStorage;
 using InnoviaReach___TFI___FrontEnd.Data;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
+using Microsoft.Extensions.DependencyInjection;
 using MudBlazor.Services;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -15,7 +16,7 @@ builder.Services.AddHttpClient();
 builder.Services.AddSingleton<HttpClient>(sp =>
 {
     var httpClient = new HttpClient();
-    httpClient.BaseAddress = new Uri("https://localhost:44369");
+    httpClient.BaseAddress = new Uri(builder.Configuration.GetSection("ApiConfig:UrlApiBase")?.Value?.ToString() ?? "");
     return httpClient;
 });
 
