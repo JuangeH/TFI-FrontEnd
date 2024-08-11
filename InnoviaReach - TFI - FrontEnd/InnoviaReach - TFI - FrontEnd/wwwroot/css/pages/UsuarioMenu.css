@@ -284,7 +284,7 @@
     height: 100%;
     bottom: 0;
     background: var(--tab-bg);
-    z-index: 1;
+    z-index: 1000;
     transition: 0.5s;
     border-radius: var(--tab-radius);
 }

@@ -89,13 +89,13 @@ a {
     color: var(--darkGrayColor);
 }
 
-    .foro-btn-white:hover {
-        border-color: #686c6e;
-    }
+.foro-btn-white:hover {
+    border-color: #686c6e;
+}
 
-foro-main {
-    padding: 12rem 0.5rem 2rem 0.5rem;
-    background-color: var(--lightWhiteColor);
+.foro-main {
+    height: 90vh;
+    width: auto;
 }
 
 @media (min-width: 768px) {
@@ -105,15 +105,11 @@ foro-main {
 }
 
 .foro-container {
-    padding-left: 1.5rem;
-    padding-right: 1.5rem;
-    margin-left: auto;
-    margin-right: auto;
     width: 100%;
 }
 
-@media (min-width: 1300px) and (max-width: 1599px) {
+/*@media (min-width: 1300px) and (max-width: 1599px) {
     .foro-container {
         width: 1200px;
     }
-}
+}*/

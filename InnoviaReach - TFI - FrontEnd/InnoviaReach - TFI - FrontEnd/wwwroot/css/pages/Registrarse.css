@@ -91,7 +91,7 @@ h1 {
     border-radius: 1rem;
     box-shadow: 0 20px 60px var(--aura);
     min-width: 45%;
-    max-width: 45%;
+/*    max-width: 45%;*/
     width: 100%;
     padding: 2rem;
 }

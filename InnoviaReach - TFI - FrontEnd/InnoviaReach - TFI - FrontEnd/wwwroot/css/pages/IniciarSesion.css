@@ -139,8 +139,15 @@ html {
     justify-content: start;
     position: relative;
     gap: 1.25rem;
-    max-width: 26rem;
     width: 100%;
+}
+
+.my-form.register {
+    max-width: 65rem;
+}
+
+.my-form.login {
+    max-width: 26rem;
 }
 
 .my-form__button {
@@ -176,14 +183,14 @@ html {
     margin-top: 0.5rem;
 }
 
-    .my-form__actions a {
-        color: var(--text);
-    }
+.my-form__actions a {
+    color: var(--text);
+}
 
-        .my-form__actions a:hover {
-            color: var(--text-gray);
-            text-decoration: underline;
-        }
+.my-form__actions a:hover {
+    color: var(--text-gray);
+    text-decoration: underline;
+}
 
 .my-form__row {
     display: flex;
@@ -204,29 +211,29 @@ html {
     gap: 0.5rem;
 }
 
-    .text-field input {
-        color: var(--secondary);
-        max-width: 100%;
-        width: 100%;
-        border: 1px solid var(--border);
-        min-height: 3rem;
-        letter-spacing: .03rem;
-        outline: none;
-        background: var(--input-bg);
-        transition: .25s;
-        border-radius: 0.5rem;
-        text-indent: 1.25rem;
-    }
+.text-field input {
+    color: var(--secondary);
+    max-width: 100%;
+    width: 100%;
+    border: 1px solid var(--border);
+    min-height: 3rem;
+    letter-spacing: .03rem;
+    outline: none;
+    background: var(--input-bg);
+    transition: .25s;
+    border-radius: 0.5rem;
+    text-indent: 1.25rem;
+}
 
-    .text-field label {
-        color: var(--text);
-    }
+.text-field label {
+    color: var(--text);
+}
 
-    .text-field input:user-invalid {
-        background: var(--white);
-        color: var(--error);
-        border: 1px solid var(--error);
-    }
+.text-field input:user-invalid {
+    background: var(--white);
+    color: var(--error);
+    border: 1px solid var(--error);
+}
 
 .error-message {
     display: none;
@@ -256,44 +263,44 @@ html {
     max-height: 90rem;
 }
 
-    .info-side .blockquote-wrapper {
-        gap: 1rem;
-        position: relative;
-        padding: 1rem;
-        max-width: 25rem;
-        background: white;
-        border-radius: 1rem;
-    }
+.info-side .blockquote-wrapper {
+    gap: 1rem;
+    position: relative;
+    padding: 1rem;
+    max-width: 25rem;
+    background: white;
+    border-radius: 1rem;
+}
 
-        .info-side .blockquote-wrapper img {
-            width: 100%;
-            max-width: 100%;
-            border-radius: 1rem;
-        }
+.info-side .blockquote-wrapper img {
+    width: 100%;
+    max-width: 100%;
+    border-radius: 1rem;
+}
 
-        .info-side .blockquote-wrapper blockquote {
-            margin-bottom: 1rem;
-            width: 100%;
-            font-size: 1rem;
-        }
+.info-side .blockquote-wrapper blockquote {
+    margin-bottom: 1rem;
+    width: 100%;
+    font-size: 1rem;
+}
 
-    .info-side .author {
-        display: flex;
-        flex-direction: row;
-        gap: 0.75rem;
-        align-items: center;
-    }
+.info-side .author {
+    display: flex;
+    flex-direction: row;
+    gap: 0.75rem;
+    align-items: center;
+}
 
-        .info-side .author img {
-            border-radius: 50%;
-            width: 2.75rem;
-            height: 2.75rem;
-        }
+.info-side .author img {
+    border-radius: 50%;
+    width: 2.75rem;
+    height: 2.75rem;
+}
 
-    .info-side .author-name {
-        font-weight: 600;
-        color: var(--text);
-    }
+.info-side .author-name {
+    font-weight: 600;
+    color: var(--text);
+}
 
 @media (max-width: 720px) {
     .form-wrapper {

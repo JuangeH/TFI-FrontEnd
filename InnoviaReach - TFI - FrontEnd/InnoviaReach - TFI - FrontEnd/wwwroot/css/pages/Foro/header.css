@@ -1,105 +1,106 @@
 ﻿.foro-header {
-    position: relative;
-    background: url(../img/hondashadow_net_banner_2880w.jpg) no-repeat;
+    background: #1b1b1b;
     background-size: cover;
     background-position: center;
     height: 9rem;
+    display: flex;
+    width: 100%;
+    height: 100px;
 }
 
-    .foro-header .foro-row {
-       /* position: absolute;*/
-        left: 0;
-        bottom: -11rem;
-        width: 100%;
-        background-color: #232324;
-    }
+.foro-header .foro-row {
+    /* position: absolute;*/
+    left: 0;
+    bottom: -11rem;
+    width: 100%;
+    background-color: #232324;
+}
 
-        .foro-header .foro-row .foro-header-content {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: space-between;
-            padding: 1rem 0;
-        }
+.foro-header .foro-row .foro-header-content {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
 
-            .foro-header .foro-row .foro-header-content .foro-logo {
-                order: 1;
-            }
+.foro-header .foro-row .foro-header-content .foro-logo {
+    order: 1;
+}
 
-                .foro-header .foro-row .foro-header-content .foro-logo img {
-                    height: 4rem;
-                    width: 10rem;
-                }
+.foro-header .foro-row .foro-header-content .foro-logo img {
+    height: 4rem;
+    width: 10rem;
+}
 
-            .foro-header .foro-row .foro-header-content .foro-nav-search {
-                order: 3;
-                flex: 1 1 100%;
-                margin-top: 1rem;
-            }
+.foro-header .foro-row .foro-header-content .foro-nav-search {
+    order: 3;
+    flex: 1 1 100%;
+    margin-top: 1rem;
+}
 
-                .foro-header .foro-row .foro-header-content .foro-nav-search .foro-form-group {
-                    width: 100%;
-                    position: relative;
-                }
+.foro-header .foro-row .foro-header-content .foro-nav-search .foro-form-group {
+    width: 100%;
+    position: relative;
+}
 
-                    .foro-header .foro-row .foro-header-content .foro-nav-search .foro-form-group input {
-                        height: 4rem;
-                        padding-left: 2rem;
-                        border-radius: 0.4rem;
-                        border: solid 0.1rem #404040;
-                        background-color: #404040;
-                        font-size: var(--fs14);
-                        font-weight: 500;
-                        text-align: left;
-                        color: var(--lightWhiteColor);
-                        width: 100%;
-                    }
+.foro-header .foro-row .foro-header-content .foro-nav-search .foro-form-group input {
+    height: 4rem;
+    padding-left: 2rem;
+    border-radius: 0.4rem;
+    border: solid 0.1rem #404040;
+    background-color: #404040;
+    font-size: var(--fs14);
+    font-weight: 500;
+    text-align: left;
+    color: var(--lightWhiteColor);
+    width: 100%;
+}
 
-                        .foro-header .foro-row .foro-header-content .foro-nav-search .foro-form-group input:focus {
-                            background-color: #f6f6f6;
-                            color: var(--lightBlackColor);
-                        }
+.foro-header .foro-row .foro-header-content .foro-nav-search .foro-form-group input:focus {
+    background-color: #f6f6f6;
+    color: var(--lightBlackColor);
+}
 
-                        .foro-header .foro-row .foro-header-content .foro-nav-search .foro-form-group input::placeholder {
-                            font-weight: 500;
-                            color: var(--lightWhiteColor);
-                            font-size: var(--fs14);
-                        }
+.foro-header .foro-row .foro-header-content .foro-nav-search .foro-form-group input::placeholder {
+    font-weight: 500;
+    color: var(--lightWhiteColor);
+    font-size: var(--fs14);
+}
 
-                    .foro-header .foro-row .foro-header-content .foro-nav-search .foro-form-group i {
-                        position: absolute;
-                        right: 0;
-                        bottom: 0;
-                        width: 4rem;
-                        height: 4rem;
-                        display: flex;
-                        align-items: center;
-                        justify-content: center;
-                        font-size: var(--fs18);
-                        color: var(--lightWhiteColor);
-                    }
+.foro-header .foro-row .foro-header-content .foro-nav-search .foro-form-group i {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    width: 4rem;
+    height: 4rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: var(--fs18);
+    color: var(--lightWhiteColor);
+}
 
-            .foro-header .foro-row .foro-header-content .foro-nav-group {
-                order: 2;
-            }
+.foro-header .foro-row .foro-header-content .foro-nav-group {
+    order: 2;
+}
 
-                .foro-header .foro-row .foro-header-content .foro-nav-group ul {
-                    display: flex;
-                    align-items: center;
-                    gap: 3rem;
-                }
+.foro-header .foro-row .foro-header-content .foro-nav-group ul {
+    display: flex;
+    align-items: center;
+    gap: 3rem;
+}
 
-                    .foro-header .foro-row .foro-header-content .foro-nav-group ul li a {
-                        font-size: var(--fs24);
-                        color: var(--whiteColor);
-                    }
+.foro-header .foro-row .foro-header-content .foro-nav-group ul li a {
+    font-size: var(--fs24);
+    color: var(--whiteColor);
+}
 
-                        .foro-header .foro-row .foro-header-content .foro-nav-group ul li a:hover {
-                            color: #e3e7e9;
-                        }
+.foro-header .foro-row .foro-header-content .foro-nav-group ul li a:hover {
+    color: #e3e7e9;
+}
 
-                        .foro-header .foro-row .foro-header-content .foro-nav-group ul li a span {
-                            display: none;
-                        }
+.foro-header .foro-row .foro-header-content .foro-nav-group ul li a span {
+    display: none;
+}
 
 @media (min-width: 768px) {
     .foro-header .foro-row {
@@ -107,43 +108,43 @@
         background-color: rgba(7, 7, 7, 0.5);
     }
 
-        .foro-header .foro-row .foro-header-content {
-            align-items: center;
-           /* padding: var(--fs14) 0.5rem;*/
-        }
+    .foro-header .foro-row .foro-header-content {
+        align-items: center;
+        /* padding: var(--fs14) 0.5rem;*/
+    }
 
-            .foro-header .foro-row .foro-header-content .foro-logo {
-                width: 23rem;
-            }
+    .foro-header .foro-row .foro-header-content .foro-logo {
+        width: 23rem;
+    }
 
-                .foro-header .foro-row .foro-header-content .foro-logo img {
-                    height: 4.5rem;
-                    width: 16rem;
-                }
+    .foro-header .foro-row .foro-header-content .foro-logo img {
+        height: 4.5rem;
+        width: 16rem;
+    }
 
-            .foro-header .foro-row .foro-header-content .foro-nav-search {
-                order: 2;
-                flex: 1 1 auto;
-                margin-top: 0;
-                padding: 0 1rem;
-            }
+    .foro-header .foro-row .foro-header-content .foro-nav-search {
+        order: 2;
+        flex: 1 1 auto;
+        margin-top: 0;
+        padding: 0 1rem;
+    }
 
-                .foro-header .foro-row .foro-header-content .foro-nav-search .foro-form-group {
-                    max-width: 48rem;
-                    margin: 0 auto;
-                }
+    .foro-header .foro-row .foro-header-content .foro-nav-search .foro-form-group {
+        max-width: 48rem;
+        margin: 0 auto;
+    }
 
-            .foro-header .foro-row .foro-header-content .foro-nav-group {
-                order: 3;
-                margin-left: 1.2rem;
-            }
+    .foro-header .foro-row .foro-header-content .foro-nav-group {
+        order: 3;
+        margin-left: 1.2rem;
+    }
 
-                .foro-header .foro-row .foro-header-content .foro-nav-group ul li a span {
-                    display: inline-block;
-                    text-transform: capitalize;
-                    font-size: var(--fs14);
-                    font-weight: 500;
-                    color: var(--whiteColor);
-                    margin-left: 0.5rem;
-                }
+    .foro-header .foro-row .foro-header-content .foro-nav-group ul li a span {
+        display: inline-block;
+        text-transform: capitalize;
+        font-size: var(--fs14);
+        font-weight: 500;
+        color: var(--whiteColor);
+        margin-left: 0.5rem;
+    }
 }
