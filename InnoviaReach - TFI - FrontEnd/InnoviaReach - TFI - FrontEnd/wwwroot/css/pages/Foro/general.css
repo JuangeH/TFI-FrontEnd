@@ -113,3 +113,22 @@ a {
         width: 1200px;
     }
 }*/
+
+
+.foro-details h3{
+    cursor: pointer; /* Cambia el cursor a una mano al pasar sobre el texto */
+    transition: all 0.3s ease; /* Agrega una transición suave */
+}
+.foro-details h3:hover {
+    text-decoration: underline; /* Subraya el texto al pasar sobre él */
+    color: #0000ff; /* Cambia el color del texto al pasar sobre él (opcional) */
+}
+
+.foro-sub-details span:nth-child(1) {
+    cursor: pointer; /* Cambia el cursor a una mano al pasar sobre el texto */
+    transition: all 0.3s ease; /* Agrega una transición suave */
+}
+.foro-sub-details span:nth-child(1):hover {
+    text-decoration: underline; /* Subraya el texto al pasar sobre él */
+    color: #0000ff; /* Cambia el color del texto al pasar sobre él (opcional) */
+}
