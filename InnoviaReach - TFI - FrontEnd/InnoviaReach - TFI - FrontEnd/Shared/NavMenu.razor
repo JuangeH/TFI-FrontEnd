@@ -1,43 +1,5 @@
 ﻿@inject IJSRuntime JSRuntime
 
-@*<div class="top-row ps-3 navbar navbar-dark">
-    <div class="container-fluid">
-        <a class="navbar-brand" href="">InnoviaReach</a>
-        <button title="Navigation menu" class="navbar-toggler" @onclick="ToggleNavMenu">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-    </div>
-</div>
-
-<div class="@NavMenuCssClass" @onclick="ToggleNavMenu">
-    <nav class="flex-column">
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="Main" Match="NavLinkMatch.All">
-                <span class="oi oi-home" aria-hidden="true"></span> Inicio
-            </NavLink>
-        </div>
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="Catalogo">
-                <span class="oi oi-list-rich" aria-hidden="true"></span> Catalogo
-            </NavLink>
-        </div>
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="Foro">
-                <span class="oi oi-people" aria-hidden="true"></span> Foros
-            </NavLink>
-        </div>
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="Auditoria">
-                <span class="oi oi-briefcase" aria-hidden="true"></span> Auditoría
-            </NavLink>
-        </div>
-        <div class="nav-item px-3">
-            <NavLink class="nav-link" href="Bitacora">
-                <span class="oi oi-list" aria-hidden="true"></span> Bitácora
-            </NavLink>
-        </div>
-    </nav>
-</div>*@
 
 <nav>
     <div class="sidebar-top">
@@ -106,9 +68,9 @@
             </ul>
         </div>
         <div class="sidebar__profile">
-            <a class="avatar__wrapper">
+            <div class="avatar__wrapper">
                 <img class="avatar" src="assets/ToolBar/profile.jpg" alt="Profile">
-            </a>
+            </div>
             @*<div class="avatar__wrapper">
                 <img class="avatar" src="assets/ToolBar/profile.jpg" alt="Profile">
                 <div class="online__status"></div>

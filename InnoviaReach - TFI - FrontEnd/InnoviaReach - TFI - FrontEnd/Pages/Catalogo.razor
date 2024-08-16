@@ -40,6 +40,7 @@
         }
     </MudExpansionPanel>
 </MudExpansionPanels>
+
 @code {
     private IEnumerable<VideojuegoModel> Elements = new List<VideojuegoModel>();
     private string _searchString;
@@ -48,7 +49,7 @@
    
     protected override async Task OnInitializedAsync()
     {
-        Elements = await httpClient.GetFromJsonAsync<List<VideojuegoModel>>("https://localhost:44309/Videojuego/ObtenerVideojuegos");
+        //Elements = await httpClient.GetFromJsonAsync<List<VideojuegoModel>>("https://localhost:44309/Videojuego/ObtenerVideojuegos");
     }
 
     // events
