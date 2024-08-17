@@ -4,7 +4,7 @@
 @using InnoviaReach___TFI___FrontEnd.Data
 @inject HttpClient httpClient
 
-<MudDataGrid T="VideojuegoModel" MultiSelection="true" Items="@Elements" SortMode="SortMode.Multiple" Filterable="true" QuickFilter="@_quickFilter"
+@*<MudDataGrid T="VideojuegoModel" MultiSelection="true" Items="@Elements" SortMode="SortMode.Multiple" Filterable="true" QuickFilter="@_quickFilter"
              Hideable="true" RowClick="@RowClicked" SelectedItemsChanged="@SelectedItemsChanged">
     <ToolBarContent>
         <MudText Typo="Typo.h6">Videojuegos</MudText>
@@ -39,7 +39,478 @@
             </div>
         }
     </MudExpansionPanel>
-</MudExpansionPanels>
+</MudExpansionPanels>*@
+
+<section class="cat-sc-category" style="height: 100vh">
+    <div class="cat-container">
+        <div class="cat-sc-title">
+            <h3 class="cat-h3">game <span>STORE</span></h3>
+            <div class="cat-line"></div>
+        </div>
+
+        <div class="cat-button-group cat-mx-auto cat-flex cat-items-center cat-justify-center cat-flex-wrap">
+            <button data-filter="action" class="cat-active-filter-button cat-button">action</button>
+            <button data-filter="shooter" class="cat-button">shooter</button>
+            <button data-filter="strategy" class="cat-button">strategy</button>
+            <button data-filter="arcade" class="cat-button">arcade</button>
+            <button data-filter="adventure" class="cat-button">adventure</button>
+        </div>
+        <div class="cat-mt-16 cat-grid cat-gap-6 cat-sm:grid-cols-2 cat-md:grid-cols-3">
+            <div class="cat-store-item">
+                <div class="cat-img-fit-cover">
+                    <img class="cat-img" src="assets/Recomendaciones/images/store-1.png" alt="">
+                </div>
+                <div class="cat-store-item-info cat-group">
+                    <h3 class="cat-h3 cat-uppercase cat-text-violet-darker cat-font-bold cat-tracking-[.04em] cat-mb-2 cat-group-hover:text-white cat-transition cat-ease-in-out cat-duration-300">Playstation Store</h3>
+                    <ul>
+                        <li class="cat-text-dark cat-group-hover:text-white cat-transition cat-ease-in-out cat-duration-300">
+                            <span class="cat-me-1 cat-font-bold">Domain:</span>
+                            <span>store.playstation.com</span>
+                        </li>
+                        <li class="cat-text-dark cat-group-hover:text-white cat-transition cat-ease-in-out cat-duration-300">
+                            <span class="cat-me-1 cat-font-bold">Games Count:</span>
+                            <span>687</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="cat-store-item">
+                <div class="cat-img-fit-cover">
+                    <img class="cat-img" src="assets/Recomendaciones/images/store-2.png" alt="">
+                </div>
+                <div class="cat-store-item-info cat-group">
+                    <h3 class="cat-h3 cat-uppercase cat-text-violet-darker cat-font-bold cat-tracking-[.04em] cat-mb-2 cat-group-hover:text-white cat-transition cat-ease-in-out cat-duration-300">Playstation Store</h3>
+                    <ul>
+                        <li class="cat-text-dark cat-group-hover:text-white cat-transition cat-ease-in-out cat-duration-300">
+                            <span class="cat-me-1 cat-font-bold">Domain:</span>
+                            <span>store.playstation.com</span>
+                        </li>
+                        <li class="cat-text-dark cat-group-hover:text-white cat-transition cat-ease-in-out cat-duration-300">
+                            <span class="cat-me-1 cat-font-bold">Games Count:</span>
+                            <span>687</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="cat-store-item">
+                <div class="cat-img-fit-cover">
+                    <img class="cat-img" src="assets/Recomendaciones/images/store-3.png" alt="">
+                </div>
+                <div class="cat-store-item-info cat-group">
+                    <h3 class="cat-h3 cat-uppercase cat-text-violet-darker cat-font-bold cat-tracking-[.04em] cat-mb-2 cat-group-hover:text-white cat-transition cat-ease-in-out cat-duration-300">Playstation Store</h3>
+                    <ul>
+                        <li class="cat-text-dark cat-group-hover:text-white cat-transition cat-ease-in-out cat-duration-300">
+                            <span class="cat-me-1 cat-font-bold">Domain:</span>
+                            <span>store.playstation.com</span>
+                        </li>
+                        <li class="cat-text-dark cat-group-hover:text-white cat-transition cat-ease-in-out cat-duration-300">
+                            <span class="cat-me-1 cat-font-bold">Games Count:</span>
+                            <span>687</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="cat-store-item">
+                <div class="cat-img-fit-cover">
+                    <img class="cat-img" src="assets/Recomendaciones/images/store-4.png" alt="">
+                </div>
+                <div class="cat-store-item-info cat-group">
+                    <h3 class="cat-h3 cat-uppercase cat-text-violet-darker cat-font-bold cat-tracking-[.04em] cat-mb-2 cat-group-hover:text-white cat-transition cat-ease-in-out cat-duration-300">Playstation Store</h3>
+                    <ul>
+                        <li class="cat-text-dark cat-group-hover:text-white cat-transition cat-ease-in-out cat-duration-300">
+                            <span class="cat-me-1 cat-font-bold">Domain:</span>
+                            <span>store.playstation.com</span>
+                        </li>
+                        <li class="cat-text-dark cat-group-hover:text-white cat-transition cat-ease-in-out cat-duration-300">
+                            <span class="cat-me-1 cat-font-bold">Games Count:</span>
+                            <span>687</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="cat-store-item">
+                <div class="cat-img-fit-cover">
+                    <img class="cat-img" src="assets/Recomendaciones/images/store-5.png" alt="">
+                </div>
+                <div class="cat-store-item-info cat-group">
+                    <h3 class="cat-h3 cat-uppercase cat-text-violet-darker cat-font-bold cat-tracking-[.04em] cat-mb-2 cat-group-hover:text-white cat-transition cat-ease-in-out cat-duration-300">Playstation Store</h3>
+                    <ul>
+                        <li class="cat-text-dark cat-group-hover:text-white cat-transition cat-ease-in-out cat-duration-300">
+                            <span class="cat-me-1 cat-font-bold">Domain:</span>
+                            <span>store.playstation.com</span>
+                        </li>
+                        <li class="cat-text-dark cat-group-hover:text-white cat-transition cat-ease-in-out cat-duration-300">
+                            <span class="cat-me-1 cat-font-bold">Games Count:</span>
+                            <span>687</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="cat-store-item">
+                <div class="cat-img-fit-cover">
+                    <img class="cat-img" src="assets/Recomendaciones/images/store-6.png" alt="">
+                </div>
+                <div class="cat-store-item-info cat-group">
+                    <h3 class="cat-h3 cat-uppercase cat-text-violet-darker cat-font-bold cat-tracking-[.04em] cat-mb-2 cat-group-hover:text-white cat-transition cat-ease-in-out cat-duration-300">Playstation Store</h3>
+                    <ul>
+                        <li class="cat-text-dark cat-group-hover:text-white cat-transition cat-ease-in-out cat-duration-300">
+                            <span class="cat-me-1 cat-font-bold">Domain:</span>
+                            <span>store.playstation.com</span>
+                        </li>
+                        <li class="cat-text-dark cat-group-hover:text-white cat-transition cat-ease-in-out cat-duration-300">
+                            <span class="cat-me-1 cat-font-bold">Games Count:</span>
+                            <span>687</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="cat-store-item">
+                <div class="cat-img-fit-cover">
+                    <img class="cat-img" src="assets/Recomendaciones/images/store-1.png" alt="">
+                </div>
+                <div class="cat-store-item-info cat-group">
+                    <h3 class="cat-h3 cat-uppercase cat-text-violet-darker cat-font-bold cat-tracking-[.04em] cat-mb-2 cat-group-hover:text-white cat-transition cat-ease-in-out cat-duration-300">Playstation Store</h3>
+                    <ul>
+                        <li class="cat-text-dark cat-group-hover:text-white cat-transition cat-ease-in-out cat-duration-300">
+                            <span class="cat-me-1 cat-font-bold">Domain:</span>
+                            <span>store.playstation.com</span>
+                        </li>
+                        <li class="cat-text-dark cat-group-hover:text-white cat-transition cat-ease-in-out cat-duration-300">
+                            <span class="cat-me-1 cat-font-bold">Games Count:</span>
+                            <span>687</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="cat-store-item">
+                <div class="cat-img-fit-cover">
+                    <img class="cat-img" src="assets/Recomendaciones/images/store-2.png" alt="">
+                </div>
+                <div class="cat-store-item-info cat-group">
+                    <h3 class="cat-h3 cat-uppercase cat-text-violet-darker cat-font-bold cat-tracking-[.04em] cat-mb-2 cat-group-hover:text-white cat-transition cat-ease-in-out cat-duration-300">Playstation Store</h3>
+                    <ul>
+                        <li class="cat-text-dark cat-group-hover:text-white cat-transition cat-ease-in-out cat-duration-300">
+                            <span class="cat-me-1 cat-font-bold">Domain:</span>
+                            <span>store.playstation.com</span>
+                        </li>
+                        <li class="cat-text-dark cat-group-hover:text-white cat-transition cat-ease-in-out cat-duration-300">
+                            <span class="cat-me-1 cat-font-bold">Games Count:</span>
+                            <span>687</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="cat-store-item">
+                <div class="cat-img-fit-cover">
+                    <img class="cat-img" src="assets/Recomendaciones/images/store-3.png" alt="">
+                </div>
+                <div class="cat-store-item-info cat-group">
+                    <h3 class="cat-h3 cat-uppercase cat-text-violet-darker cat-font-bold cat-tracking-[.04em] cat-mb-2 cat-group-hover:text-white cat-transition cat-ease-in-out cat-duration-300">Playstation Store</h3>
+                    <ul>
+                        <li class="cat-text-dark cat-group-hover:text-white cat-transition cat-ease-in-out cat-duration-300">
+                            <span class="cat-me-1 cat-font-bold">Domain:</span>
+                            <span>store.playstation.com</span>
+                        </li>
+                        <li class="cat-text-dark cat-group-hover:text-white cat-transition cat-ease-in-out cat-duration-300">
+                            <span class="cat-me-1 cat-font-bold">Games Count:</span>
+                            <span>687</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="cat-store-item">
+                <div class="cat-img-fit-cover">
+                    <img class="cat-img" src="assets/Recomendaciones/images/store-4.png" alt="">
+                </div>
+                <div class="cat-store-item-info cat-group">
+                    <h3 class="cat-h3 cat-uppercase cat-text-violet-darker cat-font-bold cat-tracking-[.04em] cat-mb-2 cat-group-hover:text-white cat-transition cat-ease-in-out cat-duration-300">Playstation Store</h3>
+                    <ul>
+                        <li class="cat-text-dark cat-group-hover:text-white cat-transition cat-ease-in-out cat-duration-300">
+                            <span class="cat-me-1 cat-font-bold">Domain:</span>
+                            <span>store.playstation.com</span>
+                        </li>
+                        <li class="cat-text-dark cat-group-hover:text-white cat-transition cat-ease-in-out cat-duration-300">
+                            <span class="cat-me-1 cat-font-bold">Games Count:</span>
+                            <span>687</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="cat-store-item">
+                <div class="cat-img-fit-cover">
+                    <img class="cat-img" src="assets/Recomendaciones/images/store-5.png" alt="">
+                </div>
+                <div class="cat-store-item-info cat-group">
+                    <h3 class="cat-h3 cat-uppercase cat-text-violet-darker cat-font-bold cat-tracking-[.04em] cat-mb-2 cat-group-hover:text-white cat-transition cat-ease-in-out cat-duration-300">Playstation Store</h3>
+                    <ul>
+                        <li class="cat-text-dark cat-group-hover:text-white cat-transition cat-ease-in-out cat-duration-300">
+                            <span class="cat-me-1 cat-font-bold">Domain:</span>
+                            <span>store.playstation.com</span>
+                        </li>
+                        <li class="cat-text-dark cat-group-hover:text-white cat-transition cat-ease-in-out cat-duration-300">
+                            <span class="cat-me-1 cat-font-bold">Games Count:</span>
+                            <span>687</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="cat-store-item">
+                <div class="cat-img-fit-cover">
+                    <img class="cat-img" src="assets/Recomendaciones/images/store-6.png" alt="">
+                </div>
+                <div class="cat-store-item-info cat-group">
+                    <h3 class="cat-h3 cat-uppercase cat-text-violet-darker cat-font-bold cat-tracking-[.04em] cat-mb-2 cat-group-hover:text-white cat-transition cat-ease-in-out cat-duration-300">Playstation Store</h3>
+                    <ul>
+                        <li class="cat-text-dark cat-group-hover:text-white cat-transition cat-ease-in-out cat-duration-300">
+                            <span class="cat-me-1 cat-font-bold">Domain:</span>
+                            <span>store.playstation.com</span>
+                        </li>
+                        <li class="cat-text-dark cat-group-hover:text-white cat-transition cat-ease-in-out cat-duration-300">
+                            <span class="cat-me-1 cat-font-bold">Games Count:</span>
+                            <span>687</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="cat-store-item">
+                <div class="cat-img-fit-cover">
+                    <img class="cat-img" src="assets/Recomendaciones/images/store-1.png" alt="">
+                </div>
+                <div class="cat-store-item-info cat-group">
+                    <h3 class="cat-h3 cat-uppercase cat-text-violet-darker cat-font-bold cat-tracking-[.04em] cat-mb-2 cat-group-hover:text-white cat-transition cat-ease-in-out cat-duration-300">Playstation Store</h3>
+                    <ul>
+                        <li class="cat-text-dark cat-group-hover:text-white cat-transition cat-ease-in-out cat-duration-300">
+                            <span class="cat-me-1 cat-font-bold">Domain:</span>
+                            <span>store.playstation.com</span>
+                        </li>
+                        <li class="cat-text-dark cat-group-hover:text-white cat-transition cat-ease-in-out cat-duration-300">
+                            <span class="cat-me-1 cat-font-bold">Games Count:</span>
+                            <span>687</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="cat-store-item">
+                <div class="cat-img-fit-cover">
+                    <img class="cat-img" src="assets/Recomendaciones/images/store-2.png" alt="">
+                </div>
+                <div class="cat-store-item-info cat-group">
+                    <h3 class="cat-h3 cat-uppercase cat-text-violet-darker cat-font-bold cat-tracking-[.04em] cat-mb-2 cat-group-hover:text-white cat-transition cat-ease-in-out cat-duration-300">Playstation Store</h3>
+                    <ul>
+                        <li class="cat-text-dark cat-group-hover:text-white cat-transition cat-ease-in-out cat-duration-300">
+                            <span class="cat-me-1 cat-font-bold">Domain:</span>
+                            <span>store.playstation.com</span>
+                        </li>
+                        <li class="cat-text-dark cat-group-hover:text-white cat-transition cat-ease-in-out cat-duration-300">
+                            <span class="cat-me-1 cat-font-bold">Games Count:</span>
+                            <span>687</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="cat-store-item">
+                <div class="cat-img-fit-cover">
+                    <img class="cat-img" src="assets/Recomendaciones/images/store-3.png" alt="">
+                </div>
+                <div class="cat-store-item-info cat-group">
+                    <h3 class="cat-h3 cat-uppercase cat-text-violet-darker cat-font-bold cat-tracking-[.04em] cat-mb-2 cat-group-hover:text-white cat-transition cat-ease-in-out cat-duration-300">Playstation Store</h3>
+                    <ul>
+                        <li class="cat-text-dark cat-group-hover:text-white cat-transition cat-ease-in-out cat-duration-300">
+                            <span class="cat-me-1 cat-font-bold">Domain:</span>
+                            <span>store.playstation.com</span>
+                        </li>
+                        <li class="cat-text-dark cat-group-hover:text-white cat-transition cat-ease-in-out cat-duration-300">
+                            <span class="cat-me-1 cat-font-bold">Games Count:</span>
+                            <span>687</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="cat-store-item">
+                <div class="cat-img-fit-cover">
+                    <img class="cat-img" src="assets/Recomendaciones/images/store-4.png" alt="">
+                </div>
+                <div class="cat-store-item-info cat-group">
+                    <h3 class="cat-h3 cat-uppercase cat-text-violet-darker cat-font-bold cat-tracking-[.04em] cat-mb-2 cat-group-hover:text-white cat-transition cat-ease-in-out cat-duration-300">Playstation Store</h3>
+                    <ul>
+                        <li class="cat-text-dark cat-group-hover:text-white cat-transition cat-ease-in-out cat-duration-300">
+                            <span class="cat-me-1 cat-font-bold">Domain:</span>
+                            <span>store.playstation.com</span>
+                        </li>
+                        <li class="cat-text-dark cat-group-hover:text-white cat-transition cat-ease-in-out cat-duration-300">
+                            <span class="cat-me-1 cat-font-bold">Games Count:</span>
+                            <span>687</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="cat-store-item">
+                <div class="cat-img-fit-cover">
+                    <img class="cat-img" src="assets/Recomendaciones/images/store-5.png" alt="">
+                </div>
+                <div class="cat-store-item-info cat-group">
+                    <h3 class="cat-h3 cat-uppercase cat-text-violet-darker cat-font-bold cat-tracking-[.04em] cat-mb-2 cat-group-hover:text-white cat-transition cat-ease-in-out cat-duration-300">Playstation Store</h3>
+                    <ul>
+                        <li class="cat-text-dark cat-group-hover:text-white cat-transition cat-ease-in-out cat-duration-300">
+                            <span class="cat-me-1 cat-font-bold">Domain:</span>
+                            <span>store.playstation.com</span>
+                        </li>
+                        <li class="cat-text-dark cat-group-hover:text-white cat-transition cat-ease-in-out cat-duration-300">
+                            <span class="cat-me-1 cat-font-bold">Games Count:</span>
+                            <span>687</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="cat-store-item">
+                <div class="cat-img-fit-cover">
+                    <img class="cat-img" src="assets/Recomendaciones/images/store-6.png" alt="">
+                </div>
+                <div class="cat-store-item-info cat-group">
+                    <h3 class="cat-h3 cat-uppercase cat-text-violet-darker cat-font-bold cat-tracking-[.04em] cat-mb-2 cat-group-hover:text-white cat-transition cat-ease-in-out cat-duration-300">Playstation Store</h3>
+                    <ul>
+                        <li class="cat-text-dark cat-group-hover:text-white cat-transition cat-ease-in-out cat-duration-300">
+                            <span class="cat-me-1 cat-font-bold">Domain:</span>
+                            <span>store.playstation.com</span>
+                        </li>
+                        <li class="cat-text-dark cat-group-hover:text-white cat-transition cat-ease-in-out cat-duration-300">
+                            <span class="cat-me-1 cat-font-bold">Games Count:</span>
+                            <span>687</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="cat-store-item">
+                <div class="cat-img-fit-cover">
+                    <img class="cat-img" src="assets/Recomendaciones/images/store-1.png" alt="">
+                </div>
+                <div class="cat-store-item-info cat-group">
+                    <h3 class="cat-h3 cat-uppercase cat-text-violet-darker cat-font-bold cat-tracking-[.04em] cat-mb-2 cat-group-hover:text-white cat-transition cat-ease-in-out cat-duration-300">Playstation Store</h3>
+                    <ul>
+                        <li class="cat-text-dark cat-group-hover:text-white cat-transition cat-ease-in-out cat-duration-300">
+                            <span class="cat-me-1 cat-font-bold">Domain:</span>
+                            <span>store.playstation.com</span>
+                        </li>
+                        <li class="cat-text-dark cat-group-hover:text-white cat-transition cat-ease-in-out cat-duration-300">
+                            <span class="cat-me-1 cat-font-bold">Games Count:</span>
+                            <span>687</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="cat-store-item">
+                <div class="cat-img-fit-cover">
+                    <img class="cat-img" src="assets/Recomendaciones/images/store-2.png" alt="">
+                </div>
+                <div class="cat-store-item-info cat-group">
+                    <h3 class="cat-h3 cat-uppercase cat-text-violet-darker cat-font-bold cat-tracking-[.04em] cat-mb-2 cat-group-hover:text-white cat-transition cat-ease-in-out cat-duration-300">Playstation Store</h3>
+                    <ul>
+                        <li class="cat-text-dark cat-group-hover:text-white cat-transition cat-ease-in-out cat-duration-300">
+                            <span class="cat-me-1 cat-font-bold">Domain:</span>
+                            <span>store.playstation.com</span>
+                        </li>
+                        <li class="cat-text-dark cat-group-hover:text-white cat-transition cat-ease-in-out cat-duration-300">
+                            <span class="cat-me-1 cat-font-bold">Games Count:</span>
+                            <span>687</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="cat-store-item">
+                <div class="cat-img-fit-cover">
+                    <img class="cat-img" src="assets/Recomendaciones/images/store-3.png" alt="">
+                </div>
+                <div class="cat-store-item-info cat-group">
+                    <h3 class="cat-h3 cat-uppercase cat-text-violet-darker cat-font-bold cat-tracking-[.04em] cat-mb-2 cat-group-hover:text-white cat-transition cat-ease-in-out cat-duration-300">Playstation Store</h3>
+                    <ul>
+                        <li class="cat-text-dark cat-group-hover:text-white cat-transition cat-ease-in-out cat-duration-300">
+                            <span class="cat-me-1 cat-font-bold">Domain:</span>
+                            <span>store.playstation.com</span>
+                        </li>
+                        <li class="cat-text-dark cat-group-hover:text-white cat-transition cat-ease-in-out cat-duration-300">
+                            <span class="cat-me-1 cat-font-bold">Games Count:</span>
+                            <span>687</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="cat-store-item">
+                <div class="cat-img-fit-cover">
+                    <img class="cat-img" src="assets/Recomendaciones/images/store-4.png" alt="">
+                </div>
+                <div class="cat-store-item-info cat-group">
+                    <h3 class="cat-h3 cat-uppercase cat-text-violet-darker cat-font-bold cat-tracking-[.04em] cat-mb-2 cat-group-hover:text-white cat-transition cat-ease-in-out cat-duration-300">Playstation Store</h3>
+                    <ul>
+                        <li class="cat-text-dark cat-group-hover:text-white cat-transition cat-ease-in-out cat-duration-300">
+                            <span class="cat-me-1 cat-font-bold">Domain:</span>
+                            <span>store.playstation.com</span>
+                        </li>
+                        <li class="cat-text-dark cat-group-hover:text-white cat-transition cat-ease-in-out cat-duration-300">
+                            <span class="cat-me-1 cat-font-bold">Games Count:</span>
+                            <span>687</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="cat-store-item">
+                <div class="cat-img-fit-cover">
+                    <img class="cat-img" src="assets/Recomendaciones/images/store-5.png" alt="">
+                </div>
+                <div class="cat-store-item-info cat-group">
+                    <h3 class="cat-h3 cat-uppercase cat-text-violet-darker cat-font-bold cat-tracking-[.04em] cat-mb-2 cat-group-hover:text-white cat-transition cat-ease-in-out cat-duration-300">Playstation Store</h3>
+                    <ul>
+                        <li class="cat-text-dark cat-group-hover:text-white cat-transition cat-ease-in-out cat-duration-300">
+                            <span class="cat-me-1 cat-font-bold">Domain:</span>
+                            <span>store.playstation.com</span>
+                        </li>
+                        <li class="cat-text-dark cat-group-hover:text-white cat-transition cat-ease-in-out cat-duration-300">
+                            <span class="cat-me-1 cat-font-bold">Games Count:</span>
+                            <span>687</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="cat-store-item">
+                <div class="cat-img-fit-cover">
+                    <img class="cat-img" src="assets/Recomendaciones/images/store-6.png" alt="">
+                </div>
+                <div class="cat-store-item-info cat-group">
+                    <h3 class="cat-h3 cat-uppercase cat-text-violet-darker cat-font-bold cat-tracking-[.04em] cat-mb-2 cat-group-hover:text-white cat-transition cat-ease-in-out cat-duration-300">Playstation Store</h3>
+                    <ul>
+                        <li class="cat-text-dark cat-group-hover:text-white cat-transition cat-ease-in-out cat-duration-300">
+                            <span class="cat-me-1 cat-font-bold">Domain:</span>
+                            <span>store.playstation.com</span>
+                        </li>
+                        <li class="cat-text-dark cat-group-hover:text-white cat-transition cat-ease-in-out cat-duration-300">
+                            <span class="cat-me-1 cat-font-bold">Games Count:</span>
+                            <span>687</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
 
 @code {
     private IEnumerable<VideojuegoModel> Elements = new List<VideojuegoModel>();
