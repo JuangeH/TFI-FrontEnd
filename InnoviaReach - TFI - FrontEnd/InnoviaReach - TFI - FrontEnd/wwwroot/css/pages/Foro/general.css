@@ -132,3 +132,13 @@ a {
     text-decoration: underline; /* Subraya el texto al pasar sobre él */
     color: #0000ff; /* Cambia el color del texto al pasar sobre él (opcional) */
 }
+
+.foro-favorite i {
+    font-size: 20px;
+    transition: font-size 0.3s ease; /* Aquí defines la transición */
+}
+
+.foro-favorite i:hover {
+    cursor: pointer;
+    font-size: 26px;
+}

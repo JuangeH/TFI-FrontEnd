@@ -12,6 +12,10 @@ main .foro-left .foro-inner-left .foro-box {
     border-radius: 0.7rem;
     margin-bottom: 0.9rem;
     box-shadow: 0 0.2rem 0.4rem rgba(0, 0, 0, 0.11), 0 0.1rem 0.1rem rgba(0, 0, 0, 0.04);
+
+    width:100%;
+    justify-content:space-between;
+    align-items:flex-start;
 }
 
 main .foro-left .foro-inner-left .foro-box .foro-img {
