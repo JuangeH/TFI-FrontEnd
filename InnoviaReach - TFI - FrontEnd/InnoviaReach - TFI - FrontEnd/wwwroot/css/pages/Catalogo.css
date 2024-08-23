@@ -1757,7 +1757,7 @@ video {
     color: rgb(255 255 255 / var(--tw-text-opacity));
 }
 
-body {
+/*body {
     font-family: Barlow, sans-serif;
     font-size: 1rem;
     line-height: 1.5rem;
@@ -1765,7 +1765,7 @@ body {
     --tw-text-opacity: 1;
     color: rgb(0 0 0 / var(--tw-text-opacity));
 }
-
+*/
 .cat-img {
     display: block;
     width: 100%;
