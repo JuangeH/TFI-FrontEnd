@@ -1,4 +1,9 @@
-﻿<MudDialog Options="_dialogOptions">
+﻿@using System.Net.Http.Json
+@using System.Net.Http.Headers
+@inject HttpClient httpClient
+@inject ISessionStorageService sessionStorage
+
+<MudDialog Options="_dialogOptions">
     <TitleContent>
         <MudText Typo="Typo.h6">
             <MudIcon Icon="@Icons.Material.Filled.Edit" Class="mr-3" /> Calificar comentario
@@ -26,12 +31,15 @@
 
     private void Cerrar() => MudDialog.Close();
 
-    private void AplicarRating() 
+    private async Task AplicarRating() 
     { 
         try
         {
-            MudDialog.Close();
             //LLAMAR ENDPOINT APLICARRATING
+            var user = await sessionStorage.GetItemAsync<LoginTokenResponse>("user");
+            httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", user.Token);
+            var result = await httpClient.PostAsJsonAsync<CalificarComentarioRequest>($"Foro/CalificarComentario", new CalificarComentarioRequest { Comentario_ID = CodigoComentario, Puntaje = _rating, User_ID=string.Empty });
+            MudDialog.Close();
         }
         catch (Exception)
         {

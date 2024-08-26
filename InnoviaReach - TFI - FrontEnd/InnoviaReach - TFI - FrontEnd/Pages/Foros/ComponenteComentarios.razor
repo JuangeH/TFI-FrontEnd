@@ -1,4 +1,6 @@
 ﻿@using InnoviaReach___TFI___FrontEnd.Dialogs
+@inject ISessionStorageService sessionStorage
+
 @* ComponenteComentarios.razor *@
 @inject IDialogService DialogService
 @foreach (var comentario in Comentarios)
@@ -26,7 +28,10 @@
                     }
                     <span>@comentario.FechaCreacion</span>
                     <i class="fa fa-reply"></i>
-                    <i class="fa fa-heart" @onclick="@(()=> Abrir(comentario.Codigo,comentario.Creador))"></i>
+                    @if (comentario.Creador != user?.UserName)
+                    {
+                        <i class="fa fa-heart" @onclick="@(()=> Abrir(comentario.Codigo,comentario.Creador))"></i>
+                    }
                 </div>
                 <div class="comment-content">
                     @comentario.Contenido
@@ -47,10 +52,33 @@
     [Parameter]
     public ForoResponse ForoSeleccionado { get; set; }
 
+    public LoginTokenResponse user;
+
     protected async Task Abrir(int codigo, string usuario)
     {
         var parameters = new DialogParameters { { "CodigoComentario", codigo }, { "Usuario", usuario } };
         var dialog = DialogService.Show<ForumRatingDialog>("Agregar DSA", parameters);
         var result = await dialog.Result;
+    }
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        try
+        {
+            if (firstRender)
+            {
+                try
+                {
+                    user = await sessionStorage.GetItemAsync<LoginTokenResponse>("user");
+                }
+                catch (Exception)
+                {
+
+                }
+            }
+        }
+        catch (Exception)
+        {
+
+        }
     }
 }

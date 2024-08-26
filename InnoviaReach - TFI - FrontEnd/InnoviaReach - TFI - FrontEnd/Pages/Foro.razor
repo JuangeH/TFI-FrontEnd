@@ -206,7 +206,10 @@
                                                     }
                                                     <span>@comentario.FechaCreacion</span>
                                                     <i class="fa fa-reply"></i>
-                                                    <i class="fa fa-heart" @onclick="@(()=> Abrir(comentario.Codigo,comentario.Creador))"></i>
+                                                    @if (comentario.Creador != user?.UserName)
+                                                    {
+                                                        <i class="fa fa-heart" @onclick="@(()=> Abrir(comentario.Codigo,comentario.Creador))"></i>
+                                                    }
                                                 </div>
                                                 <div class="comment-content">
                                                     @comentario.Contenido
