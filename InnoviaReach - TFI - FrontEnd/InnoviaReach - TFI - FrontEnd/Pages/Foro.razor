@@ -1,9 +1,12 @@
 ﻿@page "/foros"
 @using InnoviaReach___TFI___FrontEnd.Data
+@using InnoviaReach___TFI___FrontEnd.Dialogs
+@using InnoviaReach___TFI___FrontEnd.Pages.Foros
 @inherits LayoutComponentBase
 @inject IJSRuntime JSRuntime
 @inject HttpClient httpClient
 @inject ISessionStorageService sessionStorage
+@inject IDialogService DialogService
 
 <div class="foro-principal">
     <header class="foro-header" id="foro-header">
@@ -25,119 +28,130 @@
             <MudTabPanel Text="Foros Generales" OnClick="AbrirForosGenerales">
                 @if (!foroAbierto)
                 {
-                    <div class="foro-container" style="display: flex; overflow-y: auto; height: 100%; width: auto;">
-                    <div class="foro-row">
-                        <section class="foro-left">
-                            <div class="foro-inner-left">
-                                @*AGREGAR ENUM PARA LA SUSCRIPCION*@
-                                @foreach (var item in ForosGenerales)
-                                {
-                                    <div class="foro-box">
-                                        @*<div class="foro-img"> <img src="img/302688.jpg" alt="" /></div>*@
-                                        <div class="foro-details">
-                                            <p>@item.NombreVideoJuego</p>
-                                            <h3 @onclick="@(()=> AbrirForo(1))"> @item.Titulo</h3>
-                                            <div class="foro-sub-details">
-                                                <span>@item.NombreUsuarioCreador</span>
-                                                <span>@item.FechaCreado</span>
-                                                <div class="foro-comment">
-                                                    <i class="fa-solid fa-comment"></i>
-                                                    <span>@item.Visitas</span>
+                    @if (!isForumsLoading)
+                    {
+                        <div class="foro-container" style="display: flex; overflow-y: auto; height: 100%; width: auto;">
+                            <div class="foro-row">
+                                <section class="foro-left">
+                                    <div class="foro-inner-left">
+                                        @*AGREGAR ENUM PARA LA SUSCRIPCION*@
+                                        @foreach (var item in ForosGenerales)
+                                        {
+                                            <div class="foro-box">
+                                                @*<div class="foro-img"> <img src="img/302688.jpg" alt="" /></div>*@
+                                                <div class="foro-details">
+                                                    <p>@item.NombreVideoJuego</p>
+                                                    <h3 @onclick="@(()=> AbrirForo(item))"> @item.Titulo</h3>
+                                                    <div class="foro-sub-details">
+                                                        <span>@item.NombreUsuarioCreador</span>
+                                                        <span>@item.FechaCreado.ToShortDateString()</span>
+                                                        <div class="foro-views">
+                                                            <i class="fa-regular fa-eye"></i>
+                                                            <span>@item.Visitas</span>
+                                                        </div>
+                                                        <div class="foro-comment">
+                                                            <i class="fa-solid fa-comment"></i>
+                                                            <span>@item.CantidadComentarios</span>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="foro-favorite">
+                                                    <i class="fa-regular fa-bookmark"></i>
+                                                </div>
+                                            </div>
+                                        }
+                                    </div>
+                                </section>
+                                <section class="foro-right">
+                                    <div class="foro-box foro-first">
+                                        <h3>honda shadow forums</h3>
+                                        <span>since 2007</span>
+                                        <p>
+                                            Welcome to Honda Shadow Forum. Come in and discuss any Honda
+                                            Shadow models: VT1100, VT250, VT750 and the VT500.
+                                        </p>
+                                        <div class="foro-stats">
+                                            <div>
+                                                <h4>1.6M</h4>
+                                                <span>posts</span>
+                                            </div>
+                                            <div>
+                                                <h4>79.4k</h4>
+                                                <span>members</span>
+                                            </div>
+                                        </div>
+                                        <div class="foro-buttons">
+                                            <a href="#" class="foro-btn foro-btn-red"><i class="fa-solid fa-user-large"></i> join community</a>
+                                            <a href="#" class="foro-btn foro-btn-white"><i class="fa-solid fa-store"></i> grow your business</a>
+                                        </div>
+                                    </div>
+                                    <div class="foro-box foro-top-forums">
+                                        <h3>our top forums</h3>
+                                        <a href="#">View All <i class="fa-solid fa-arrow-right"></i></a>
+                                        <div class="foro-inner-box">
+                                            <h4><a href="#">general bike discussion</a></h4>
+                                            <div class="foro-stats">
+                                                <div class="foro-stat foro-comments">
+                                                    <i class="fa-solid fa-comment"></i><span> 709.4k</span>
+                                                </div>
+                                                <div class="foro-stat foro-views">
+                                                    <i class="fa-regular fa-eye"></i><span>104.4M</span>
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="foro-favorite">
-                                            <i class="fa-regular fa-bookmark"></i>
+                                        <div class="foro-inner-box">
+                                            <h4><a href="#">technical discussion</a></h4>
+                                            <div class="foro-stats">
+                                                <div class="foro-stat foro-comments">
+                                                    <i class="fa-solid fa-comment"></i><span> 599.1k</span>
+                                                </div>
+                                                <div class="foro-stat foro-views">
+                                                    <i class="fa-regular fa-eye"></i><span>81.3M</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="foro-inner-box">
+                                            <h4><a href="#">member introductions</a></h4>
+                                            <div class="foro-stats">
+                                                <div class="foro-stat foro-comments">
+                                                    <i class="fa-solid fa-comment"></i><span> 189.5k</span>
+                                                </div>
+                                                <div class="foro-stat foro-views">
+                                                    <i class="fa-regular fa-eye"></i><span>19.5M</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="foro-inner-box">
+                                            <h4><a href="#">road stories</a></h4>
+                                            <div class="foro-stats">
+                                                <div class="foro-stat foro-comments">
+                                                    <i class="fa-solid fa-comment"></i><span> 133.5k</span>
+                                                </div>
+                                                <div class="foro-stat foro-views">
+                                                    <i class="fa-regular fa-eye"></i><span>7.7M</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="foro-inner-box">
+                                            <h4><a href="#">honda shadow videos</a></h4>
+                                            <div class="foro-stats">
+                                                <div class="foro-stat foro-comments">
+                                                    <i class="fa-solid fa-comment"></i><span> 123.1k</span>
+                                                </div>
+                                                <div class="foro-stat foro-views">
+                                                    <i class="fa-regular fa-eye"></i><span>16.3M</span>
+                                                </div>
+                                            </div>
                                         </div>
                                     </div>
-                                }
+                                </section>
                             </div>
-                        </section>
-                        <section class="foro-right">
-                            <div class="foro-box foro-first">
-                                <h3>honda shadow forums</h3>
-                                <span>since 2007</span>
-                                <p>
-                                    Welcome to Honda Shadow Forum. Come in and discuss any Honda
-                                    Shadow models: VT1100, VT250, VT750 and the VT500.
-                                </p>
-                                <div class="foro-stats">
-                                    <div>
-                                        <h4>1.6M</h4>
-                                        <span>posts</span>
-                                    </div>
-                                    <div>
-                                        <h4>79.4k</h4>
-                                        <span>members</span>
-                                    </div>
-                                </div>
-                                <div class="foro-buttons">
-                                    <a href="#" class="foro-btn foro-btn-red"><i class="fa-solid fa-user-large"></i> join community</a>
-                                    <a href="#" class="foro-btn foro-btn-white"><i class="fa-solid fa-store"></i> grow your business</a>
-                                </div>
-                            </div>
-                            <div class="foro-box foro-top-forums">
-                                <h3>our top forums</h3>
-                                <a href="#">View All <i class="fa-solid fa-arrow-right"></i></a>
-                                <div class="foro-inner-box">
-                                    <h4><a href="#">general bike discussion</a></h4>
-                                    <div class="foro-stats">
-                                        <div class="foro-stat foro-comments">
-                                            <i class="fa-solid fa-comment"></i><span> 709.4k</span>
-                                        </div>
-                                        <div class="foro-stat foro-views">
-                                            <i class="fa-regular fa-eye"></i><span>104.4M</span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="foro-inner-box">
-                                    <h4><a href="#">technical discussion</a></h4>
-                                    <div class="foro-stats">
-                                        <div class="foro-stat foro-comments">
-                                            <i class="fa-solid fa-comment"></i><span> 599.1k</span>
-                                        </div>
-                                        <div class="foro-stat foro-views">
-                                            <i class="fa-regular fa-eye"></i><span>81.3M</span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="foro-inner-box">
-                                    <h4><a href="#">member introductions</a></h4>
-                                    <div class="foro-stats">
-                                        <div class="foro-stat foro-comments">
-                                            <i class="fa-solid fa-comment"></i><span> 189.5k</span>
-                                        </div>
-                                        <div class="foro-stat foro-views">
-                                            <i class="fa-regular fa-eye"></i><span>19.5M</span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="foro-inner-box">
-                                    <h4><a href="#">road stories</a></h4>
-                                    <div class="foro-stats">
-                                        <div class="foro-stat foro-comments">
-                                            <i class="fa-solid fa-comment"></i><span> 133.5k</span>
-                                        </div>
-                                        <div class="foro-stat foro-views">
-                                            <i class="fa-regular fa-eye"></i><span>7.7M</span>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="foro-inner-box">
-                                    <h4><a href="#">honda shadow videos</a></h4>
-                                    <div class="foro-stats">
-                                        <div class="foro-stat foro-comments">
-                                            <i class="fa-solid fa-comment"></i><span> 123.1k</span>
-                                        </div>
-                                        <div class="foro-stat foro-views">
-                                            <i class="fa-regular fa-eye"></i><span>16.3M</span>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </section>
-                    </div>
-                </div>
+                        </div>
+                    }
+                    else
+                    {
+                       <SpinnerLoading show=@isForumsLoading/>
+                    }
                 }
                 else
                 {
@@ -149,149 +163,64 @@
                                         <div class="comment-avatar"><img src="http://i9.photobucket.com/albums/a88/creaticode/avatar_1_zps8e1c80cd.jpg" alt=""></div>
                                         <div class="comment-box">
                                             <div class="comment-head">
-                                                <h6 class="comment-name by-author"><a href="http://creaticode.com/blog">Agustin Ortiz</a></h6>
-                                                <span>hace 20 minutos</span>
-                                                <i class="fa fa-reply"></i>
-                                                <i class="fa fa-heart"></i>
+                                                <h6 class="comment-name by-author">@ForoSeleccionado.NombreUsuarioCreador</h6>
+                                                <span>@ForoSeleccionado.FechaCreado</span>
+                                                @*<i class="fa fa-reply"></i>
+                                                <i class="fa fa-heart"></i>*@
                                             </div>
                                             <div class="comment-content">
-                                                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Velit omnis animi et iure laudantium vitae, praesentium optio, sapiente distinctio illo?
+                                               @ForoSeleccionado.Descripcion
                                             </div>
                                         </div>
                                     </div>
                                 </li>
                             </ul>
                         </div>
-                        <div class="newPost">
-                            <h3>Add New Post</h3>
-                            <input type="text" placeholder="Enter title here">
-                            <div class="toolbar">
-                                <button type="button" data-func="bold"><i class="fa fa-bold"></i></button>
-                                <button type="button" data-func="italic"><i class="fa fa-italic"></i></button>
-                                <button type="button" data-func="underline"><i class="fa fa-underline"></i></button>
-                                <button type="button" data-func="justifyleft"><i class="fa fa-align-left"></i></button>
-                                <button type="button" data-func="justifycenter"><i class="fa fa-align-center"></i></button>
-                                <button type="button" data-func="justifyright"><i class="fa fa-align-right"></i></button>
-                                <button type="button" data-func="insertunorderedlist"><i class="fa fa-list-ul"></i></button>
-                                <button type="button" data-func="insertorderedlist"><i class="fa fa-list-ol"></i></button>
-                                <div class="customSelect">
-                                    <select data-func="fontname">
-                                        <optgroup label="Serif Fonts">
-                                            <option value="Bree Serif">Bree Serif</option>
-                                            <option value="Georgia">Georgia</option>
-                                            <option value="Palatino Linotype">Palatino Linotype</option>
-                                            <option value="Times New Roman">Times New Roman</option>
-                                        </optgroup>
-                                        <optgroup label="Sans Serif Fonts">
-                                            <option value="Arial">Arial</option>
-                                            <option value="Arial Black">Arial Black</option>
-                                            <option value="Asap" selected>Asap</option>
-                                            <option value="Comic Sans MS">Comic Sans MS</option>
-                                            <option value="Impact">Impact</option>
-                                            <option value="Lucida Sans Unicode">Lucida Sans Unicode</option>
-                                            <option value="Tahoma">Tahoma</option>
-                                            <option value="Trebuchet MS">Trebuchet MS</option>
-                                            <option value="Verdana">Verdana</option>
-                                        </optgroup>
-                                        <optgroup label="Monospace Fonts">
-                                            <option value="Courier New">Courier New</option>
-                                            <option value="Lucida Console">Lucida Console</option>
-                                        </optgroup>
-                                    </select>
-                                </div>
-                                <div class="customSelect">
-                                    <select data-func="formatblock">
-                                        <option value="h1">Heading 1</option>
-                                        <option value="h2">Heading 2</option>
-                                        <option value="h4">Subtitle</option>
-                                        <option value="p" selected>Paragraph</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="editor" contenteditable></div>
-                            <div class="buttons">
-                                <!--<button type="button">save draft</button>-->
-                                <button data-func="clear" type="button">clear</button>
-                                <button data-func="save" type="button">save</button>
-                            </div>
-                        </div>
+                        <ComponenteCargaComentario/>
                         <!-- Contenedor Principal -->
                         <div class="comments-container">
                             <h1>Comentarios </h1>
                             <ul id="comments-list" class="comments-list">
-                                <li>
-                                    <div class="comment-main-level">
-                                        <!-- Avatar -->
-                                        <div class="comment-avatar"><img src="http://i9.photobucket.com/albums/a88/creaticode/avatar_1_zps8e1c80cd.jpg" alt=""></div>
-                                        <!-- Contenedor del Comentario -->
-                                        <div class="comment-box">
-                                            <div class="comment-head">
-                                                <h6 class="comment-name by-author"><a href="http://creaticode.com/blog">Agustin Ortiz</a></h6>
-                                                <span>hace 20 minutos</span>
-                                                <i class="fa fa-reply"></i>
-                                                <i class="fa fa-heart"></i>
-                                            </div>
-                                            <div class="comment-content">
-                                                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Velit omnis animi et iure laudantium vitae, praesentium optio, sapiente distinctio illo?
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <!-- Respuestas de los comentarios -->
-                                    <ul class="comments-list reply-list">
-                                        <li>
+                                @foreach (var comentario in ComentariosRaiz)
+                                {
+                                    <li>
+                                        <div class="comment-main-level">
                                             <!-- Avatar -->
-                                            <div class="comment-avatar"><img src="http://i9.photobucket.com/albums/a88/creaticode/avatar_2_zps7de12f8b.jpg" alt=""></div>
+                                            <div class="comment-avatar">
+                                                <img src="http://i9.photobucket.com/albums/a88/creaticode/avatar_1_zps8e1c80cd.jpg" alt="">
+                                                <MudRating SelectedValue="1" ReadOnly="true" MaxValue="1" />
+                                                <div class="comment-punctuation">
+                                                    @comentario.PromedioPuntaje (@comentario.CantidadVotos)
+                                                </div>
+                                            </div>
                                             <!-- Contenedor del Comentario -->
                                             <div class="comment-box">
                                                 <div class="comment-head">
-                                                    <h6 class="comment-name"><a href="http://creaticode.com/blog">Lorena Rojero</a></h6>
-                                                    <span>hace 10 minutos</span>
+                                                    @if (comentario.Creador==ForoSeleccionado.NombreUsuarioCreador)
+                                                    {
+                                                        <h6 class="comment-name by-author">@comentario.Creador</h6>
+                                                    }
+                                                    else
+                                                    {
+                                                        <h6 class="comment-name">@comentario.Creador</h6>
+                                                    }
+                                                    <span>@comentario.FechaCreacion</span>
                                                     <i class="fa fa-reply"></i>
-                                                    <i class="fa fa-heart"></i>
+                                                    <i class="fa fa-heart" @onclick="@(()=> Abrir(comentario.Codigo,comentario.Creador))"></i>
                                                 </div>
                                                 <div class="comment-content">
-                                                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Velit omnis animi et iure laudantium vitae, praesentium optio, sapiente distinctio illo?
+                                                    @comentario.Contenido
                                                 </div>
-                                            </div>
-                                        </li>
-
-                                        <li>
-                                            <!-- Avatar -->
-                                            <div class="comment-avatar"><img src="http://i9.photobucket.com/albums/a88/creaticode/avatar_1_zps8e1c80cd.jpg" alt=""></div>
-                                            <!-- Contenedor del Comentario -->
-                                            <div class="comment-box">
-                                                <div class="comment-head">
-                                                    <h6 class="comment-name by-author"><a href="http://creaticode.com/blog">Agustin Ortiz</a></h6>
-                                                    <span>hace 10 minutos</span>
-                                                    <i class="fa fa-reply"></i>
-                                                    <i class="fa fa-heart"></i>
-                                                </div>
-                                                <div class="comment-content">
-                                                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Velit omnis animi et iure laudantium vitae, praesentium optio, sapiente distinctio illo?
-                                                </div>
-                                            </div>
-                                        </li>
-                                    </ul>
-                                </li>
-
-                                <li>
-                                    <div class="comment-main-level">
-                                        <!-- Avatar -->
-                                        <div class="comment-avatar"><img src="http://i9.photobucket.com/albums/a88/creaticode/avatar_2_zps7de12f8b.jpg" alt=""></div>
-                                        <!-- Contenedor del Comentario -->
-                                        <div class="comment-box">
-                                            <div class="comment-head">
-                                                <h6 class="comment-name"><a href="http://creaticode.com/blog">Lorena Rojero</a></h6>
-                                                <span>hace 10 minutos</span>
-                                                <i class="fa fa-reply"></i>
-                                                <i class="fa fa-heart"></i>
-                                            </div>
-                                            <div class="comment-content">
-                                                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Velit omnis animi et iure laudantium vitae, praesentium optio, sapiente distinctio illo?
                                             </div>
                                         </div>
-                                    </div>
-                                </li>
+                                    </li>
+                                    @if (comentario.Respuestas.Any())
+                                    {
+                                        @* Llamada recursiva para mostrar respuestas *@
+                                        <ComponenteComentarios Comentarios="@comentario.Respuestas" ForoSeleccionado="ForoSeleccionado"/>
+                                        
+                                    }
+                                }
                             </ul>
                         </div>
                     </div>
@@ -439,17 +368,37 @@
     </main>
 </div>
 
-
 @code {
+    private bool isForumsLoading;
+    private bool _visible;
+    private int _rating;
+    private readonly DialogOptions _dialogOptions = new() { FullWidth = true };
+
+    protected async Task Abrir(int codigo, string usuario)
+    {
+        var parameters = new DialogParameters { { "CodigoComentario", codigo }, { "Usuario", usuario } };
+        var dialog = DialogService.Show<ForumRatingDialog>("Agregar DSA", parameters);
+        var result = await dialog.Result;
+    }
+
     public List<ForoResponse> ForosGenerales = new();
+
+    [Parameter]
+    public ForoResponse ForoSeleccionado { get; set; }
+
+    public ICollection<ComentarioResponse> Comentarios = new HashSet<ComentarioResponse>();
+    public ICollection<ComentarioResponse> ComentariosRaiz = new HashSet<ComentarioResponse>();
     public LoginTokenResponse user;
     public bool foroAbierto;
+    public string? foroSeleccionado;
 
     protected override async Task OnInitializedAsync()
     {
         try
         {
             foroAbierto = false;
+            isForumsLoading = true;
+            foroSeleccionado = "";
             StateHasChanged();
         }
         catch (Exception)
@@ -472,26 +421,33 @@
                 }
                 catch (Exception) 
                 { 
-                
+
                 }
 
                 // Esperar un breve momento para asegurarse de que el componente se haya renderizado completamente
-                await Task.Delay(100);
-                StateHasChanged();
+                await Task.Delay(3000);
             }
         }
         catch (Exception)
         {
 
         }
+        finally
+        {
+            isForumsLoading = false;
+            StateHasChanged();
+        }
 
     }
 
-    protected async Task AbrirForo(int ID_Foro)
+    protected async Task AbrirForo(ForoResponse Foro)
     {
         try
         {
             //EN ESTA PARTE VAMOS A TENER QUE HACER UN LLAMADO A LA API PARA OBTENER EL FORO QUE SE DESEA ABRIR
+            Comentarios = await httpClient.GetFromJsonAsync<List<ComentarioResponse>>($"Foro/ObtenerComentariosPorForo?ForoId={Foro.Codigo}");
+            ComentariosRaiz = ConstruirJerarquiaDeComentarios(Comentarios);
+            ForoSeleccionado = Foro;
             foroAbierto = true;
         }
         catch (Exception)
@@ -506,6 +462,34 @@
             StateHasChanged();
         }
     }
+    protected ICollection<ComentarioResponse> ConstruirJerarquiaDeComentarios(ICollection<ComentarioResponse> todosLosComentarios)
+    {
+        // Crear un diccionario para buscar comentarios por su código
+        var comentarioDict = todosLosComentarios.ToDictionary(c => c.Codigo);
+
+        // Crear una lista para los comentarios raíz
+        var comentariosRaiz = new HashSet<ComentarioResponse>();
+
+        foreach (var comentario in todosLosComentarios)
+        {
+            if (comentario.ComentarioPadre_Codigo.HasValue)
+            {
+                // Si tiene un comentario padre, agregarlo a las respuestas de su padre
+                if (comentarioDict.TryGetValue(comentario.ComentarioPadre_Codigo.Value, out var padre))
+                {
+                    padre.Respuestas.Add(comentario);
+                }
+            }
+            else
+            {
+                // Si no tiene un comentario padre, es un comentario raíz
+                comentariosRaiz.Add(comentario);
+            }
+        }
+
+        return comentariosRaiz;
+    }
+
 
     protected async Task AbrirForosGenerales()
     {
@@ -513,27 +497,4 @@
         StateHasChanged();
     }
 
-    ////private List<Data.Data.ForoClass> forosGenerales = new();
-    ////private Data.Data.ForoClass selectedForo;
-
-    ////protected override async Task OnInitializedAsync()
-    ////{
-    ////    // Aquí deberías cargar las listas de foros desde tu fuente de datos (API, base de datos, etc.)
-    ////    forosGenerales = await ObtenerForosGenerales();
-    ////}
-
-    ////private Task<List<Data.Data.ForoClass>> ObtenerForosGenerales()
-    ////{
-    ////    // Lógica para obtener los foros generales desde la API o base de datos
-    ////    return global::System.Threading.Tasks.global::System.<global::System.Collections.Generic.List<global::InnoviaReach___TFI___FrontEnd.Data.ForoClass>>(Tglobal::System.Collections.Generic.List<global::InnoviaReach___TFI___FrontEnd.Data.ForoClass>)hreaglobal::System.Collections.Generic.ding.global::InnoviaReach___TFI___FrontEnd.Data.Tasks.Task.FromResult<global::System.Collections.Generic.List<global::InnoviaReach___TFI___FrontEnd.Data.ForoClass>>((global::System.Collections.Generic.List<global::InnoviaReach___TFI___FrontEnd.Data.ForoClass>)new global::System.Collections.Generic.List<global::InnoviaReach___TFI___FrontEnd.Data.ForoClass>
-    ////    {
-    ////        new global::InnoviaReach___TFI___FrontEnd.Data.global::InnoviaReach___TFI___FrontEnd.Data.ForoClass { Id = 1, Titulo = "Foro 1", Descripcion = "Descripción del Foro 1", Creador = "Usuario1", CantidadParticipantes = 5, CantidadComentarios = 10, PuntuacionMedia = 4.5 },
-    ////        new global::InnoviaReach___TFI___FrontEnd.Data.global::InnoviaReach___TFI___FrontEnd.Data.ForoClass { Id = 2, Titulo = "Foro 2", Descripcion = "Descripción del Foro 2", Creador = "Usuario2", CantidadParticipantes = 8, CantidadComentarios = 20, PuntuacionMedia = 4.8 }
-    ////    });
-    ////}
-
-    ////private void CrearNuevoForo()
-    ////{
-    ////    // Lógica para crear un nuevo foro
-    ////}
 }

@@ -12,27 +12,6 @@
 @using System.Net.Http.Json
 @using Newtonsoft.Json
 
-@*<EditForm Model="@_loginRequest" OnValidSubmit="OnValidSubmit">
-<DataAnnotationsValidator/>
-<MudGrid Justify="Justify.Center">
-    <MudItem xs="12" sm="7">
-        <MudCard>
-            <MudCardContent>
-                <MudTextField Label="Email" Class="mt-3"
-                                  @bind-Value="_loginRequest.username" For="@(() => _loginRequest.username)" />
-                <MudTextField Label="Password" Class="mt-3"
-                                  @bind-Value="_loginRequest.password" InputType="InputType.Password" For="@(() => _loginRequest.password)" />
-            </MudCardContent>
-            <MudCardActions>
-                    <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary" OnClick="@Submit" Class="ml-auto">Iniciar sesión</MudButton>
-            </MudCardActions>
-            <MudCardActions>
-                    <MudButton ButtonType="ButtonType.Button" Variant="Variant.Filled" Color="Color.Secondary" OnClick="@Register" Class="ml-auto">Registrarse</MudButton>
-            </MudCardActions>
-        </MudCard>
-    </MudItem>
-</MudGrid>
-</EditForm>*@
 <div class="login-container">
 
     <div class="form-wrapper">
@@ -71,7 +50,7 @@
                         least 1 Alphabet and 1 Number
                     </div>
                 </div>
-                <button class="my-form__button" type="submit">
+                <button class="my-form__button" type="submit" disabled="@isSubmitting">
                     Sign In
                 </button>
                 <div class="my-form__actions">
@@ -98,11 +77,10 @@
             </div>
         </aside>
     </div>
-
 </div>
 
-
 @code {
+    bool isSubmitting = false;
     bool success;
     LoginRequest _loginRequest = new LoginRequest();
     [Inject]
@@ -110,10 +88,13 @@
 
     protected async Task Submit()
     {
+        if (isSubmitting) return; // Prevenir múltiples envíos
+        isSubmitting = true; // Deshabilitar el botón de envío
+
         try
         {
             string url = "https://localhost:44308/Auth/Login?username=" + _loginRequest.username + "&password=" + _loginRequest.password;
-            var response = await httpClient.PostAsJsonAsync(url,_loginRequest);
+            var response = await httpClient.PostAsJsonAsync(url, _loginRequest);
 
             if (response.IsSuccessStatusCode)
             {
@@ -123,16 +104,19 @@
 
                 NavManager.NavigateTo("/");
             }
-            else{
+            else
+            {
                 throw new Exception("Error");
             }
-
         }
         catch (Exception ex)
         {
-            DialogService.Show<DialogError>(ex.Message);
+            await DialogService.Show<DialogError>(ex.Message).Result;
         }
-
+        finally
+        {
+            isSubmitting = false; // Habilitar el botón de envío de nuevo
+        }
     }
     protected async Task Register()
     {

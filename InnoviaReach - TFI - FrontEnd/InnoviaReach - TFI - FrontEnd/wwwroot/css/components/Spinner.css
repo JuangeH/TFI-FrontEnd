@@ -1,0 +1,98 @@
+﻿/* KEYFRAMES */
+
+@keyframes spin3D {
+    from {
+        transform: rotate3d(.5, .5, .5, 360deg);
+    }
+
+    to {
+        transform: rotate3d(0deg);
+    }
+}
+
+/* SPINNER BOX */
+
+.spinner-box {
+    width: 300px;
+    height: 300px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: transparent;
+}
+
+/* ORBITS */
+
+.leo {
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 50%;
+}
+
+.blue-orbit {
+    width: 165px;
+    height: 165px;
+    border: 1px solid #91daffa5;
+    animation: spin3D 3s linear .2s infinite;
+}
+
+.green-orbit {
+    width: 120px;
+    height: 120px;
+    border: 1px solid #91ffbfa5;
+    animation: spin3D 2s linear 0s infinite;
+}
+
+.red-orbit {
+    width: 90px;
+    height: 90px;
+    border: 1px solid #ffca91a5;
+    animation: spin3D 1s linear 0s infinite;
+}
+
+.white-orbit {
+    width: 60px;
+    height: 60px;
+    border: 2px solid #ffffff;
+    animation: spin3D 10s linear 0s infinite;
+}
+
+.w1 {
+    transform: rotate3D(1, 1, 1, 90deg);
+}
+
+.w2 {
+    transform: rotate3D(1, 2, .5, 90deg);
+}
+
+.w3 {
+    transform: rotate3D(.5, 1, 2, 90deg);
+}
+
+.spinner-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5); /* Fondo semitransparente */
+    z-index: 9999; /* Valor alto para que se coloque encima de otros elementos */
+    opacity: 0; /* Inicialmente, establece la opacidad en 0 */
+    transition: opacity 0.5s; /* Agrega una transición de 0.3 segundos para la propiedad de opacidad */
+    display: flex; 
+    align-items: center; 
+    justify-content: center;
+}
+
+.spinner-overlay.show {
+    opacity: 1; /* Al agregar la clase "show", la opacidad se establece en 1 */
+    animation: fadeIn 0.5s;
+}
+
+.spinner-overlay.fade-out {
+    opacity: 0;
+    transition: opacity 0.3s, visibility 0s linear 0.3s; /* Ajusta la transición de opacidad para que se realice después de 0.3 segundos */
+    visibility: hidden; /* Oculta el overlay después de la transición */
+}

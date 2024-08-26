@@ -53,17 +53,17 @@ main .foro-left .foro-inner-left .foro-box .foro-details .foro-sub-details span 
     color: var(--darkGrayColor);
 }
 
-main .foro-left .foro-inner-left .foro-box .foro-details .foro-sub-details .foro-comment {
-    padding: 0.2rem 0.8rem 0;
-    background-color: var(--lightWhiteColor);
-    color: var(--darkGrayColor);
-    font-size: 1.3rem;
-    height: 2rem;
-    display: flex;
-    align-items: center;
-    gap: 0.4rem;
-    border-radius: 0.3rem;
-}
+    .foro-comment, .foro-views {
+        padding: 0.2rem 0.8rem 0;
+        background-color: var(--lightWhiteColor);
+        color: var(--darkGrayColor);
+        font-size: 1.3rem;
+        height: 2rem;
+        display: flex;
+        align-items: center;
+        gap: 0.4rem;
+        border-radius: 0.3rem;
+    }
 
 /*main .foro-right {
     display: none;

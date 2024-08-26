@@ -1,0 +1,41 @@
+﻿<MudDialog Options="_dialogOptions">
+    <TitleContent>
+        <MudText Typo="Typo.h6">
+            <MudIcon Icon="@Icons.Material.Filled.Edit" Class="mr-3" /> Calificar comentario
+        </MudText>
+    </TitleContent>
+    <DialogContent>
+        <p>De @Usuario</p>
+        <MudRating @bind-SelectedValue="_rating" Class="mt-3" @onclick="@(()=> AplicarRating())" />
+    </DialogContent>
+    <DialogActions>
+        <MudButton Variant="Variant.Filled" Color="Color.Primary" OnClick="Cerrar" Class="px-10">Close</MudButton>
+    </DialogActions>
+</MudDialog>
+
+@code {
+    [CascadingParameter]
+    MudDialogInstance MudDialog { get; set; }
+
+    [Parameter] public int CodigoComentario { get; set; }
+    [Parameter] public string Usuario { get; set; }
+
+    private bool _visible;
+    private int _rating;
+    private readonly DialogOptions _dialogOptions = new() { FullWidth = true };
+
+    private void Cerrar() => MudDialog.Close();
+
+    private void AplicarRating() 
+    { 
+        try
+        {
+            MudDialog.Close();
+            //LLAMAR ENDPOINT APLICARRATING
+        }
+        catch (Exception)
+        {
+            
+        }
+    }
+}

@@ -1,0 +1,56 @@
+﻿@using InnoviaReach___TFI___FrontEnd.Dialogs
+@* ComponenteComentarios.razor *@
+@inject IDialogService DialogService
+@foreach (var comentario in Comentarios)
+{
+    <ul class="comments-list reply-list">
+        <li>
+            <!-- Avatar -->
+            <div class="comment-avatar">
+                <img src="http:i9.photobucket.com/albums/a88/creaticode/avatar_2_zps7de12f8b.jpg" alt="">
+                <MudRating SelectedValue="1" ReadOnly="true" MaxValue="1" />
+                <div class="comment-punctuation">
+                    @comentario.PromedioPuntaje (@comentario.CantidadVotos)
+                </div>
+            </div>
+            <!-- Contenedor del Comentario -->
+            <div class="comment-box">
+                <div class="comment-head">
+                    @if (comentario.Creador == ForoSeleccionado.NombreUsuarioCreador)
+                    {
+                        <h6 class="comment-name by-author">@comentario.Creador</h6>
+                    }
+                    else
+                    {
+                        <h6 class="comment-name">@comentario.Creador</h6>
+                    }
+                    <span>@comentario.FechaCreacion</span>
+                    <i class="fa fa-reply"></i>
+                    <i class="fa fa-heart" @onclick="@(()=> Abrir(comentario.Codigo,comentario.Creador))"></i>
+                </div>
+                <div class="comment-content">
+                    @comentario.Contenido
+                </div>
+            </div>
+        </li>
+    </ul>
+    @if (comentario.Respuestas.Any())
+    {
+        <ComponenteComentarios Comentarios="@comentario.Respuestas" ForoSeleccionado="ForoSeleccionado"/>
+    }
+}
+
+@code {
+    [Parameter]
+    public ICollection<ComentarioResponse> Comentarios { get; set; }
+
+    [Parameter]
+    public ForoResponse ForoSeleccionado { get; set; }
+
+    protected async Task Abrir(int codigo, string usuario)
+    {
+        var parameters = new DialogParameters { { "CodigoComentario", codigo }, { "Usuario", usuario } };
+        var dialog = DialogService.Show<ForumRatingDialog>("Agregar DSA", parameters);
+        var result = await dialog.Result;
+    }
+}

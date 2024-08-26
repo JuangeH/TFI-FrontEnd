@@ -3,6 +3,7 @@ using InnoviaReach___TFI___FrontEnd.Data;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.Extensions.DependencyInjection;
+using MudBlazor;
 using MudBlazor.Services;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -12,6 +13,8 @@ builder.Services.AddRazorPages();
 builder.Services.AddBlazoredSessionStorage();
 builder.Services.AddServerSideBlazor();
 builder.Services.AddMudServices();
+builder.Services.AddScoped<IDialogService, MudBlazor.DialogService>();
+builder.Services.AddScoped<MudThemeProvider>();
 builder.Services.AddHttpClient();
 builder.Services.AddSingleton<HttpClient>(sp =>
 {
