@@ -27,21 +27,25 @@
                         <h6 class="comment-name">@comentario.Creador</h6>
                     }
                     <span>@comentario.FechaCreacion</span>
-                    <i class="fa fa-reply"></i>
+                    <i class="fa fa-reply" @onclick="@(() => ToggleRespuesta(comentario.Codigo))"></i>
                     @if (comentario.Creador != user?.UserName)
                     {
                         <i class="fa fa-heart" @onclick="@(()=> Abrir(comentario.Codigo,comentario.Creador))"></i>
                     }
                 </div>
                 <div class="comment-content">
-                    @comentario.Contenido
+                    @(new MarkupString (@comentario.Contenido))
                 </div>
+                @if (ComentarioAbierto == comentario.Codigo)
+                {
+                    <ComponenteCargaRespuesta comentarioPadre_Codigo="comentario.Codigo" foro_Codigo="ForoSeleccionado.Codigo" comentarioPadre_Creador="@comentario.Creador" RegistrarComentarioCallBack="RegistrarComentarioCallBack" />
+                }
             </div>
         </li>
     </ul>
     @if (comentario.Respuestas.Any())
     {
-        <ComponenteComentarios Comentarios="@comentario.Respuestas" ForoSeleccionado="ForoSeleccionado"/>
+        <ComponenteComentarios Comentarios="@comentario.Respuestas" ForoSeleccionado="ForoSeleccionado" ComentarioAbierto="ComentarioAbierto" OnToggleRespuesta="@ToggleRespuesta" RegistrarComentarioCallBack="RegistrarComentarioCallBack" />
     }
 }
 
@@ -52,7 +56,23 @@
     [Parameter]
     public ForoResponse ForoSeleccionado { get; set; }
 
+    // Propiedad para rastrear cuál comentario tiene la respuesta abierta
+    [Parameter]
+    public int? ComentarioAbierto { get; set; }
+
+    [Parameter]
+    public EventCallback<int> OnToggleRespuesta { get; set; }
+
+    [Parameter]
+    public EventCallback RegistrarComentarioCallBack { get; set; }
+
+
     public LoginTokenResponse user;
+
+    private async Task ToggleRespuesta(int codigoComentario)
+    {
+        await OnToggleRespuesta.InvokeAsync(codigoComentario);
+    }
 
     protected async Task Abrir(int codigo, string usuario)
     {

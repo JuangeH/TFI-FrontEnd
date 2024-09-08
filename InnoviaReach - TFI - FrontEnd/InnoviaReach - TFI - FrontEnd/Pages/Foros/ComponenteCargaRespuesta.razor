@@ -1,0 +1,47 @@
+﻿@using System.Net.Http.Headers
+@inject ISessionStorageService sessionStorage
+@inject HttpClient httpClient
+
+<div class="msger-inputarea">
+    <input type="text" class="msger-input" placeholder="Agrega una respuesta..." @bind="contenido">
+    <button type="submit" class="msger-send-btn" @onclick="@(() => RegistrarComentario())">Enviar</button>
+</div>
+
+@code {
+
+    [Parameter]
+    public string contenido { get; set; }
+
+    [Parameter]
+    public int? comentarioPadre_Codigo { get; set; }
+
+    [Parameter]
+    public string comentarioPadre_Creador { get; set; }
+
+    [Parameter]
+    public int foro_Codigo { get; set; }
+
+    [Parameter]
+    public EventCallback RegistrarComentarioCallBack { get; set; }
+
+
+    private async Task RegistrarComentario()
+    {
+        try
+        {
+            //LLAMAR ENDPOINT APLICARRATING
+            var user = await sessionStorage.GetItemAsync<LoginTokenResponse>("user");
+            httpClient.DefaultRequestHeaders.Clear();
+            httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", user.Token);
+
+            var request = new ComentarioRequest { Contenido = "@" + comentarioPadre_Creador + " " + contenido, Foro_Codigo = foro_Codigo, ComentarioPadre_Codigo = comentarioPadre_Codigo, User_ID = string.Empty, FechaCreacion = DateTime.Now };
+            var result = await httpClient.PostAsJsonAsync<ComentarioRequest>($"Foro/RegistrarComentario", request);
+
+            await RegistrarComentarioCallBack.InvokeAsync();
+        }
+        catch (Exception)
+        {
+
+        }
+    }
+}

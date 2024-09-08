@@ -171,9 +171,10 @@ body {
     width: 680px;
     float: right;
     position: relative;
+    /*
     -webkit-box-shadow: 0 1px 1px rgba(0,0,0,0.15);
     -moz-box-shadow: 0 1px 1px rgba(0,0,0,0.15);
-    box-shadow: 0 1px 1px rgba(0,0,0,0.15);
+    box-shadow: 0 1px 1px rgba(0,0,0,0.15);*/
 }
 
     .comments-list .comment-box:before, .comments-list .comment-box:after {
@@ -246,6 +247,7 @@ body {
 }
 
 .comment-box .comment-content {
+    word-wrap: break-word; /* asegura que el texto largo se rompa para ajustarse al contenedor */
     background: #FFF;
     padding: 12px;
     font-size: 15px;

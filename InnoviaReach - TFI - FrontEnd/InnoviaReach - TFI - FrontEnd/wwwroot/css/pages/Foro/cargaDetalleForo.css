@@ -1,7 +1,7 @@
 ﻿@import url(https://fonts.googleapis.com/css?family=Asap:400,700);
 @import url(https://fonts.googleapis.com/css?family=Bree+Serif&subset=latin-ext,latin);
 
-*, *:before, *:after {
+/**, *:before, *:after {
     box-sizing: border-box;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: greyscale;
@@ -9,7 +9,7 @@
 
 body {
     background: #E9F0F4;
-}
+}*/
 
 .newPost {
     margin: 18px;
@@ -101,6 +101,7 @@ body {
         }
 
     .newPost .editor {
+        font-size: medium;
         background: #FFF;
         min-height: 150px; /*(ANTES ERA 300px)*/
         width: 100%;

@@ -1,0 +1,102 @@
+﻿@using System.Net.Http.Headers
+@inject ISessionStorageService sessionStorage
+@inject HttpClient httpClient
+
+<MudDialog>
+    <DialogContent>
+        <MudTable Items="@Videojuegos" MultiSelection="false" Filter="new Func<VideojuegoForoReponse,bool>(FilterFunc1)" @bind-SelectedItem="selectedItem1">
+            <ToolBarContent>
+                <MudText Typo="Typo.h6">Videojuegos</MudText>
+                <MudSpacer />
+                <MudTextField @bind-Value="searchString1" Placeholder="Search" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0"></MudTextField>
+            </ToolBarContent>
+            <RowTemplate>
+                <MudTd DataLabel="Nombre">@context.Nombre</MudTd>
+            </RowTemplate>
+            <PagerContent>
+                <MudTablePager DisableRowsPerPage="true"/>
+            </PagerContent>
+        </MudTable>
+        @if (selectedItem1!=null)
+        {
+            <MudField Label="Videojuego seleccionado" Class="mt-3">@selectedItem1.Nombre</MudField>
+        }
+        <EditForm Model="@foroRequest">
+            <MudTextField Label="Titulo" Class="mt-3"
+                          @bind-Value="foroRequest.Titulo" For="@(() => foroRequest.Titulo)" />
+            <MudTextField Label="Descripción" Class="mt-3"
+                          @bind-Value="foroRequest.Descripcion" For="@(() => foroRequest.Descripcion)" />
+        </EditForm>
+    </DialogContent>
+    <DialogActions>
+        <MudButton OnClick="Submit">Registrar</MudButton>
+        <MudButton OnClick="Cancel">Cancelar</MudButton>
+        <!-- Este botón ya no es necesario porque el formulario ya maneja la validación -->
+        <!-- <MudButton Color="Color.Primary" OnClick="Submit">Ok</MudButton> -->
+    </DialogActions>
+</MudDialog>
+
+@code {
+
+    private string searchString1 = "";
+    private VideojuegoForoReponse selectedItem1 = null;
+    private HashSet<VideojuegoForoReponse> selectedItems = new HashSet<VideojuegoForoReponse>();
+
+    private IEnumerable<VideojuegoForoReponse> Elements = new List<VideojuegoForoReponse>();
+
+
+    private bool FilterFunc1(VideojuegoForoReponse element) => FilterFunc(element, searchString1);
+
+    private bool FilterFunc(VideojuegoForoReponse element, string searchString)
+    {
+        if (string.IsNullOrWhiteSpace(searchString))
+            return true;
+        if (element.Nombre.Contains(searchString, StringComparison.OrdinalIgnoreCase))
+            return true;
+        return false;
+    }
+    private int _selected = 1; // Variable para rastrear la página seleccionada
+
+    public ForoRequest foroRequest = new ForoRequest();
+
+    [Parameter]
+    public List<VideojuegoForoReponse> Videojuegos { get; set; } = new List<VideojuegoForoReponse>();
+
+    private async Task Submit()
+    {
+        try
+        {
+            var user = await sessionStorage.GetItemAsync<LoginTokenResponse>("user");
+            httpClient.DefaultRequestHeaders.Clear();
+            httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", user.Token);
+
+            foroRequest.User_ID = string.Empty;
+            foroRequest.FechaCreado = DateTime.Now;
+            foroRequest.Videojuego_Codigo = selectedItem1.Codigo;
+
+            var result = await httpClient.PostAsJsonAsync<ForoRequest>($"Foro/RegistrarForo", foroRequest);
+        }
+        catch (Exception)
+        {
+
+        }
+        finally
+        {
+            MudDialog.Close(DialogResult.Ok(true));
+            StateHasChanged();
+        }
+    }
+
+    private void Cancel() => MudDialog.Cancel();
+
+    [CascadingParameter]
+    private MudDialogInstance MudDialog { get; set; }
+
+    bool success;
+
+    //private void OnValidSubmit(EditContext context)
+    //{
+    //    success = true;
+    //    MudDialog.Close(DialogResult.Ok(true)); // Cerrar el diálogo si el formulario es válido
+    //}
+}

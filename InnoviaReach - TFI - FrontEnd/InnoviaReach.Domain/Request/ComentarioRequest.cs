@@ -10,8 +10,9 @@ namespace InnoviaReach.Domain.Request
     {
         public DateTime FechaCreacion { get; set; }
         public string Contenido { get; set; }
-        public string Creador { get; set; }
         public int? ComentarioPadre_Codigo { get; set; }
+        public int Foro_Codigo { get; set; }
+        public string User_ID { get; set; }
     }
 }
 

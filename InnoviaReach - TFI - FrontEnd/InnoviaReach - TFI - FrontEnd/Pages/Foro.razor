@@ -7,6 +7,7 @@
 @inject HttpClient httpClient
 @inject ISessionStorageService sessionStorage
 @inject IDialogService DialogService
+@using System.Net.Http.Headers
 
 <div class="foro-principal">
     <header class="foro-header" id="foro-header">
@@ -82,7 +83,7 @@
                                         </div>
                                         <div class="foro-buttons">
                                             <a href="#" class="foro-btn foro-btn-red"><i class="fa-solid fa-user-large"></i> join community</a>
-                                            <a href="#" class="foro-btn foro-btn-white"><i class="fa-solid fa-store"></i> grow your business</a>
+                                            <a class="foro-btn foro-btn-white" @onclick="OpenDialogAsync"><i class="fa-solid fa-plus" @onclick="OpenDialogAsync"></i> Crear foro</a>
                                         </div>
                                     </div>
                                     <div class="foro-box foro-top-forums">
@@ -176,7 +177,7 @@
                                 </li>
                             </ul>
                         </div>
-                        <ComponenteCargaComentario/>
+                        <ComponenteCargaComentario RegistrarComentarioCallBack="RegistrarComentarioCallBack" foro_Codigo="ForoSeleccionado.Codigo" />
                         <!-- Contenedor Principal -->
                         <div class="comments-container">
                             <h1>Comentarios </h1>
@@ -205,23 +206,27 @@
                                                         <h6 class="comment-name">@comentario.Creador</h6>
                                                     }
                                                     <span>@comentario.FechaCreacion</span>
-                                                    <i class="fa fa-reply"></i>
+                                                    <i class="fa fa-reply" @onclick="@(()=> ToggleRespuesta(comentario.Codigo))"></i>
                                                     @if (comentario.Creador != user?.UserName)
                                                     {
                                                         <i class="fa fa-heart" @onclick="@(()=> Abrir(comentario.Codigo,comentario.Creador))"></i>
                                                     }
                                                 </div>
                                                 <div class="comment-content">
-                                                    @comentario.Contenido
+                                                    @(new MarkupString (@comentario.Contenido))
                                                 </div>
+                                                @if (ComentarioAbierto == comentario.Codigo)
+                                                {
+                                                    <ComponenteCargaRespuesta comentarioPadre_Codigo="comentario.Codigo" foro_Codigo="ForoSeleccionado.Codigo" comentarioPadre_Creador="@comentario.Creador" RegistrarComentarioCallBack="RegistrarComentarioCallBack" />
+                                                }
                                             </div>
                                         </div>
                                     </li>
                                     @if (comentario.Respuestas.Any())
                                     {
                                         @* Llamada recursiva para mostrar respuestas *@
-                                        <ComponenteComentarios Comentarios="@comentario.Respuestas" ForoSeleccionado="ForoSeleccionado"/>
-                                        
+                                        <ComponenteComentarios Comentarios="@comentario.Respuestas" ForoSeleccionado="ForoSeleccionado" ComentarioAbierto="ComentarioAbierto" OnToggleRespuesta="@ToggleRespuesta" RegistrarComentarioCallBack="RegistrarComentarioCallBack" />
+
                                     }
                                 }
                             </ul>
@@ -236,146 +241,68 @@
                 <h2>HOLA</h2>
             </MudTabPanel>
             <MudTabPanel Text="Usuarios">
-                <div class="UsuarioMenuBody">
-                    <div class="UsuarioMenu">
-                        <div class="profile">
-                            <header class="profile__header">
-                                <div class="profile__highlight__wrapper">
-                                    <div class="profile__highlight">
-                                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-school" width="24"
-                                             height="24" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none"
-                                             stroke-linecap="round" stroke-linejoin="round">
-                                            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                                            <path d="M22 9l-10 -4l-10 4l10 4l10 -4v6" />
-                                            <path d="M6 10.6v5.4a6 3 0 0 0 12 0v-5.4" />
-                                        </svg>
-                                        1760
-                                    </div>
-                                    Calificación
-                                </div>
-                                <div class="profile__avatar">
-                                    <img src="assets/ToolBar/profile.jpg" loading="lazy" alt="Mentor profile">
-                                </div>
-                                <div class="profile__highlight__wrapper">
-                                    <div class="profile__highlight">
-                                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-coin" width="24"
-                                             height="24" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none"
-                                             stroke-linecap="round" stroke-linejoin="round">
-                                            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                                            <path d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" />
-                                            <path d="M14.8 9a2 2 0 0 0 -1.8 -1h-2a2 2 0 1 0 0 4h2a2 2 0 1 1 0 4h-2a2 2 0 0 1 -1.8 -1" />
-                                            <path d="M12 7v10" />
-                                        </svg>
-                                        149$
-                                    </div>
-                                    Nivel
-                                </div>
-                            </header>
-                            <div class="profile__name">
-                                <h2>Melissa Taylor<img src="assets/Usuario Menu/verified.svg" alt="Verified Ticker"></h2>
-                                <p>Frontend/Fullstack Developer</p>
-                            </div>
-                            <ul class="social-links">
-                                <li>
-                                    <a href="#">
-                                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-github" width="24"
-                                             height="24" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none"
-                                             stroke-linecap="round" stroke-linejoin="round">
-                                            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                                            <path d="M9 19c-4.3 1.4 -4.3 -2.5 -6 -3m12 5v-3.5c0 -1 .1 -1.4 -.5 -2c2.8 -.3 5.5 -1.4 5.5 -6a4.6 4.6 0 0 0 -1.3 -3.2a4.2 4.2 0 0 0 -.1 -3.2s-1.1 -.3 -3.5 1.3a12.3 12.3 0 0 0 -6.2 0c-2.4 -1.6 -3.5 -1.3 -3.5 -1.3a4.2 4.2 0 0 0 -.1 3.2a4.6 4.6 0 0 0 -1.3 3.2c0 4.6 2.7 5.7 5.5 6c-.6 .6 -.6 1.2 -.5 2v3.5" />
-                                        </svg>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#">
-                                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-linkedin"
-                                             width="24" height="24" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none"
-                                             stroke-linecap="round" stroke-linejoin="round">
-                                            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                                            <path d="M4 4m0 2a2 2 0 0 1 2 -2h12a2 2 0 0 1 2 2v12a2 2 0 0 1 -2 2h-12a2 2 0 0 1 -2 -2z" />
-                                            <path d="M8 11l0 5" />
-                                            <path d="M8 8l0 .01" />
-                                            <path d="M12 16l0 -5" />
-                                            <path d="M16 16v-3a2 2 0 0 0 -4 0" />
-                                        </svg>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#">
-                                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-x" width="24"
-                                             height="24" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none"
-                                             stroke-linecap="round" stroke-linejoin="round">
-                                            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                                            <path d="M4 4l11.733 16h4.267l-11.733 -16z" />
-                                            <path d="M4 20l6.768 -6.768m2.46 -2.46l6.772 -6.772" />
-                                        </svg>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#">
-                                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-instagram"
-                                             width="24" height="24" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none"
-                                             stroke-linecap="round" stroke-linejoin="round">
-                                            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                                            <path d="M4 4m0 4a4 4 0 0 1 4 -4h8a4 4 0 0 1 4 4v8a4 4 0 0 1 -4 4h-8a4 4 0 0 1 -4 -4z" />
-                                            <path d="M12 12m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0" />
-                                            <path d="M16.5 7.5l0 .01" />
-                                        </svg>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#">
-                                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-brand-youtube"
-                                             width="24" height="24" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none"
-                                             stroke-linecap="round" stroke-linejoin="round">
-                                            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                                            <path d="M2 8a4 4 0 0 1 4 -4h12a4 4 0 0 1 4 4v8a4 4 0 0 1 -4 4h-12a4 4 0 0 1 -4 -4v-8z" />
-                                            <path d="M10 9l5 3l-5 3z" />
-                                        </svg>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="#">
-                                        <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-link" width="24"
-                                             height="24" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" fill="none"
-                                             stroke-linecap="round" stroke-linejoin="round">
-                                            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                                            <path d="M9 15l6 -6" />
-                                            <path d="M11 6l.463 -.536a5 5 0 0 1 7.071 7.072l-.534 .464" />
-                                            <path d="M13 18l-.397 .534a5.068 5.068 0 0 1 -7.127 0a4.972 4.972 0 0 1 0 -7.071l.524 -.463" />
-                                        </svg>
-                                    </a>
-                                </li>
-                            </ul>
-                            <main>
-                                <div class="tabs-wrapper">
-                                    <ul class="tabs">
-                                        <li class="active">
-                                            <a id="tab1">dasdad:</a>
-                                        </li>
-                                    </ul>
-                                </div>
-                                <div class="tabs-wrapper">
-                                    <ul class="tabs">
-                                        <li class="active">
-                                            <a id="tab1">adsadad:</a>
-                                        </li>
-                                    </ul>
-                                </div>
-                            </main>
+                <main class="userlist-table" id="customers_table">
+                    <section class="userlist-table__header">
+                        <h1 class="userlist-title">Usuarios de la plataforma</h1>
+                        <div class="userlist-input-group">
+                            <input class="userlist-input" type="search" placeholder="Buscar usuario..." @oninput="OnSearchInput">
+                            <img src="images/search.png" alt="">
                         </div>
-                    </div>
-                </div>
+                    </section>
+                    <section class="userlist-table__body">
+                        <table class="userlist-table">
+                            <thead>
+                                <tr>
+                                    <th class="userlist-th"> Usuario <span class="userlist-icon-arrow">&UpArrow;</span></th>
+                                    <th class="userlist-th"> Email <span class="userlist-icon-arrow">&UpArrow;</span></th>
+                                    <th class="userlist-th"> Estilo preferido <span class="userlist-icon-arrow">&UpArrow;</span></th>
+                                    <th class="userlist-th"> Genero preferido <span class="userlist-icon-arrow">&UpArrow;</span></th>
+                                    <th class="userlist-th"> Status <span class="userlist-icon-arrow">&UpArrow;</span></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in filteredUsuarios)
+                                {
+                                    <tr>
+                                        <td class="userlist-td">
+                                            <img src="images/Zinzu Chan Lee.jpg" alt=""> @item.UserName
+                                        </td>
+                                        <td class="userlist-td">@item.Email</td>
+                                        <td class="userlist-td">@item.Estilo_preferido</td>
+                                        <td class="userlist-td">@item.Genero_preferido</td>
+                                        <td class="userlist-td">
+                                            <p class="userlist-status @(item.Active ? "delivered" : "cancelled")">@item.Active</p>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </section>
+                </main>
             </MudTabPanel>
         </MudTabs>
     </main>
 </div>
 
 @code {
+    private string searchString1 = "";
     private bool isForumsLoading;
+    private int? ComentarioAbierto;
     private bool _visible;
     private int _rating;
     private readonly DialogOptions _dialogOptions = new() { FullWidth = true };
+
+    private List<UserResponse> filteredUsuarios => usuarios
+        .Where(u => string.IsNullOrWhiteSpace(searchString1) ||
+                    u.UserName.Contains(searchString1, StringComparison.OrdinalIgnoreCase) ||
+                    u.Email.Contains(searchString1, StringComparison.OrdinalIgnoreCase))
+        .ToList();
+
+    // Método para manejar la entrada en tiempo real
+    private void OnSearchInput(ChangeEventArgs e)
+    {
+        searchString1 = e.Value.ToString();
+    }
 
     protected async Task Abrir(int codigo, string usuario)
     {
@@ -384,13 +311,23 @@
         var result = await dialog.Result;
     }
 
+    protected void ToggleRespuesta(int codigoComentario)
+    {
+        // Si ya está abierto, lo cierra; de lo contrario, lo abre.
+        // Alterna entre abrir o cerrar la respuesta
+        ComentarioAbierto = ComentarioAbierto == codigoComentario ? null : codigoComentario;
+    }
+
+
     public List<ForoResponse> ForosGenerales = new();
 
     [Parameter]
     public ForoResponse ForoSeleccionado { get; set; }
 
+    public ICollection<UserResponse> usuarios = new HashSet<UserResponse>();
     public ICollection<ComentarioResponse> Comentarios = new HashSet<ComentarioResponse>();
     public ICollection<ComentarioResponse> ComentariosRaiz = new HashSet<ComentarioResponse>();
+    public IEnumerable<VideojuegoForoReponse> videojuegosForo = new List<VideojuegoForoReponse>();
     public LoginTokenResponse user;
     public bool foroAbierto;
     public string? foroSeleccionado;
@@ -400,6 +337,7 @@
         try
         {
             foroAbierto = false;
+            ComentarioAbierto = null;
             isForumsLoading = true;
             foroSeleccionado = "";
             StateHasChanged();
@@ -421,6 +359,8 @@
                 {
                     user = await sessionStorage.GetItemAsync<LoginTokenResponse>("user");
                     ForosGenerales = await httpClient.GetFromJsonAsync<List<ForoResponse>>("Foro/ObtenerForosGenerales");
+                    usuarios = await httpClient.GetFromJsonAsync<List<UserResponse>>("Users/ObtenerUsuarios");
+                    videojuegosForo = await httpClient.GetFromJsonAsync<List<VideojuegoForoReponse>>("Videojuego/ObtenerVideojuegosForo");
                 }
                 catch (Exception) 
                 { 
@@ -500,4 +440,36 @@
         StateHasChanged();
     }
 
+    private Task OpenDialogAsync()
+    {
+        var options = new DialogOptions 
+        { 
+            CloseOnEscapeKey = true ,
+            MaxWidth = MaxWidth.ExtraLarge, // Establece el tamaño máximo
+            FullWidth = true // Habilita el ancho completo
+        };
+
+        var parameters = new DialogParameters();
+        parameters.Add("Videojuegos", videojuegosForo);
+
+        return DialogService.ShowAsync<CreateForumDialog>("Crear foro", parameters, options);
+    }
+
+    private async Task RegistrarComentarioCallBack()
+    {
+        try
+        {
+            ToggleRespuesta(ComentarioAbierto.Value);
+            await AbrirForo(ForoSeleccionado);
+
+        }
+        catch (Exception)
+        {
+
+        }
+        finally
+        {
+            StateHasChanged();
+        }
+    }
 }
