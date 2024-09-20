@@ -27,6 +27,10 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xTcGlubmVyTG9hZGluZy5yYXpvcg==
 build_metadata.AdditionalFiles.CssScope = 
 
+[C:/Users/Juan/Desktop/Repositorios/TFI-FrontEnd/InnoviaReach - TFI - FrontEnd/InnoviaReach - TFI - FrontEnd/Dialogs/CreateForumDialog.razor]
+build_metadata.AdditionalFiles.TargetPath = RGlhbG9nc1xDcmVhdGVGb3J1bURpYWxvZy5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
 [C:/Users/Juan/Desktop/Repositorios/TFI-FrontEnd/InnoviaReach - TFI - FrontEnd/InnoviaReach - TFI - FrontEnd/Dialogs/DialogError.razor]
 build_metadata.AdditionalFiles.TargetPath = RGlhbG9nc1xEaWFsb2dFcnJvci5yYXpvcg==
 build_metadata.AdditionalFiles.CssScope = 
@@ -61,6 +65,10 @@ build_metadata.AdditionalFiles.CssScope =
 
 [C:/Users/Juan/Desktop/Repositorios/TFI-FrontEnd/InnoviaReach - TFI - FrontEnd/InnoviaReach - TFI - FrontEnd/Pages/Foros/ComponenteCargaComentario.razor]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcRm9yb3NcQ29tcG9uZW50ZUNhcmdhQ29tZW50YXJpby5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Juan/Desktop/Repositorios/TFI-FrontEnd/InnoviaReach - TFI - FrontEnd/InnoviaReach - TFI - FrontEnd/Pages/Foros/ComponenteCargaRespuesta.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcRm9yb3NcQ29tcG9uZW50ZUNhcmdhUmVzcHVlc3RhLnJhem9y
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/Juan/Desktop/Repositorios/TFI-FrontEnd/InnoviaReach - TFI - FrontEnd/InnoviaReach - TFI - FrontEnd/Pages/Foros/ComponenteComentarios.razor]

@@ -58,7 +58,7 @@ main {
     margin-bottom: 2rem;
 }
 
-    .sidebar-top .logo {
+    .sidebar-top .Toolbar-logo {
         position: relative;
         width: 3.37rem;
         margin-right: 1.45rem;
@@ -82,7 +82,7 @@ main {
     background-color: var(--button-color);
     border-radius: 0.375rem;
     cursor: pointer;
-    right: -3rem;
+    /*right: -3rem;*/
     transform: translateY(-50%) translateX(-0.5rem);
     opacity: 0;
     pointer-events: none;

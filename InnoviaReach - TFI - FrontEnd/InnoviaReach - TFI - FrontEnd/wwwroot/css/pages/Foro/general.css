@@ -134,6 +134,7 @@ a {
 }
 
 .foro-favorite i {
+    color:black;
     font-size: 20px;
     transition: font-size 0.3s ease; /* Aquí defines la transición */
 }

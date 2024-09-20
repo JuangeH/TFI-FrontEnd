@@ -100,7 +100,7 @@ h1 {
     display: flex;
 }
 
-.box {
+.register-box {
     width: 100%; /* Ancho de cada caja */
     display: inline-block;
     margin: 0 1%; /* Margen entre cajas */

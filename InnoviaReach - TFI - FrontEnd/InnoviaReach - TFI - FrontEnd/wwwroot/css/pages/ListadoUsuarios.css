@@ -1,330 +1,218 @@
-﻿/*
-Responsive HTML Table With Pure CSS - Web Design/UI Design
+﻿@import url('https://fonts.googleapis.com/css?family=Karla:400,700');
 
-Code written by:
-👨🏻‍⚕️ Coding Design (Jeet Saru)
+/*html {
+    box-sizing: border-box;
+    font-size: 62.5%;
+}
 
-> You can do whatever you want with the code. However if you love my content, you can **SUBSCRIBED** my YouTube Channel.
+*, *:before, *:after {
+    box-sizing: inherit;
+}
 
-🌎link: www.youtube.com/codingdesign 
-*/
+html, body {
+    width: 100%;
+    height: 100%;
+}
 
-/** {
+body {
+    font-size: 1.6rem;
+    color: #002b5d;
+    font-family: 'Karla', arial, sans-serif;
+}*/
+
+.userlist-container {
+    /*max-width: 830px;
+    margin: 6rem auto 2rem;*/
+    padding-left: 2rem;
+    padding-right: 2rem;
+}
+
+.userlist-row {
+    margin-left: -1rem;
+    margin-right: -1rem;
+}
+
+.userlist-list {
     margin: 0;
     padding: 0;
-    box-sizing: border-box;
-    font-family: sans-serif;
-}*/
-
-@media print {
-    .userlist-table, .userlist-table__body {
-        overflow: visible;
-        height: auto !important;
-        width: auto !important;
-    }
-}
-h1.userlist-title {
-    display: block;
-    font-size: 2em;
-    margin-block-start: 0.67em;
-    margin-block-end: 0.67em;
-    margin-inline-start: 0px;
-    margin-inline-end: 0px;
-    font-weight: bold;
-    unicode-bidi: isolate;
-}
-/*@page {
-    size: landscape;
-    margin: 0; 
-}*/
-/*body {
-    min-height: 100vh;
-    background: url(images/html_table.jpg) center / cover;
+    list-style-type: none;
     display: flex;
-    justify-content: center;
-    align-items: center;
-}
-*/
-main.userlist-table {
-    background-color: #fff5;
-    backdrop-filter: blur(7px);
-    box-shadow: 0 .4rem .8rem #0005;
-    border-radius: .8rem;
-    overflow: hidden;
-    display: flex;
-    overflow-y: auto;
-    height: 84vh;
-    width: auto;
-    flex-direction: column;
+    justify-content: space-evenly;
+    flex-wrap: wrap;
 }
 
-.userlist-table__header {
+.userlist-list-item {
     width: 100%;
-    height: 8%;
-    background-color: #fff4;
-    padding: .8rem 1rem;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-    .userlist-table__header .userlist-input-group {
-        width: 35%;
-        height: 100%;
-        background-color: #fff5;
-        padding: 0 .8rem;
-        border-radius: 2rem;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        transition: .2s;
-    }
-
-        .userlist-table__header .userlist-input-group:hover {
-            width: 45%;
-            background-color: #fff8;
-            box-shadow: 0 .1rem .4rem #0002;
-        }
-
-        .userlist-table__header .userlist-input-group img {
-            width: 1.2rem;
-            height: 1.2rem;
-        }
-
-        .userlist-table__header .userlist-input-group input.userlist-input {
-            width: 100%;
-            padding: 0 .5rem 0 .3rem;
-            background-color: transparent;
-            border: none;
-            outline: none;
-            color: black;
-        }
-
-.userlist-table__body {
-    width: 95%;
-    max-height: calc(100% - 1.6rem);
-    background-color: #fffb;
-    margin: .8rem auto;
-    border-radius: .6rem;
-    overflow: auto;
-    overflow: overlay;
-    scrollbar-width: thin;
-    scrollbar-color: #c4c4c4 transparent;
-}
-
-
-    .userlist-table__body::-webkit-scrollbar {
-        width: 0.5rem;
-        height: 0.5rem;
-    }
-
-    .userlist-table__body::-webkit-scrollbar-thumb {
-        border-radius: .5rem;
-        background-color: #0004;
-        visibility: hidden;
-    }
-
-    .userlist-table__body:hover::-webkit-scrollbar-thumb {
-        visibility: visible;
-    }
-
-
-table.userlist-table {
-    width: 100%;
-    color:black;
-}
-
-td img {
-    width: 36px;
-    height: 36px;
-    margin-right: .5rem;
-    border-radius: 50%;
-    vertical-align: middle;
-}
-
-table.userlist-table, th.userlist-th, td.userlist-td {
-    border-collapse: collapse;
+    max-width: 390px;
+    margin-bottom: 2rem;
     padding: 1rem;
-    text-align: left;
+    border: 1px solid #e1e4ea;
+    display: flex;
+    align-items: center;
+    position: relative;
+  /*  color: #002b5d;*/
+    text-decoration: none;
 }
 
-thead th {
-    position: sticky;
-    top: 0;
-    left: 0;
-    background-color: #d5d1defe;
-    cursor: pointer;
-    text-transform: capitalize;
-}
-
-tbody tr:nth-child(even) {
-    background-color: #0000000b;
-}
-
-tbody tr {
-    --delay: .1s;
-    transition: .5s ease-in-out var(--delay), background-color 0s;
-}
-
-    tbody tr.hide {
-        opacity: 0;
-        transform: translateX(100%);
+    .userlist-list-item:hover {
+        border: 1px solid #cacfd9;
+        color: #3384f3;
+        background: #f6f7f9;
     }
 
-    tbody tr:hover {
-        background-color: #fff6 !important;
-    }
-
-    tbody tr td,
-    tbody tr td p,
-    tbody tr td img {
-        transition: .2s ease-in-out;
-    }
-
-    tbody tr.hide td,
-    tbody tr.hide td p {
-        padding: 0;
-        font: 0 / 0 sans-serif;
-        transition: .2s ease-in-out .5s;
-    }
-
-        tbody tr.hide td img {
-            width: 0;
-            height: 0;
-            transition: .2s ease-in-out .5s;
+        .userlist-list-item:hover .list-item__button {
+            opacity: 1;
+            transition: all 100ms ease;
         }
 
-.userlist-status {
-    padding: .4rem 0;
-    border-radius: 2rem;
-    text-align: center;
+.userlist-list-item__avatar {
+    margin-right: 1rem;
 }
 
-    .userlist-status.delivered {
-        background-color: #86e49d;
-        color: #006b21;
+    .userlist-list-item__avatar img {
+        border: 1px solid #cacfd9;
+        border-radius: 50%;
+        width: 40px;
+        height: 40px;
+        background-color: #e1e4ea;
     }
 
-    .userlist-status.cancelled {
-        background-color: #d893a3;
-        color: #b30021;
-    }
-
-    .userlist-status.pending {
-        background-color: #ebc474;
-    }
-
-    .userlist-status.shipped {
-        background-color: #6fcaea;
-    }
-
-
-@media (max-width: 1000px) {
-    td:not(:first-of-type) {
-        min-width: 12.1rem;
-    }
+.userlist-list-item__name {
+    display: block;
 }
 
-thead th span.userlist-icon-arrow {
-    display: inline-block;
-    width: 1.3rem;
-    height: 1.3rem;
-    border-radius: 50%;
-    border: 1.4px solid transparent;
-    text-align: center;
-    font-size: 1rem;
-    margin-left: .5rem;
-    transition: .2s ease-in-out;
+.userlist-list-item__info {
+    font-size: .85em;
+    color: #91a1bb;
 }
 
-thead th:hover span.userlist-icon-arrow {
-    border: 1.4px solid #6c00bd;
+.userlist-list-item__button {
+    border: none;
+    margin: 0;
+    padding: 0;
+    width: auto;
+    overflow: visible;
+    font-family: inherit;
+    position: absolute;
+    top: 7px;
+    right: 7px;
+    width: 18px;
+    height: 18px;
+    font-weight: 700;
+    background: #3384f3;
+    color: #ffffff;
+    line-height: 18px;
+    text-transform: uppercase;
+    border-radius: 999px;
+    cursor: pointer;
+    opacity: .2;
 }
 
-thead th:hover {
-    color: #6c00bd;
-}
-
-thead th.active span.userlist-icon-arrow {
-    background-color: #6c00bd;
-    color: #fff;
-}
-
-thead th.asc span.userlist-icon-arrow {
-    transform: rotate(180deg);
-}
-
-thead th.active, tbody td.active {
-    color: #6c00bd;
-}
-
-.userlist-export__file {
+.userlist-search {
+    margin-bottom: 2rem;
+    font-size: 2.4rem;
     position: relative;
 }
 
-    .userlist-export__file .userlist-export__file-btn {
-        display: inline-block;
-        width: 2rem;
-        height: 2rem;
-        background: #fff6 url(images/export.png) center / 80% no-repeat;
-        border-radius: 50%;
-        transition: .2s ease-in-out;
-    }
-
-        .userlist-export__file .userlist-export__file-btn:hover {
-            background-color: #fff;
-            transform: scale(1.15);
-            cursor: pointer;
-        }
-
-    .userlist-export__file input {
-        display: none;
-    }
-
-    .userlist-export__file .userlist-export__file-options {
-        position: absolute;
-        right: 0;
-        width: 12rem;
-        border-radius: .5rem;
-        overflow: hidden;
-        text-align: center;
-        opacity: 0;
-        transform: scale(.8);
-        transform-origin: top right;
-        box-shadow: 0 .2rem .5rem #0004;
-        transition: .2s;
-    }
-
-    .userlist-export__file input:checked + .userlist-export__file-options {
-        opacity: 1;
-        transform: scale(1);
-        z-index: 100;
-    }
-
-    .userlist-export__file .userlist-export__file-options label.userlist-label {
+    .userlist-search label, .userlist-search input {
         display: block;
-        width: 100%;
-        padding: .6rem 0;
-        background-color: #f2f2f2;
-        display: flex;
-        justify-content: space-around;
-        align-items: center;
-        transition: .2s ease-in-out;
-        color: black;
     }
 
-        .userlist-export__file .userlist-export__file-options label:first-of-type {
-            padding: 1rem 0;
-            background-color: #86e49d !important;
+    .userlist-search label {
+        font-weight: 700;
+        margin-bottom: 1rem;
+    }
+
+    .userlist-search input {
+        width: 100%;
+        padding: 1rem;
+        border-radius: 5px;
+        border: 1px solid #cacfd9;
+        font-family: inherit;
+        outline: none;
+    }
+
+        .userlist-search input:focus {
+            box-shadow: 0px 0px 0px 3px rgba(51, 132, 243, .15);
+            border-color: #3384f3;
         }
 
-        .userlist-export__file .userlist-export__file-options label:hover {
-            transform: scale(1.05);
-            background-color: #fff;
-            cursor: pointer;
-        }
+.userlist-search__clear {
+    position: absolute;
+    top: 5.3rem;
+    right: 1rem;
+    cursor: pointer;
+    background: #e1e4ea;
+    width: 2rem;
+    height: 2rem;
+    line-height: 2rem;
+    color: #91a1bb;
+    border: 0;
+    padding: 0;
+    border-radius: 50%;
+    font-size: 1.4rem;
+}
 
-    .userlist-export__file .userlist-export__file-options img {
-        width: 2rem;
-        height: auto;
+    .userlist-search__clear:hover {
+        background: #cacfd9;
+        color: #597191;
+    }
+
+.userlist-recent-search {
+    width: 100%;
+    margin-top: 1.5rem;
+    display: flex;
+    align-items: center;
+}
+
+.userlist-search-item {
+    font-size: 1.4rem;
+    display: inline-block;
+    padding: .5rem;
+    line-height: 1;
+    color: #3384f3;
+    border-radius: 5px;
+    background: rgba(51, 132, 243, 0.15);
+    cursor: pointer;
+    margin: 0 .5rem .5rem 0;
+}
+
+    .userlist-search-item:hover {
+        color: #296dc0;
+        background: rgba(51, 132, 243, 0.2);
+    }
+
+.userlist-search-item__close {
+    opacity: .5;
+    display: inline-block;
+    cursor: pointer;
+    margin-left: .5rem;
+}
+
+    .userlist-search-item__close:hover {
+        color: #d63031;
+    }
+
+.userlist-clear-btn {
+    font-family: inherit;
+    background: #91a1bb;
+    color: #ffffff;
+    border: 0;
+    cursor: pointer;
+    margin-right: 1rem;
+    border-radius: 5px;
+    font-size: 1.4rem;
+    display: inline-block;
+    padding: .5rem 1rem;
+    line-height: 1;
+}
+
+    .userlist-clear-btn:hover {
+        background: #597191;
+    }
+
+    .userlist-clear-btn:disabled {
+        background: #f6f7f9;
+        color: #91a1bb;
+        cursor: not-allowed;
     }
