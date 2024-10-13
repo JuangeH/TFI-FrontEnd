@@ -1,0 +1,111 @@
+﻿@using System.Text.RegularExpressions
+@using System.ComponentModel.DataAnnotations
+@using System.Net.Http.Headers
+@inject ISessionStorageService sessionStorage
+@inject HttpClient httpClient
+
+<div class="createforum-box">
+    <div class="createforum-box-form">
+        <div class="createforum-box-login-tab"></div>
+        <div class="createforum-box-login-title">
+            <div class="createforum-i createforum-i-login"></div><h2>LOGIN</h2>
+        </div>
+        <div class="createforum-box-login">
+            <div class="createforum-fieldset-body" id="login_form">
+                <button onclick="openLoginInfo();" class="createforum-b createforum-b-form createforum-i createforum-i-more" title="Mais Informações"></button>
+                <p class="createforum-field">
+                    <label for="user">E-MAIL</label>
+                    <input type="text" id="user" name="user" title="Username">
+                    <span id="valida" class="createforum-i createforum-i-warning"></span>
+                </p>
+                <p class="createforum-field">
+                    <label for="pass">PASSWORD</label>
+                    <input type="password" id="pass" name="pass" title="Password">
+                    <span id="valida" class="createforum-i createforum-i-close"></span>
+                </p>
+                <input type="submit" id="do_login" value="GET STARTED" title="Get Started">
+            </div>
+        </div>
+    </div>
+</div>
+
+@code {
+    bool success;
+    string[] errors = { };
+    MudTextField<string> pwField1;
+    MudForm form;
+
+    private IEnumerable<string> PasswordStrength(string pw)
+    {
+        if (string.IsNullOrWhiteSpace(pw))
+        {
+            yield return "Password is required!";
+            yield break;
+        }
+        if (pw.Length < 8)
+            yield return "Password must be at least of length 8";
+        if (!Regex.IsMatch(pw, @"[A-Z]"))
+            yield return "Password must contain at least one capital letter";
+        if (!Regex.IsMatch(pw, @"[a-z]"))
+            yield return "Password must contain at least one lowercase letter";
+        if (!Regex.IsMatch(pw, @"[0-9]"))
+            yield return "Password must contain at least one digit";
+    }
+
+    private string PasswordMatch(string arg)
+    {
+        if (pwField1.Value != arg)
+            return "Passwords don't match";
+        return null;
+    }
+
+    private string searchString1 = "";
+    private VideojuegoForoReponse selectedItem1 = null;
+    private HashSet<VideojuegoForoReponse> selectedItems = new HashSet<VideojuegoForoReponse>();
+
+    private IEnumerable<VideojuegoForoReponse> Elements = new List<VideojuegoForoReponse>();
+
+
+    private bool FilterFunc1(VideojuegoForoReponse element) => FilterFunc(element, searchString1);
+
+    private bool FilterFunc(VideojuegoForoReponse element, string searchString)
+    {
+        if (string.IsNullOrWhiteSpace(searchString))
+            return true;
+        if (element.Nombre.Contains(searchString, StringComparison.OrdinalIgnoreCase))
+            return true;
+        return false;
+    }
+    private int _selected = 1; // Variable para rastrear la página seleccionada
+
+    public ForoRequest foroRequest = new ForoRequest();
+
+    [Parameter]
+    public ICollection<VideojuegoForoReponse> Videojuegos { get; set; } = new HashSet<VideojuegoForoReponse>();
+
+    private async Task Submit()
+    {
+        try
+        {
+            var user = await sessionStorage.GetItemAsync<LoginTokenResponse>("user");
+            httpClient.DefaultRequestHeaders.Clear();
+            httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", user.Token);
+
+            foroRequest.User_ID = string.Empty;
+            foroRequest.FechaCreado = DateTime.Now;
+            foroRequest.Videojuego_Codigo = selectedItem1.Codigo;
+
+            var result = await httpClient.PostAsJsonAsync<ForoRequest>($"Foro/RegistrarForo", foroRequest);
+        }
+        catch (Exception)
+        {
+
+        }
+        finally
+        {
+            StateHasChanged();
+        }
+    }
+
+
+}

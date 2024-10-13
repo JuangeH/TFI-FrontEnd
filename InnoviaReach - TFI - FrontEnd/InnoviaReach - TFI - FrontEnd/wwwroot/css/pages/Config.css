@@ -20,7 +20,7 @@ body {
     background-color: #151728;
     display: flex;
     /*max-width: 1600px;*/
-    height: 100vh;
+    height: 100%;
     overflow: hidden;
     margin: 0 auto;
 }

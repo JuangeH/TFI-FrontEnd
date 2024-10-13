@@ -19,6 +19,10 @@ build_property._RazorSourceGeneratorDebug =
 build_metadata.AdditionalFiles.TargetPath = QXBwLnJhem9y
 build_metadata.AdditionalFiles.CssScope = 
 
+[C:/Users/Juan/Desktop/Repositorios/TFI-FrontEnd/InnoviaReach - TFI - FrontEnd/InnoviaReach - TFI - FrontEnd/Components/SnackbarComponent.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xTbmFja2JhckNvbXBvbmVudC5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
 [C:/Users/Juan/Desktop/Repositorios/TFI-FrontEnd/InnoviaReach - TFI - FrontEnd/InnoviaReach - TFI - FrontEnd/Components/Spinner.razor]
 build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xTcGlubmVyLnJhem9y
 build_metadata.AdditionalFiles.CssScope = 
@@ -43,6 +47,14 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = RGlhbG9nc1xGb3J1bVJhdGluZ0RpYWxvZy5yYXpvcg==
 build_metadata.AdditionalFiles.CssScope = 
 
+[C:/Users/Juan/Desktop/Repositorios/TFI-FrontEnd/InnoviaReach - TFI - FrontEnd/InnoviaReach - TFI - FrontEnd/Dialogs/SteamAccounDialog.razor]
+build_metadata.AdditionalFiles.TargetPath = RGlhbG9nc1xTdGVhbUFjY291bkRpYWxvZy5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Juan/Desktop/Repositorios/TFI-FrontEnd/InnoviaReach - TFI - FrontEnd/InnoviaReach - TFI - FrontEnd/Dialogs/VideojuegoDetailDialog.razor]
+build_metadata.AdditionalFiles.TargetPath = RGlhbG9nc1xWaWRlb2p1ZWdvRGV0YWlsRGlhbG9nLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
 [C:/Users/Juan/Desktop/Repositorios/TFI-FrontEnd/InnoviaReach - TFI - FrontEnd/InnoviaReach - TFI - FrontEnd/Pages/Auditoria.razor]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQXVkaXRvcmlhLnJhem9y
 build_metadata.AdditionalFiles.CssScope = 
@@ -53,6 +65,10 @@ build_metadata.AdditionalFiles.CssScope =
 
 [C:/Users/Juan/Desktop/Repositorios/TFI-FrontEnd/InnoviaReach - TFI - FrontEnd/InnoviaReach - TFI - FrontEnd/Pages/Catalogo.razor]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ2F0YWxvZ28ucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Juan/Desktop/Repositorios/TFI-FrontEnd/InnoviaReach - TFI - FrontEnd/InnoviaReach - TFI - FrontEnd/Pages/ComponenteDetalleUsuario.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcQ29tcG9uZW50ZURldGFsbGVVc3VhcmlvLnJhem9y
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/Juan/Desktop/Repositorios/TFI-FrontEnd/InnoviaReach - TFI - FrontEnd/InnoviaReach - TFI - FrontEnd/Pages/Configuracion.razor]
@@ -73,6 +89,10 @@ build_metadata.AdditionalFiles.CssScope =
 
 [C:/Users/Juan/Desktop/Repositorios/TFI-FrontEnd/InnoviaReach - TFI - FrontEnd/InnoviaReach - TFI - FrontEnd/Pages/Foros/ComponenteComentarios.razor]
 build_metadata.AdditionalFiles.TargetPath = UGFnZXNcRm9yb3NcQ29tcG9uZW50ZUNvbWVudGFyaW9zLnJhem9y
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Juan/Desktop/Repositorios/TFI-FrontEnd/InnoviaReach - TFI - FrontEnd/InnoviaReach - TFI - FrontEnd/Pages/Foros/ComponenteCrearForo.razor]
+build_metadata.AdditionalFiles.TargetPath = UGFnZXNcRm9yb3NcQ29tcG9uZW50ZUNyZWFyRm9yby5yYXpvcg==
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/Juan/Desktop/Repositorios/TFI-FrontEnd/InnoviaReach - TFI - FrontEnd/InnoviaReach - TFI - FrontEnd/Pages/IniciarSesion.razor]

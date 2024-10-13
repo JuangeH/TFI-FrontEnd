@@ -1,0 +1,57 @@
+﻿@using System.Net.Http.Headers
+@inject ISnackbar Snackbar
+@inject ISessionStorageService sessionStorage
+@inject HttpClient httpClient
+@inject NavigationManager NavManager
+
+@code {
+    public LoginTokenResponse user;
+    public SteamAccountResponse SteamAccountInfo = new SteamAccountResponse();
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        try
+        {
+            if (firstRender)
+            {
+                try
+                {
+                    user = await sessionStorage.GetItemAsync<LoginTokenResponse>("user");
+                    httpClient.DefaultRequestHeaders.Clear();
+                    httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", user.Token);
+                    SteamAccountInfo = await httpClient.GetFromJsonAsync<SteamAccountResponse>("Foro/ValidarSteamAccount");
+                    Snackbar.Clear();
+                    Snackbar.Add("Conecta tu cuenta de Steam", Severity.Info, (options) =>
+                    {
+                        options.CloseAfterNavigation = false;
+                        options.Onclick = snackbar =>
+                        {
+                            NavManager.NavigateTo("/Config");
+                            return Task.CompletedTask;
+                        };
+                        //config.Onclick = snackbar =>
+                        //{
+                        //    SayHello();
+                        //    return Task.CompletedTask;
+                        //};
+                    });
+                }
+                catch (Exception)
+                {
+
+                }
+
+                // Esperar un breve momento para asegurarse de que el componente se haya renderizado completamente
+                await Task.Delay(3000);
+            }
+        }
+        catch (Exception)
+        {
+
+        }
+        finally
+        {
+            StateHasChanged();
+        }
+
+    }
+}

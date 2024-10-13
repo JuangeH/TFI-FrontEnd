@@ -1,4 +1,9 @@
 ﻿@inject IJSRuntime JSRuntime
+@using System.Net.Http.Headers
+@inject ISnackbar Snackbar
+@inject ISessionStorageService sessionStorage
+@inject HttpClient httpClient
+@inject NavigationManager NavManager
 
 
 <nav>
@@ -66,17 +71,34 @@
                     </a>
                 </li>
             </ul>
+            <ul>
+                <li>
+                    <a href="javascript:void(0)" @onclick="CerrarSesion" title="Reports Link">
+                        <div class="icon">
+                            <img src="/assets/Toolbar/door-enter-svgrepo-com (2).svg" title="Reports Icon">
+                        </div>
+                        <span class="link hide">Salir</span>
+                    </a>
+                </li>
+            </ul>
         </div>
         <div class="sidebar__profile">
             <div class="avatar__wrapper">
-                <img class="avatar" src="assets/ToolBar/profile.jpg" alt="Profile">
+                <img class="avatar" src="/assets/Usuario Menu/user.png" alt="Profile">
             </div>
             @*<div class="avatar__wrapper">
                 <img class="avatar" src="assets/ToolBar/profile.jpg" alt="Profile">
                 <div class="online__status"></div>
             </div>*@
             <div class="avatar__name hide">
-                <div class="email">pedeeeeeelo@gmail.com</div>
+                @if (user != null)
+                {
+                    <div class="email">@user.Email</div>
+                }
+                else
+                {
+                    <div class="email">Cargando...</div>
+                }
             </div>
         </div>
     </div>
@@ -86,12 +108,29 @@
 
 @code {
 
+    public LoginTokenResponse? user;
+
+    protected override async Task OnInitializedAsync()
+    {
+        user = await sessionStorage.GetItemAsync<LoginTokenResponse>("user");
+        httpClient.DefaultRequestHeaders.Clear();
+        httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", user.Token);
+    }
+
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         if (firstRender)
         {
-            await JSRuntime.InvokeVoidAsync("expandCollapseBody");
-            await JSRuntime.InvokeVoidAsync("activateLinks");
+            try
+            {
+                await JSRuntime.InvokeVoidAsync("expandCollapseBody");
+                await JSRuntime.InvokeVoidAsync("activateLinks");
+                
+            }
+            catch (Exception)
+            {
+
+            }
         }
     }
 
@@ -104,5 +143,23 @@
         collapseNavMenu = !collapseNavMenu;
     }
 
+    private async Task CerrarSesion()
+    {
+        await sessionStorage.SetItemAsync("popupShown", false);
+
+        await sessionStorage.RemoveItemAsync("user");
+
+        // Limpiar la cabecera de autorización
+        httpClient.DefaultRequestHeaders.Authorization = null;
+
+        // Mostrar un mensaje informando que se ha cerrado la sesión
+        Snackbar.Add("Sesión cerrada exitosamente.", Severity.Success, options =>
+        {
+            options.VisibleStateDuration = 1000; // Duración en milisegundos (2 segundos)
+        });
+
+        // Redirigir a la página de inicio de sesión
+        NavManager.NavigateTo("login");
+    }
 
 }

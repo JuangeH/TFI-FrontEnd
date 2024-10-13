@@ -1,4 +1,12 @@
 ﻿@page "/"
+
+@using System.Net.Http.Headers
+@inject ISnackbar Snackbar
+@inject ISessionStorageService sessionStorage
+@inject HttpClient httpClient
+@inject NavigationManager NavManager
+
+<SteamAccounDialog Show="@showPopup" OnClose="ClosePopup"></SteamAccounDialog>
 <section class="sc-popular bg-violet-dark-active" style="height: 100vh">
     <div class="container">
         <div class="sc-title">
@@ -520,5 +528,74 @@
 
 
 @code {
+    public LoginTokenResponse user;
 
+    private bool showPopup = false;
+
+    private void ClosePopup()
+    {
+        try
+        {
+            showPopup = false;
+        }
+        catch (Exception)
+        {
+
+        }
+        finally
+        {
+            StateHasChanged();
+        }
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        // Verificar si el popup ya fue mostrado en la sesión
+        var popupShown = await sessionStorage.GetItemAsync<bool>("popupShown");
+
+        if (!popupShown)
+        {
+            // Si el popup no fue mostrado, lo mostramos y guardamos el estado en sessionStorage
+            showPopup = true;
+            await sessionStorage.SetItemAsync("popupShown", true);
+        }
+
+        StateHasChanged();
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        try
+        {
+            if (firstRender)
+            {
+                try
+                {
+                    user = await sessionStorage.GetItemAsync<LoginTokenResponse>("user");
+                    httpClient.DefaultRequestHeaders.Clear();
+                    httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", user.Token);
+                }
+                catch (Exception)
+                {
+
+                }
+
+                // Esperar un breve momento para asegurarse de que el componente se haya renderizado completamente
+                await Task.Delay(3000);
+            }
+        }
+        catch (Exception)
+        {
+
+        }
+        finally
+        {
+            StateHasChanged();
+        }
+    }
+
+    public void SayHello()
+    {
+        Snackbar.Add("Hello World!");
+    }
 }

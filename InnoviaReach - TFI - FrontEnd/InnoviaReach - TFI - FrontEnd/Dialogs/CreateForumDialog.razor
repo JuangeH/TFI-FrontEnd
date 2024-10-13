@@ -2,65 +2,104 @@
 @inject ISessionStorageService sessionStorage
 @inject HttpClient httpClient
 
-<MudDialog>
-    <DialogContent>
-        <MudTable Items="@Videojuegos" MultiSelection="false" Filter="new Func<VideojuegoForoReponse,bool>(FilterFunc1)" @bind-SelectedItem="selectedItem1">
-            <ToolBarContent>
-                <MudText Typo="Typo.h6">Videojuegos</MudText>
-                <MudSpacer />
-                <MudTextField @bind-Value="searchString1" Placeholder="Search" Adornment="Adornment.Start" AdornmentIcon="@Icons.Material.Filled.Search" IconSize="Size.Medium" Class="mt-0"></MudTextField>
-            </ToolBarContent>
-            <RowTemplate>
-                <MudTd DataLabel="Nombre">@context.Nombre</MudTd>
-            </RowTemplate>
-            <PagerContent>
-                <MudTablePager DisableRowsPerPage="true"/>
-            </PagerContent>
-        </MudTable>
-        @if (selectedItem1!=null)
-        {
-            <MudField Label="Videojuego seleccionado" Class="mt-3">@selectedItem1.Nombre</MudField>
-        }
-        <EditForm Model="@foroRequest">
-            <MudTextField Label="Titulo" Class="mt-3"
-                          @bind-Value="foroRequest.Titulo" For="@(() => foroRequest.Titulo)" />
-            <MudTextField Label="Descripción" Class="mt-3"
-                          @bind-Value="foroRequest.Descripcion" For="@(() => foroRequest.Descripcion)" />
-        </EditForm>
-    </DialogContent>
-    <DialogActions>
-        <MudButton OnClick="Submit">Registrar</MudButton>
-        <MudButton OnClick="Cancel">Cancelar</MudButton>
-        <!-- Este botón ya no es necesario porque el formulario ya maneja la validación -->
-        <!-- <MudButton Color="Color.Primary" OnClick="Submit">Ok</MudButton> -->
-    </DialogActions>
-</MudDialog>
+@if (ShowPopup)
+{
+    <div class="createforum-popup-overlay"></div> <!-- Overlay to block the background -->
+}
+
+<div class="createforum-popup @(ShowPopup ? "active" : "")">
+    <div class="createforum-close-btn" @onclick="ClosePopup">&times;</div>
+    <div class="createforum-form">
+        <h2>Registrar foro</h2>
+        <div class="createforum-form-element">
+            <label for="nombre">Nombre</label>
+            <input type="text" id="Titulo" placeholder="Ingresar titulo" @bind-value="Titulo">
+        </div>
+        <div class="createforum-form-element">
+            <label for="descripcion">Descripción</label>
+            <input type="text" id="descripcion" placeholder="Ingresar descripción" @bind-value="Descripcion">
+        </div>
+        <div class="createforum-form-element createforum-autosuggest">
+            <label for="videojuego">Videojuego</label>
+            <input type="text" placeholder="Type to search..." @bind="searchText" @oninput="OnInputChanged" @onfocus="ShowSuggestions" />
+            <ul class="suggestions-list @(showSuggestions && filteredSuggestions.Any() ? "active" : "")">
+                @foreach (var suggestion in filteredSuggestions)
+                {
+                    <li class="suggestion-item" @onclick="() => SelectSuggestion(suggestion)">
+                        @suggestion
+                    </li>
+                }
+            </ul>
+        </div>
+        <div class="createforum-form-element">
+            <button @onclick="Submit">Registrar</button>
+        </div>
+    </div>
+</div>
 
 @code {
-
-    private string searchString1 = "";
-    private VideojuegoForoReponse selectedItem1 = null;
-    private HashSet<VideojuegoForoReponse> selectedItems = new HashSet<VideojuegoForoReponse>();
-
-    private IEnumerable<VideojuegoForoReponse> Elements = new List<VideojuegoForoReponse>();
-
-
-    private bool FilterFunc1(VideojuegoForoReponse element) => FilterFunc(element, searchString1);
-
-    private bool FilterFunc(VideojuegoForoReponse element, string searchString)
-    {
-        if (string.IsNullOrWhiteSpace(searchString))
-            return true;
-        if (element.Nombre.Contains(searchString, StringComparison.OrdinalIgnoreCase))
-            return true;
-        return false;
-    }
-    private int _selected = 1; // Variable para rastrear la página seleccionada
+    private string Descripcion = "";
+    private string Titulo = "";
+    private string searchText = "";
+    private List<string> filteredSuggestions = new();
+    private bool showSuggestions = false;
+    private List<string> options = new(); // Todas las opciones (Videojuegos)
 
     public ForoRequest foroRequest = new ForoRequest();
 
     [Parameter]
-    public List<VideojuegoForoReponse> Videojuegos { get; set; } = new List<VideojuegoForoReponse>();
+    public ICollection<VideojuegoForoReponse> Videojuegos { get; set; } = new HashSet<VideojuegoForoReponse>();
+
+    [Parameter] public bool ShowPopup { get; set; }
+    [Parameter] public EventCallback OnClose { get; set; }
+
+    private async void ClosePopup()
+    {
+        ShowPopup = false;
+        await OnClose.InvokeAsync();
+    }
+
+    protected override void OnParametersSet()
+    {
+        // Inicializar las opciones solo cuando se abre el popup
+        if (ShowPopup)
+        {
+            InitializeOptions();
+        }
+    }
+
+    private void InitializeOptions()
+    {
+        options.Clear();
+        foreach (var item in Videojuegos)
+        {
+            options.Add(item.Nombre);
+        }
+    }
+
+    private void OnInputChanged(ChangeEventArgs e)
+    {
+        searchText = e.Value?.ToString() ?? string.Empty;
+
+        // Filtrar las sugerencias basadas en el texto ingresado
+        filteredSuggestions = options
+            .Where(o => o.Contains(searchText, StringComparison.OrdinalIgnoreCase))
+            .Take(10) // Limita el número de sugerencias visibles
+            .ToList();
+
+        showSuggestions = true;
+    }
+
+    private void SelectSuggestion(string suggestion)
+    {
+        searchText = suggestion; // Establecer el texto del input
+        showSuggestions = false; // Ocultar las sugerencias
+    }
+
+    private void ShowSuggestions()
+    {
+        showSuggestions = true;
+    }
 
     private async Task Submit()
     {
@@ -72,31 +111,31 @@
 
             foroRequest.User_ID = string.Empty;
             foroRequest.FechaCreado = DateTime.Now;
-            foroRequest.Videojuego_Codigo = selectedItem1.Codigo;
+            foroRequest.Titulo = Titulo;
+            foroRequest.Descripcion = Descripcion;
+            foroRequest.Activo = true;
+
+            foreach (var item in Videojuegos)
+            {
+                if (item.Nombre==searchText)
+                {
+                    foroRequest.Videojuego_Codigo = item.Codigo;
+                }
+            }
+
+            // Asignar otros valores de foroRequest según los datos del formulario...
 
             var result = await httpClient.PostAsJsonAsync<ForoRequest>($"Foro/RegistrarForo", foroRequest);
+            ClosePopup();
+
         }
         catch (Exception)
         {
-
+            // Manejo de errores
         }
         finally
         {
-            MudDialog.Close(DialogResult.Ok(true));
             StateHasChanged();
         }
     }
-
-    private void Cancel() => MudDialog.Cancel();
-
-    [CascadingParameter]
-    private MudDialogInstance MudDialog { get; set; }
-
-    bool success;
-
-    //private void OnValidSubmit(EditContext context)
-    //{
-    //    success = true;
-    //    MudDialog.Close(DialogResult.Ok(true)); // Cerrar el diálogo si el formulario es válido
-    //}
 }

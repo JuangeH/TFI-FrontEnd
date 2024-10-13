@@ -9,6 +9,7 @@
 @inject IDialogService DialogService
 @using System.Net.Http.Headers
 @inject NavigationManager Navigation
+@inject ISnackbar Snackbar
 
 <div class="foro-principal">
     <header class="foro-header" id="foro-header">
@@ -28,218 +29,252 @@
     <main class="foro-main">
         <MudTabs Elevation="2" Rounded="false" ApplyEffectsToContainer="false" PanelClass="pa-6" Centered=true Class="foro-mudTabs" Border="false">
             <MudTabPanel Text="Foros Generales" OnClick="AbrirForosGenerales">
-                @if (!foroAbierto)
+                @if (!CreacionForo)
                 {
-                    @if (!isForumsLoading)
+                    @if (!foroAbierto)
                     {
-                        <div class="foro-container" style="display: flex; overflow-y: auto; height: 100%; width: auto;">
-                            <div class="foro-row">
-                                <section class="foro-left">
-                                    <div class="foro-inner-left">
-                                        @*AGREGAR ENUM PARA LA SUSCRIPCION*@
-                                        @foreach (var item in ForosGenerales)
-                                        {
-                                            <div class="foro-box">
-                                                @*<div class="foro-img"> <img src="img/302688.jpg" alt="" /></div>*@
-                                                <div class="foro-details">
-                                                    <p>@item.NombreVideoJuego</p>
-                                                    <h3 @onclick="@(()=> AbrirForo(item))"> @item.Titulo</h3>
-                                                    <div class="foro-sub-details">
-                                                        <span>@item.NombreUsuarioCreador</span>
-                                                        <span>@item.FechaCreado.ToShortDateString()</span>
-                                                        <div class="foro-views">
-                                                            <i class="fa-regular fa-eye"></i>
-                                                            <span>@item.Visitas</span>
+                        @if (!isForumsLoading)
+                        {
+                            <div class="foro-container" style="display: flex; overflow-y: auto; height: 100%; width: auto;">
+                                <div class="foro-row">
+                                    <section class="foro-left">
+                                        <div class="foro-inner-left">
+                                            @if (ForosGenerales != null && ForosGenerales.Any())
+                                            {
+                                                @*AGREGAR ENUM PARA LA SUSCRIPCION*@
+                                                @foreach (var item in ForosGenerales)
+                                                {
+                                                    if (ForosGenerales.Count==0)
+                                                    {
+                                                        <h1>No se encontraron foros</h1>
+                                                    }
+                                                    else
+                                                    {
+                                                        <div class="foro-box">
+                                                            @*<div class="foro-img"> <img src="img/302688.jpg" alt="" /></div>*@
+                                                            <div class="foro-details">
+                                                                <p>@item.NombreVideoJuego</p>
+                                                                <h3 @onclick="@(()=> AbrirForo(item))"> @item.Titulo</h3>
+                                                                <div class="foro-sub-details">
+                                                                    <span>@item.NombreUsuarioCreador</span>
+                                                                    <span>@item.FechaCreado.ToShortDateString()</span>
+                                                                    <div class="foro-views">
+                                                                        <i class="fa-regular fa-eye"></i>
+                                                                        <span>@item.Visitas</span>
+                                                                    </div>
+                                                                    <div class="foro-comment">
+                                                                        <i class="fa-solid fa-comment"></i>
+                                                                        <span>@item.CantidadComentarios</span>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="foro-favorite" @onclick="(()=>GuardarForoFav(item))" role="button">
+                                                                @if (item.NombreUsuarioCreador != user?.UserName)
+                                                                {
+                                                                    @if(item.favorito==true)
+                                                                    {
+                                                                        <i class="fa-solid fa-bookmark"></i>
+                                                                    }
+                                                                    else
+                                                                    {
+                                                                        <i class="fa-regular fa-bookmark"></i>
+                                                                    }
+                                                                }
+                                                            </div>
                                                         </div>
-                                                        <div class="foro-comment">
-                                                            <i class="fa-solid fa-comment"></i>
-                                                            <span>@item.CantidadComentarios</span>
-                                                        </div>
+                                                    }
+                                                
+                                                }
+                                            }
+                                            else
+                                            {
+                                                <div class="foro-box foro-first">
+                                                    <h3>No hay foros disponibles</h3>
+                                                </div>
+                                            }
+                                        </div>
+                                    </section>
+                                    <section class="foro-right">
+                                        <div class="foro-box foro-first">
+                                            <h3>honda shadow forums</h3>
+                                            <span>since 2007</span>
+                                            <p>
+                                                Welcome to Honda Shadow Forum. Come in and discuss any Honda
+                                                Shadow models: VT1100, VT250, VT750 and the VT500.
+                                            </p>
+                                            <div class="foro-stats">
+                                                <div>
+                                                    <h4>1.6M</h4>
+                                                    <span>posts</span>
+                                                </div>
+                                                <div>
+                                                    <h4>79.4k</h4>
+                                                    <span>members</span>
+                                                </div>
+                                            </div>
+                                            <div class="foro-buttons">
+                                                <a href="#" class="foro-btn foro-btn-red"><i class="fa-solid fa-user-large"></i> join community</a>
+                                                <a class="foro-btn foro-btn-white" @onclick="OpenDialogAsync"><i class="fa-solid fa-plus"></i> Crear foro</a>
+                                            </div>
+                                        </div>
+                                        <div class="foro-box foro-top-forums">
+                                            <h3>our top forums</h3>
+                                            <a href="#">View All <i class="fa-solid fa-arrow-right"></i></a>
+                                            <div class="foro-inner-box">
+                                                <h4><a href="#">general bike discussion</a></h4>
+                                                <div class="foro-stats">
+                                                    <div class="foro-stat foro-comments">
+                                                        <i class="fa-solid fa-comment"></i><span> 709.4k</span>
+                                                    </div>
+                                                    <div class="foro-stat foro-views">
+                                                        <i class="fa-regular fa-eye"></i><span>104.4M</span>
                                                     </div>
                                                 </div>
-                                                <div class="foro-favorite" @onclick="(()=>GuardarForoFav(item))" role="button">
-                                                    @if(item.favorito==true)
-                                                    {
-                                                        <i class="fa-solid fa-bookmark"></i>
-                                                    }
-                                                    else{
-                                                        <i class="fa-regular fa-bookmark"></i>
-                                                    }
-                                                    
+                                            </div>
+                                            <div class="foro-inner-box">
+                                                <h4><a href="#">technical discussion</a></h4>
+                                                <div class="foro-stats">
+                                                    <div class="foro-stat foro-comments">
+                                                        <i class="fa-solid fa-comment"></i><span> 599.1k</span>
+                                                    </div>
+                                                    <div class="foro-stat foro-views">
+                                                        <i class="fa-regular fa-eye"></i><span>81.3M</span>
+                                                    </div>
                                                 </div>
                                             </div>
-                                        }
-                                    </div>
-                                </section>
-                                <section class="foro-right">
-                                    <div class="foro-box foro-first">
-                                        <h3>honda shadow forums</h3>
-                                        <span>since 2007</span>
-                                        <p>
-                                            Welcome to Honda Shadow Forum. Come in and discuss any Honda
-                                            Shadow models: VT1100, VT250, VT750 and the VT500.
-                                        </p>
-                                        <div class="foro-stats">
-                                            <div>
-                                                <h4>1.6M</h4>
-                                                <span>posts</span>
-                                            </div>
-                                            <div>
-                                                <h4>79.4k</h4>
-                                                <span>members</span>
-                                            </div>
-                                        </div>
-                                        <div class="foro-buttons">
-                                            <a href="#" class="foro-btn foro-btn-red"><i class="fa-solid fa-user-large"></i> join community</a>
-                                            <a class="foro-btn foro-btn-white" @onclick="OpenDialogAsync"><i class="fa-solid fa-plus" @onclick="OpenDialogAsync"></i> Crear foro</a>
-                                        </div>
-                                    </div>
-                                    <div class="foro-box foro-top-forums">
-                                        <h3>our top forums</h3>
-                                        <a href="#">View All <i class="fa-solid fa-arrow-right"></i></a>
-                                        <div class="foro-inner-box">
-                                            <h4><a href="#">general bike discussion</a></h4>
-                                            <div class="foro-stats">
-                                                <div class="foro-stat foro-comments">
-                                                    <i class="fa-solid fa-comment"></i><span> 709.4k</span>
+                                            <div class="foro-inner-box">
+                                                <h4><a href="#">member introductions</a></h4>
+                                                <div class="foro-stats">
+                                                    <div class="foro-stat foro-comments">
+                                                        <i class="fa-solid fa-comment"></i><span> 189.5k</span>
+                                                    </div>
+                                                    <div class="foro-stat foro-views">
+                                                        <i class="fa-regular fa-eye"></i><span>19.5M</span>
+                                                    </div>
                                                 </div>
-                                                <div class="foro-stat foro-views">
-                                                    <i class="fa-regular fa-eye"></i><span>104.4M</span>
+                                            </div>
+                                            <div class="foro-inner-box">
+                                                <h4><a href="#">road stories</a></h4>
+                                                <div class="foro-stats">
+                                                    <div class="foro-stat foro-comments">
+                                                        <i class="fa-solid fa-comment"></i><span> 133.5k</span>
+                                                    </div>
+                                                    <div class="foro-stat foro-views">
+                                                        <i class="fa-regular fa-eye"></i><span>7.7M</span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="foro-inner-box">
+                                                <h4><a href="#">honda shadow videos</a></h4>
+                                                <div class="foro-stats">
+                                                    <div class="foro-stat foro-comments">
+                                                        <i class="fa-solid fa-comment"></i><span> 123.1k</span>
+                                                    </div>
+                                                    <div class="foro-stat foro-views">
+                                                        <i class="fa-regular fa-eye"></i><span>16.3M</span>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="foro-inner-box">
-                                            <h4><a href="#">technical discussion</a></h4>
-                                            <div class="foro-stats">
-                                                <div class="foro-stat foro-comments">
-                                                    <i class="fa-solid fa-comment"></i><span> 599.1k</span>
-                                                </div>
-                                                <div class="foro-stat foro-views">
-                                                    <i class="fa-regular fa-eye"></i><span>81.3M</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="foro-inner-box">
-                                            <h4><a href="#">member introductions</a></h4>
-                                            <div class="foro-stats">
-                                                <div class="foro-stat foro-comments">
-                                                    <i class="fa-solid fa-comment"></i><span> 189.5k</span>
-                                                </div>
-                                                <div class="foro-stat foro-views">
-                                                    <i class="fa-regular fa-eye"></i><span>19.5M</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="foro-inner-box">
-                                            <h4><a href="#">road stories</a></h4>
-                                            <div class="foro-stats">
-                                                <div class="foro-stat foro-comments">
-                                                    <i class="fa-solid fa-comment"></i><span> 133.5k</span>
-                                                </div>
-                                                <div class="foro-stat foro-views">
-                                                    <i class="fa-regular fa-eye"></i><span>7.7M</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="foro-inner-box">
-                                            <h4><a href="#">honda shadow videos</a></h4>
-                                            <div class="foro-stats">
-                                                <div class="foro-stat foro-comments">
-                                                    <i class="fa-solid fa-comment"></i><span> 123.1k</span>
-                                                </div>
-                                                <div class="foro-stat foro-views">
-                                                    <i class="fa-regular fa-eye"></i><span>16.3M</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </section>
+                                    </section>
+                                </div>
                             </div>
-                        </div>
+                        }
+                        else
+                        {
+                           <SpinnerLoading show=@isForumsLoading/>
+                        }
                     }
                     else
                     {
-                       <SpinnerLoading show=@isForumsLoading/>
+                        <div class="detalleForo-main">
+                            <div class="comments-container">
+                                <ul id="comments-list" class="comments-list">
+                                    <li>
+                                        <div class="comment-main-level">
+                                            <div class="comment-avatar"><img src="http://i9.photobucket.com/albums/a88/creaticode/avatar_1_zps8e1c80cd.jpg" alt=""></div>
+                                            <div class="comment-box">
+                                                <div class="comment-head">
+                                                    <h6 class="comment-name by-author">@ForoSeleccionado.NombreUsuarioCreador</h6>
+                                                    <span>@ForoSeleccionado.FechaCreado</span>
+                                                    @*<i class="fa fa-reply"></i>
+                                                    <i class="fa fa-heart"></i>*@
+                                                </div>
+                                                <div class="comment-content">
+                                                   @ForoSeleccionado.Descripcion
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </li>
+                                </ul>
+                            </div>
+                            <ComponenteCargaComentario CargaComentarioInicialCallBack="CargaComentarioInicialCallBack" foro_Codigo="ForoSeleccionado.Codigo" />
+                            <!-- Contenedor Principal -->
+                            <div class="comments-container">
+                                @if (ComentariosRaiz.Count<1)
+                                {
+                                    <h1>No se han registrado comentarios </h1>
+                                }
+                                else
+                                {
+                                    <h1>Comentarios </h1>
+                                    <ul id="comments-list" class="comments-list">
+                                        @foreach (var comentario in ComentariosRaiz)
+                                        {
+                                            <li>
+                                                <div class="comment-main-level">
+                                                    <!-- Avatar -->
+                                                    <div class="comment-avatar">
+                                                        <img src="http://i9.photobucket.com/albums/a88/creaticode/avatar_1_zps8e1c80cd.jpg" alt="">
+                                                        <MudRating SelectedValue="1" ReadOnly="true" MaxValue="1" />
+                                                        <div class="comment-punctuation">
+                                                            @comentario.PromedioPuntaje (@comentario.CantidadVotos)
+                                                        </div>
+                                                    </div>
+                                                    <!-- Contenedor del Comentario -->
+                                                    <div class="comment-box">
+                                                        <div class="comment-head">
+                                                            @if (comentario.Creador==ForoSeleccionado.NombreUsuarioCreador)
+                                                            {
+                                                                <h6 class="comment-name by-author">@comentario.Creador</h6>
+                                                            }
+                                                            else
+                                                            {
+                                                                <h6 class="comment-name">@comentario.Creador</h6>
+                                                            }
+                                                            <span>@comentario.FechaCreacion</span>
+                                                            <i class="fa fa-reply" @onclick="@(()=> ToggleRespuesta(comentario.Codigo))"></i>
+                                                            @if (comentario.Creador != user?.UserName)
+                                                            {
+                                                                <i class="fa fa-heart" @onclick="@(()=> Abrir(comentario.Codigo,comentario.Creador))"></i>
+                                                            }
+                                                        </div>
+                                                        <div class="comment-content">
+                                                            @(new MarkupString (@comentario.Contenido))
+                                                        </div>
+                                                        @if (ComentarioAbierto == comentario.Codigo)
+                                                        {
+                                                            <ComponenteCargaRespuesta comentarioPadre_Codigo="comentario.Codigo" foro_Codigo="ForoSeleccionado.Codigo" comentarioPadre_Creador="@comentario.Creador" RegistrarComentarioCallBack="RegistrarComentarioCallBack" />
+                                                        }
+                                                    </div>
+                                                </div>
+                                            </li>
+                                            @if (comentario.Respuestas.Any())
+                                            {
+                                                @* Llamada recursiva para mostrar respuestas *@
+                                                <ComponenteComentarios Comentarios="@comentario.Respuestas" ForoSeleccionado="ForoSeleccionado" ComentarioAbierto="ComentarioAbierto" OnToggleRespuesta="@ToggleRespuesta" RegistrarComentarioCallBack="RegistrarComentarioCallBack" />
+
+                                            }
+                                        }
+                                    </ul>
+                                }
+                            </div>
+                        </div>
                     }
                 }
                 else
                 {
-                    <div class="detalleForo-main">
-                        <div class="comments-container">
-                            <ul id="comments-list" class="comments-list">
-                                <li>
-                                    <div class="comment-main-level">
-                                        <div class="comment-avatar"><img src="http://i9.photobucket.com/albums/a88/creaticode/avatar_1_zps8e1c80cd.jpg" alt=""></div>
-                                        <div class="comment-box">
-                                            <div class="comment-head">
-                                                <h6 class="comment-name by-author">@ForoSeleccionado.NombreUsuarioCreador</h6>
-                                                <span>@ForoSeleccionado.FechaCreado</span>
-                                                @*<i class="fa fa-reply"></i>
-                                                <i class="fa fa-heart"></i>*@
-                                            </div>
-                                            <div class="comment-content">
-                                               @ForoSeleccionado.Descripcion
-                                            </div>
-                                        </div>
-                                    </div>
-                                </li>
-                            </ul>
-                        </div>
-                        <ComponenteCargaComentario RegistrarComentarioCallBack="RegistrarComentarioCallBack" foro_Codigo="ForoSeleccionado.Codigo" />
-                        <!-- Contenedor Principal -->
-                        <div class="comments-container">
-                            <h1>Comentarios </h1>
-                            <ul id="comments-list" class="comments-list">
-                                @foreach (var comentario in ComentariosRaiz)
-                                {
-                                    <li>
-                                        <div class="comment-main-level">
-                                            <!-- Avatar -->
-                                            <div class="comment-avatar">
-                                                <img src="http://i9.photobucket.com/albums/a88/creaticode/avatar_1_zps8e1c80cd.jpg" alt="">
-                                                <MudRating SelectedValue="1" ReadOnly="true" MaxValue="1" />
-                                                <div class="comment-punctuation">
-                                                    @comentario.PromedioPuntaje (@comentario.CantidadVotos)
-                                                </div>
-                                            </div>
-                                            <!-- Contenedor del Comentario -->
-                                            <div class="comment-box">
-                                                <div class="comment-head">
-                                                    @if (comentario.Creador==ForoSeleccionado.NombreUsuarioCreador)
-                                                    {
-                                                        <h6 class="comment-name by-author">@comentario.Creador</h6>
-                                                    }
-                                                    else
-                                                    {
-                                                        <h6 class="comment-name">@comentario.Creador</h6>
-                                                    }
-                                                    <span>@comentario.FechaCreacion</span>
-                                                    <i class="fa fa-reply" @onclick="@(()=> ToggleRespuesta(comentario.Codigo))"></i>
-                                                    @if (comentario.Creador != user?.UserName)
-                                                    {
-                                                        <i class="fa fa-heart" @onclick="@(()=> Abrir(comentario.Codigo,comentario.Creador))"></i>
-                                                    }
-                                                </div>
-                                                <div class="comment-content">
-                                                    @(new MarkupString (@comentario.Contenido))
-                                                </div>
-                                                @if (ComentarioAbierto == comentario.Codigo)
-                                                {
-                                                    <ComponenteCargaRespuesta comentarioPadre_Codigo="comentario.Codigo" foro_Codigo="ForoSeleccionado.Codigo" comentarioPadre_Creador="@comentario.Creador" RegistrarComentarioCallBack="RegistrarComentarioCallBack" />
-                                                }
-                                            </div>
-                                        </div>
-                                    </li>
-                                    @if (comentario.Respuestas.Any())
-                                    {
-                                        @* Llamada recursiva para mostrar respuestas *@
-                                        <ComponenteComentarios Comentarios="@comentario.Respuestas" ForoSeleccionado="ForoSeleccionado" ComentarioAbierto="ComentarioAbierto" OnToggleRespuesta="@ToggleRespuesta" RegistrarComentarioCallBack="RegistrarComentarioCallBack" />
-
-                                    }
-                                }
-                            </ul>
-                        </div>
-                    </div>
+                    <ComponenteCrearForo Videojuegos="videojuegosForo" />
                 }
             </MudTabPanel>
             <MudTabPanel Text="Foros Recomendados">
@@ -254,34 +289,52 @@
                             <div class="foro-row">
                                 <section class="foro-left">
                                     <div class="foro-inner-left">
-                                        @*AGREGAR ENUM PARA LA SUSCRIPCION*@
-                                        @foreach (var item in ForosGenerales)
+                                        @if (ForosGenerales != null && ForosGenerales.Any())
                                         {
-                                            if (item.favorito==true)
+                                            bool tieneForosFavoritos = false;
+                                
+                                            @foreach (var item in ForosGenerales)
                                             {
-                                                <div class="foro-box">
-                                                    @*<div class="foro-img"> <img src="img/302688.jpg" alt="" /></div>*@
-                                                    <div class="foro-details">
-                                                        <p>@item.NombreVideoJuego</p>
-                                                        <h3 @onclick="@(()=> AbrirForo(item))"> @item.Titulo</h3>
-                                                        <div class="foro-sub-details">
-                                                            <span>@item.NombreUsuarioCreador</span>
-                                                            <span>@item.FechaCreado.ToShortDateString()</span>
-                                                            <div class="foro-views">
-                                                                <i class="fa-regular fa-eye"></i>
-                                                                <span>@item.Visitas</span>
-                                                            </div>
-                                                            <div class="foro-comment">
-                                                                <i class="fa-solid fa-comment"></i>
-                                                                <span>@item.CantidadComentarios</span>
+                                                if (item.favorito == true)
+                                                {
+                                                    tieneForosFavoritos = true; @* Se encontró al menos un favorito *@
+                                                    <div class="foro-box">
+                                                        <div class="foro-details">
+                                                            <p>@item.NombreVideoJuego</p>
+                                                            <h3 @onclick="@(()=> AbrirForo(item))"> @item.Titulo</h3>
+                                                            <div class="foro-sub-details">
+                                                                <span>@item.NombreUsuarioCreador</span>
+                                                                <span>@item.FechaCreado.ToShortDateString()</span>
+                                                                <div class="foro-views">
+                                                                    <i class="fa-regular fa-eye"></i>
+                                                                    <span>@item.Visitas</span>
+                                                                </div>
+                                                                <div class="foro-comment">
+                                                                    <i class="fa-solid fa-comment"></i>
+                                                                    <span>@item.CantidadComentarios</span>
+                                                                </div>
                                                             </div>
                                                         </div>
+                                                        <div class="foro-favorite" @onclick="(()=>GuardarForoFav(item))" role="button">
+                                                            <i class="fa-solid fa-bookmark"></i>
+                                                        </div>
                                                     </div>
-                                                    <div class="foro-favorite" @onclick="(()=>GuardarForoFav(item))" role="button">
-                                                        <i class="fa-solid fa-bookmark"></i>
-                                                    </div>
+                                                }
+                                            }
+
+                                            @* Mostrar mensaje si no hay foros marcados como favoritos *@
+                                            @if (!tieneForosFavoritos)
+                                            {
+                                                <div class="foro-box foro-first">
+                                                    <h3>No se han marcado foros como favorito</h3>
                                                 </div>
                                             }
+                                        }
+                                        else
+                                        {
+                                            <div class="foro-box foro-first">
+                                                <h3>No hay foros disponibles</h3>
+                                            </div>
                                         }
                                     </div>
                                 </section>
@@ -399,10 +452,16 @@
                                 </li>
                             </ul>
                         </div>
-                        <ComponenteCargaComentario RegistrarComentarioCallBack="RegistrarComentarioCallBack" foro_Codigo="ForoSeleccionado.Codigo" />
+                        <ComponenteCargaComentario CargaComentarioInicialCallBack="CargaComentarioInicialCallBack" foro_Codigo="ForoSeleccionado.Codigo" />
                         <!-- Contenedor Principal -->
                         <div class="comments-container">
-                            <h1>Comentarios </h1>
+                            @if (ComentariosRaiz.Count<1)
+                            {
+                                <h1>No se han registrado comentarios </h1>
+                            }
+                            else
+                            {
+                                <h1>Comentarios </h1>
                             <ul id="comments-list" class="comments-list">
                                 @foreach (var comentario in ComentariosRaiz)
                                 {
@@ -452,82 +511,280 @@
                                     }
                                 }
                             </ul>
+                            }
                         </div>
                     </div>
                 }
             </MudTabPanel>
-            <MudTabPanel Text="Usuarios">
-                <div class="userlist-container">
-                    <div class="userlist-row">
-                        <div class="userlist-search">
-                            <label>Search for user</label>
-                            <input type="search" @oninput="FilterUsers" placeholder="Search..." class="form-control">
-                        </div>
-                        <div id="userlist-list" class="userlist-list">
-                            @if (usuarios != null)
-                            {
-                                @foreach (var user in FilteredUsers)
-                                {
-                                    <a class="userlist-list-item" href="#">
-                                        <div class="userlist-list-item__content">
-                                            <strong class="userlist-list-item__name">
-                                                @user.UserName
-                                            </strong>
-                                            <span class="userlist-list-item__info">
-                                                @user.Email <br>
-                                                Estilo preferido: @user.Estilo_preferido <br>
-                                                Género preferido: @user.Genero_preferido <br>
-                                                Estado: @(user.Active ? "Activo" : "Inactivo")
-                                            </span>
+            <MudTabPanel Text="Tus Foros">
+                @if (!foroAbierto)
+                {
+                    @if (!isForumsLoading)
+                    {
+                        <div class="foro-container" style="display: flex; overflow-y: auto; height: 100%; width: auto;">
+                            <div class="foro-row">
+                                <section class="foro-left">
+                                    <div class="foro-inner-left">
+                                        @if (ForosGenerales.Any(item => item.NombreUsuarioCreador == user?.UserName))
+                                        {
+                                            @foreach (var item in ForosGenerales)
+                                            {
+                                                if (item.NombreUsuarioCreador == user?.UserName)
+                                                {
+                                                    <div class="foro-box">
+                                                        @*<div class="foro-img"> <img src="img/302688.jpg" alt="" /></div>*@
+                                                        <div class="foro-details">
+                                                            <p>@item.NombreVideoJuego</p>
+                                                            <h3 @onclick="@(()=> AbrirForo(item))">@item.Titulo</h3>
+                                                            <div class="foro-sub-details">
+                                                                <span>@item.NombreUsuarioCreador</span>
+                                                                <span>@item.FechaCreado.ToShortDateString()</span>
+                                                                <div class="foro-views">
+                                                                    <i class="fa-regular fa-eye"></i>
+                                                                    <span>@item.Visitas</span>
+                                                                </div>
+                                                                <div class="foro-comment">
+                                                                    <i class="fa-solid fa-comment"></i>
+                                                                    <span>@item.CantidadComentarios</span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="foro-favorite" @onclick="(()=>GuardarForoFav(item))" role="button"></div>
+                                                    </div>
+                                                }
+                                            }
+                                        }
+                                        else
+                                        {
+                                            <div class="foro-box foro-first">
+                                                <h3>No has creado foros</h3>
+                                            </div>
+                                        }
+                                    </div>
+                                </section>
+                                <section class="foro-right">
+                                    <div class="foro-box foro-first">
+                                        <h3>honda shadow forums</h3>
+                                        <span>since 2007</span>
+                                        <p>
+                                            Welcome to Honda Shadow Forum. Come in and discuss any Honda
+                                            Shadow models: VT1100, VT250, VT750 and the VT500.
+                                        </p>
+                                        <div class="foro-stats">
+                                            <div>
+                                                <h4>1.6M</h4>
+                                                <span>posts</span>
+                                            </div>
+                                            <div>
+                                                <h4>79.4k</h4>
+                                                <span>members</span>
+                                            </div>
                                         </div>
-                                    </a>
-                                }
+                                        <div class="foro-buttons">
+                                            <a href="#" class="foro-btn foro-btn-red"><i class="fa-solid fa-user-large"></i> join community</a>
+                                            <a class="foro-btn foro-btn-white" @onclick="OpenDialogAsync"><i class="fa-solid fa-plus" @onclick="OpenDialogAsync"></i> Crear foro</a>
+                                        </div>
+                                    </div>
+                                    <div class="foro-box foro-top-forums">
+                                        <h3>our top forums</h3>
+                                        <a href="#">View All <i class="fa-solid fa-arrow-right"></i></a>
+                                        <div class="foro-inner-box">
+                                            <h4><a href="#">general bike discussion</a></h4>
+                                            <div class="foro-stats">
+                                                <div class="foro-stat foro-comments">
+                                                    <i class="fa-solid fa-comment"></i><span> 709.4k</span>
+                                                </div>
+                                                <div class="foro-stat foro-views">
+                                                    <i class="fa-regular fa-eye"></i><span>104.4M</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="foro-inner-box">
+                                            <h4><a href="#">technical discussion</a></h4>
+                                            <div class="foro-stats">
+                                                <div class="foro-stat foro-comments">
+                                                    <i class="fa-solid fa-comment"></i><span> 599.1k</span>
+                                                </div>
+                                                <div class="foro-stat foro-views">
+                                                    <i class="fa-regular fa-eye"></i><span>81.3M</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="foro-inner-box">
+                                            <h4><a href="#">member introductions</a></h4>
+                                            <div class="foro-stats">
+                                                <div class="foro-stat foro-comments">
+                                                    <i class="fa-solid fa-comment"></i><span> 189.5k</span>
+                                                </div>
+                                                <div class="foro-stat foro-views">
+                                                    <i class="fa-regular fa-eye"></i><span>19.5M</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="foro-inner-box">
+                                            <h4><a href="#">road stories</a></h4>
+                                            <div class="foro-stats">
+                                                <div class="foro-stat foro-comments">
+                                                    <i class="fa-solid fa-comment"></i><span> 133.5k</span>
+                                                </div>
+                                                <div class="foro-stat foro-views">
+                                                    <i class="fa-regular fa-eye"></i><span>7.7M</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="foro-inner-box">
+                                            <h4><a href="#">honda shadow videos</a></h4>
+                                            <div class="foro-stats">
+                                                <div class="foro-stat foro-comments">
+                                                    <i class="fa-solid fa-comment"></i><span> 123.1k</span>
+                                                </div>
+                                                <div class="foro-stat foro-views">
+                                                    <i class="fa-regular fa-eye"></i><span>16.3M</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </section>
+                            </div>
+                        </div>
+                    }
+                    else
+                    {
+                       <SpinnerLoading show=@isForumsLoading/>
+                    }
+                }
+                else
+                {
+                    <div class="detalleForo-main">
+                        <div class="comments-container">
+                            <ul id="comments-list" class="comments-list">
+                                <li>
+                                    <div class="comment-main-level">
+                                        <div class="comment-avatar"><img src="http://i9.photobucket.com/albums/a88/creaticode/avatar_1_zps8e1c80cd.jpg" alt=""></div>
+                                        <div class="comment-box">
+                                            <div class="comment-head">
+                                                <h6 class="comment-name by-author">@ForoSeleccionado.NombreUsuarioCreador</h6>
+                                                <span>@ForoSeleccionado.FechaCreado</span>
+                                                @*<i class="fa fa-reply"></i>
+                                                <i class="fa fa-heart"></i>*@
+                                            </div>
+                                            <div class="comment-content">
+                                               @ForoSeleccionado.Descripcion
+                                            </div>
+                                        </div>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                        <ComponenteCargaComentario CargaComentarioInicialCallBack="CargaComentarioInicialCallBack" foro_Codigo="ForoSeleccionado.Codigo" />
+                        <!-- Contenedor Principal -->
+                        <div class="comments-container">
+                            @if (ComentariosRaiz.Count<1)
+                            {
+                                <h1>No se han registrado comentarios </h1>
+                            }
+                            else
+                            {
+                                <h1>Comentarios </h1>
+                                <ul id="comments-list" class="comments-list">
+                                    @foreach (var comentario in ComentariosRaiz)
+                                    {
+                                        <li>
+                                            <div class="comment-main-level">
+                                                <!-- Avatar -->
+                                                <div class="comment-avatar">
+                                                    <img src="http://i9.photobucket.com/albums/a88/creaticode/avatar_1_zps8e1c80cd.jpg" alt="">
+                                                    <MudRating SelectedValue="1" ReadOnly="true" MaxValue="1" />
+                                                    <div class="comment-punctuation">
+                                                        @comentario.PromedioPuntaje (@comentario.CantidadVotos)
+                                                    </div>
+                                                </div>
+                                                <!-- Contenedor del Comentario -->
+                                                <div class="comment-box">
+                                                    <div class="comment-head">
+                                                        @if (comentario.Creador==ForoSeleccionado.NombreUsuarioCreador)
+                                                        {
+                                                            <h6 class="comment-name by-author">@comentario.Creador</h6>
+                                                        }
+                                                        else
+                                                        {
+                                                            <h6 class="comment-name">@comentario.Creador</h6>
+                                                        }
+                                                        <span>@comentario.FechaCreacion</span>
+                                                        <i class="fa fa-reply" @onclick="@(()=> ToggleRespuesta(comentario.Codigo))"></i>
+                                                        @if (comentario.Creador != user?.UserName)
+                                                        {
+                                                            <i class="fa fa-heart" @onclick="@(()=> Abrir(comentario.Codigo,comentario.Creador))"></i>
+                                                        }
+                                                    </div>
+                                                    <div class="comment-content">
+                                                        @(new MarkupString (@comentario.Contenido))
+                                                    </div>
+                                                    @if (ComentarioAbierto == comentario.Codigo)
+                                                    {
+                                                        <ComponenteCargaRespuesta comentarioPadre_Codigo="comentario.Codigo" foro_Codigo="ForoSeleccionado.Codigo" comentarioPadre_Creador="@comentario.Creador" RegistrarComentarioCallBack="RegistrarComentarioCallBack" />
+                                                    }
+                                                </div>
+                                            </div>
+                                        </li>
+                                        @if (comentario.Respuestas.Any())
+                                        {
+                                            @* Llamada recursiva para mostrar respuestas *@
+                                            <ComponenteComentarios Comentarios="@comentario.Respuestas" ForoSeleccionado="ForoSeleccionado" ComentarioAbierto="ComentarioAbierto" OnToggleRespuesta="@ToggleRespuesta" RegistrarComentarioCallBack="RegistrarComentarioCallBack" />
+
+                                        }
+                                    }
+                                </ul>
                             }
                         </div>
                     </div>
-                </div>
-               @* <main class="userlist-table" id="customers_table">
-                    <section class="userlist-table__header">
-                        <h1 class="userlist-title">Usuarios de la plataforma</h1>
-                        <div class="userlist-input-group">
-                            <input class="userlist-input" type="search" placeholder="Buscar usuario..." @oninput="OnSearchInput">
-                            <img src="images/search.png" alt="">
-                        </div>
-                    </section>
-                    <section class="userlist-table__body">
-                        <table class="userlist-table">
-                            <thead>
-                                <tr>
-                                    <th class="userlist-th"> Usuario <span class="userlist-icon-arrow">&UpArrow;</span></th>
-                                    <th class="userlist-th"> Email <span class="userlist-icon-arrow">&UpArrow;</span></th>
-                                    <th class="userlist-th"> Estilo preferido <span class="userlist-icon-arrow">&UpArrow;</span></th>
-                                    <th class="userlist-th"> Genero preferido <span class="userlist-icon-arrow">&UpArrow;</span></th>
-                                    <th class="userlist-th"> Status <span class="userlist-icon-arrow">&UpArrow;</span></th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach (var item in filteredUsuarios)
+                }
+            </MudTabPanel>
+            <MudTabPanel Text="Usuarios" OnClick="AbrirUsuarios">
+                @if (!UsuarioDetalle)
+                {
+                    <div class="userlist-container">
+                        <div class="userlist-row">
+                            <div class="userlist-search">
+                                <label>Search for user</label>
+                                <input type="search" @oninput="FilterUsers" placeholder="Search..." class="form-control">
+                            </div>
+                            <div id="userlist-list" class="userlist-list">
+                                @if (usuarios != null)
                                 {
-                                    <tr>
-                                        <td class="userlist-td">
-                                            <img src="images/Zinzu Chan Lee.jpg" alt=""> @item.UserName
-                                        </td>
-                                        <td class="userlist-td">@item.Email</td>
-                                        <td class="userlist-td">@item.Estilo_preferido</td>
-                                        <td class="userlist-td">@item.Genero_preferido</td>
-                                        <td class="userlist-td">
-                                            <p class="userlist-status @(item.Active ? "delivered" : "cancelled")">@item.Active</p>
-                                        </td>
-                                    </tr>
+                                    @foreach (var user in FilteredUsers)
+                                    {
+                                        <div class="userlist-list-item" @onclick="AbrirDetalleUsuario">
+                                            <div class="userlist-list-item__avatar">
+                                               <img src="/assets/Usuario Menu/user.png" alt="">
+                                            </div
+                                            <div class="userlist-list-item__content">
+                                                <strong class="userlist-list-item__name">
+                                                    @user.UserName
+                                                </strong>
+                                                <span class="userlist-list-item__info">
+                                                    @user.Email <br>
+                                                    Estilo preferido: @user.Estilo_preferido <br>
+                                                    Género preferido: @user.Genero_preferido <br>
+                                                    Estado: @(user.Active ? "Activo" : "Inactivo")
+                                                </span>
+                                            </div>
+                                        </div>
+                                    }
                                 }
-                            </tbody>
-                        </table>
-                    </section>
-                </main>*@
+                            </div>
+                        </div>
+                    </div>
+                }
+                else
+                {
+                   <ComponenteDetalleUsuario />
+                }
             </MudTabPanel>
         </MudTabs>
     </main>
 </div>
+<CreateForumDialog ShowPopup="@showLoginPopup" OnClose="CloseForumDialogAsync" Videojuegos="videojuegosForo"/>
 
 @code {
     /* LISTADO DE USUARIOS */
@@ -551,13 +808,17 @@
             ).ToList();
         }
     }
-/*----------------------------------------------------------------------------*/
+    /*----------------------------------------------------------------------------*/
 
 
     private string searchString1 = "";
     private bool isForumsLoading;
     private int? ComentarioAbierto;
     private bool _visible;
+    private bool forosfav;
+    private bool forosprop;
+    private bool forosrec;
+
     private int _rating;
     private readonly DialogOptions _dialogOptions = new() { FullWidth = true };
 
@@ -596,9 +857,11 @@
     public ICollection<UserResponse> usuarios = new HashSet<UserResponse>();
     public ICollection<ComentarioResponse> Comentarios = new HashSet<ComentarioResponse>();
     public ICollection<ComentarioResponse> ComentariosRaiz = new HashSet<ComentarioResponse>();
-    public IEnumerable<VideojuegoForoReponse> videojuegosForo = new List<VideojuegoForoReponse>();
+    public ICollection<VideojuegoForoReponse> videojuegosForo = new HashSet<VideojuegoForoReponse>();
     public LoginTokenResponse user;
     public bool foroAbierto;
+    public bool CreacionForo;
+    public bool UsuarioDetalle;
     public string? foroSeleccionado;
 
     protected override async Task OnInitializedAsync()
@@ -606,8 +869,13 @@
         try
         {
             foroAbierto = false;
+            CreacionForo = false;
+            UsuarioDetalle = false;
             ComentarioAbierto = null;
             isForumsLoading = true;
+            forosfav = false;
+            forosprop = false;
+            forosrec = false;
             foroSeleccionado = "";
             StateHasChanged();
         }
@@ -626,13 +894,28 @@
             {
                 try
                 {
-                    var user = await sessionStorage.GetItemAsync<LoginTokenResponse>("user");
+                    user = await sessionStorage.GetItemAsync<LoginTokenResponse>("user");
                     httpClient.DefaultRequestHeaders.Clear();
                     httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", user.Token);
                     ForosGenerales = await httpClient.GetFromJsonAsync<List<ForoResponse>>("Foro/ObtenerForosGenerales");
                     usuarios = await httpClient.GetFromJsonAsync<List<UserResponse>>("Users/ObtenerUsuarios");
                     FilteredUsers = usuarios;
                     videojuegosForo = await httpClient.GetFromJsonAsync<List<VideojuegoForoReponse>>("Videojuego/ObtenerVideojuegosForo");
+                    Snackbar.Clear();
+                    Snackbar.Add("Conecta tu cuenta de Steam", Severity.Info, (options) =>
+                    {
+                        options.CloseAfterNavigation = false;
+                        options.Onclick = snackbar =>
+                        {
+                            Navigation.NavigateTo("/Config");
+                            return Task.CompletedTask;
+                        };
+                        //config.Onclick = snackbar =>
+                        //{
+                        //    SayHello();
+                        //    return Task.CompletedTask;
+                        //};
+                    });
                 }
                 catch (Exception) 
                 { 
@@ -659,7 +942,18 @@
     {
         try
         {
-            //EN ESTA PARTE VAMOS A TENER QUE HACER UN LLAMADO A LA API PARA OBTENER EL FORO QUE SE DESEA ABRIR
+            ForoUsuarioVisitaRequest foroUsuarioVisitaRequest = new ForoUsuarioVisitaRequest();
+
+            foroUsuarioVisitaRequest.Foro_ID = Foro.Codigo;
+
+            user = await sessionStorage.GetItemAsync<LoginTokenResponse>("user");
+            httpClient.DefaultRequestHeaders.Clear();
+            httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", user.Token);
+
+            var result = await httpClient.PostAsJsonAsync<ForoUsuarioVisitaRequest>($"Foro/RegistrarVisita", foroUsuarioVisitaRequest);
+
+            var test = await result.Content.ReadAsStringAsync();
+
             Comentarios = await httpClient.GetFromJsonAsync<List<ComentarioResponse>>($"Foro/ObtenerComentariosPorForo?ForoId={Foro.Codigo}");
             ComentariosRaiz = ConstruirJerarquiaDeComentarios(Comentarios);
             ForoSeleccionado = Foro;
@@ -668,6 +962,42 @@
         catch (Exception)
         {
             foroAbierto = false;
+            //<<<IMPORTANTE>>>
+            //SI YO PONGO THROW EN UN CATCH EN ESTA INSTANCIA YO MANDO LA EXCEPCION AL FRONT Y VA A ROMPER LA WEB ABRUPTAMENTE
+            //LO IDEAL ACA ES MOSTRAR UN MENSAJE AL USUARIO QUE OCURRIO UN ERROR AL ABRIR EL FORO
+        }
+        finally
+        {
+            StateHasChanged();
+        }
+    }
+    protected async Task CrearForo()
+    {
+        try
+        {
+            CreacionForo = true;
+        }
+        catch (Exception)
+        {
+            CreacionForo = false;
+            //<<<IMPORTANTE>>>
+            //SI YO PONGO THROW EN UN CATCH EN ESTA INSTANCIA YO MANDO LA EXCEPCION AL FRONT Y VA A ROMPER LA WEB ABRUPTAMENTE
+            //LO IDEAL ACA ES MOSTRAR UN MENSAJE AL USUARIO QUE OCURRIO UN ERROR AL ABRIR EL FORO
+        }
+        finally
+        {
+            StateHasChanged();
+        }
+    }
+    protected async Task AbrirDetalleUsuario()
+    {
+        try
+        {
+            UsuarioDetalle = true;
+        }
+        catch (Exception)
+        {
+            UsuarioDetalle = false;
             //<<<IMPORTANTE>>>
             //SI YO PONGO THROW EN UN CATCH EN ESTA INSTANCIA YO MANDO LA EXCEPCION AL FRONT Y VA A ROMPER LA WEB ABRUPTAMENTE
             //LO IDEAL ACA ES MOSTRAR UN MENSAJE AL USUARIO QUE OCURRIO UN ERROR AL ABRIR EL FORO
@@ -708,23 +1038,41 @@
 
     protected async Task AbrirForosGenerales()
     {
+        CreacionForo = false;
         foroAbierto = false;
         StateHasChanged();
     }
 
-    private Task OpenDialogAsync()
+    protected async Task AbrirUsuarios()
     {
-        var options = new DialogOptions 
-        { 
-            CloseOnEscapeKey = true ,
-            MaxWidth = MaxWidth.ExtraLarge, // Establece el tamaño máximo
-            FullWidth = true // Habilita el ancho completo
-        };
+        UsuarioDetalle = false;
+        StateHasChanged();
+    }
 
-        var parameters = new DialogParameters();
-        parameters.Add("Videojuegos", videojuegosForo);
+    private bool showLoginPopup = false;
 
-        return DialogService.ShowAsync<CreateForumDialog>("Crear foro", parameters, options);
+    protected async Task OpenDialogAsync()
+    {
+        showLoginPopup = true;
+    }
+
+    protected async Task CloseForumDialogAsync()
+    {
+        try
+        {
+            ForosGenerales = await httpClient.GetFromJsonAsync<List<ForoResponse>>("Foro/ObtenerForosGenerales");
+            showLoginPopup = false;
+        }
+        catch (Exception)
+        {
+
+        }
+        finally
+        {
+            StateHasChanged();
+        }
+
+
     }
 
     private async Task RegistrarComentarioCallBack()
@@ -732,6 +1080,22 @@
         try
         {
             ToggleRespuesta(ComentarioAbierto.Value);
+            await AbrirForo(ForoSeleccionado);
+
+        }
+        catch (Exception)
+        {
+
+        }
+        finally
+        {
+            StateHasChanged();
+        }
+    }
+    private async Task CargaComentarioInicialCallBack()
+    {
+        try
+        {
             await AbrirForo(ForoSeleccionado);
 
         }

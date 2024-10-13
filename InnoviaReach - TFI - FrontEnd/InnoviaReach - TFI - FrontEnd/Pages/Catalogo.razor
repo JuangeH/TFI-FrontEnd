@@ -4,7 +4,9 @@
 @using InnoviaReach___TFI___FrontEnd.Data
 @using System.Net.Http.Headers
 @inject HttpClient httpClient
+@inject ISnackbar Snackbar
 @inject ISessionStorageService sessionStorage
+@inject NavigationManager NavManager
 
 <section class="cat-sc-category" style="height: 100vh">
     <div class="cat-container">
@@ -21,10 +23,11 @@
         </div>
         @if (!isForumsLoading)
         {
+            <VideojuegoDetailDialog Show="@showPopup" OnClose="ClosePopup"></VideojuegoDetailDialog>
             <div class="cat-mt-16 cat-grid cat-gap-6 cat-sm:grid-cols-2 cat-md:grid-cols-3">
                 @foreach (var item in videojuegos)
                 {
-                    <div class="cat-store-item">
+                    <div class="cat-store-item" @onclick="OpenPopup">
                         <div class="cat-img-fit-cover">
                             <img class="cat-img" src="assets/Recomendaciones/images/store-1.png" alt="">
                         </div>
@@ -68,6 +71,18 @@
     private int pageSize = 21;
     private int totalRecords;
 
+    private bool showPopup = false;
+
+    private void OpenPopup()
+    {
+        showPopup = true;
+    }
+
+    private void ClosePopup()
+    {
+        showPopup = false;
+    }
+
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         try
@@ -79,6 +94,21 @@
                     var user = await sessionStorage.GetItemAsync<LoginTokenResponse>("user");
                     httpClient.DefaultRequestHeaders.Clear();
                     httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", user.Token);
+                    Snackbar.Clear();
+                    Snackbar.Add("Conecta tu cuenta de Steam", Severity.Info, (options) =>
+                    {
+                        options.CloseAfterNavigation = false;
+                        options.Onclick = snackbar =>
+                        {
+                            NavManager.NavigateTo("/Config");
+                            return Task.CompletedTask;
+                        };
+                        //config.Onclick = snackbar =>
+                        //{
+                        //    SayHello();
+                        //    return Task.CompletedTask;
+                        //};
+                    });
                     await LoadData();
                 }
                 catch (Exception)

@@ -1,0 +1,22 @@
+﻿<div class="popup" style="@(Show ? "visibility:visible; opacity:1;" : "")">
+    <div class="popup-inner" style="@(Show ? "bottom:0; right:0; transform:rotate(0);" : "")">
+        <div class="popup__photo">
+            <img src="/assets/Recomendaciones/images/steam.jpg" alt="">
+        </div>
+        <div class="popup__text">
+            <h1>Cuenta de Steam</h1>
+            <p>Para que el sistema pueda otorgar recomendaciones acertadas se debe cargar el steamid y poner el perfil de steam en público o generar y registrar el api key a partir del siguiente enlace: https://steamcommunity.com/login/home/?goto=%2Fdev%2Fapikey.</p>
+        </div>
+        <div class="popup__close" @onclick="ClosePopup">X</div>
+    </div>
+</div>
+
+@code {
+    [Parameter] public bool Show { get; set; }
+    [Parameter] public EventCallback OnClose { get; set; }
+
+    private void ClosePopup()
+    {
+        OnClose.InvokeAsync();
+    }
+}

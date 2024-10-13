@@ -98,6 +98,11 @@ main .foro-right .foro-first h3 {
     color: var(--lightBlackColor);
 }
 
+main .foro-left .foro-first h3 {
+    color: black;
+}
+
+
 main .foro-right .foro-first span {
     display: block;
     color: var(--darkGrayColor);
