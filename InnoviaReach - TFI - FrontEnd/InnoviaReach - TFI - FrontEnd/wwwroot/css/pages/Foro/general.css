@@ -143,3 +143,26 @@ a {
     cursor: pointer;
     font-size: 26px;
 }
+
+.carousel-container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.carousel-row {
+    display: flex;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    gap: 20px;
+    padding: 10px;
+}
+
+.forum-card {
+    min-width: 300px;
+    background-color: #f0f0f0;
+    padding: 15px;
+    border-radius: 10px;
+    scroll-snap-align: start;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}

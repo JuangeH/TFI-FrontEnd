@@ -1,10 +1,12 @@
-﻿main .foro-left h2 {
+﻿main .foro-left h2,
+main .foro-row-recommended h2{
     margin-bottom: 2.7rem;
     font-size: var(--fs24);
     color: var(--lightBlackColor);
 }
 
-main .foro-left .foro-inner-left .foro-box {
+main .foro-left .foro-inner-left .foro-box,
+main .foro-row-recommended .foro-box {
     display: flex;
     align-items: center;
     background-color: var(--whiteColor);
@@ -17,41 +19,73 @@ main .foro-left .foro-inner-left .foro-box {
     align-items: flex-start;
 }
 
-main .foro-left .foro-inner-left .foro-box .foro-img {
-    display: none;
-    width: 4.8rem;
-    height: 4.8rem;
-    border-radius: 0.8rem;
-    overflow: hidden;
+main .foro-row-recommended .foro-box {
+    height: 250px;
+    width: 300px;
+    min-width: 300px;
 }
 
-main .foro-left .foro-inner-left .foro-box .foro-details {
-    padding-left: 1.2rem;
-}
+    main .foro-left .foro-inner-left .foro-box .foro-img,
+    main .foro-row-recommended .foro-box .foro-img {
+        display: none;
+        width: 4.8rem;
+        height: 4.8rem;
+        border-radius: 0.8rem;
+        overflow: hidden;
+    }
 
-main .foro-left .foro-inner-left .foro-box .foro-details p {
-    font-size: 1.3rem;
-    text-transform: capitalize;
-    color: var(--darkGrayColor);
-}
+    main .foro-left .foro-inner-left .foro-box .foro-details,
+    main .foro-row-recommended .foro-box .foro-details {
+        padding-left: 1.2rem;
+    }
+    main .foro-row-recommended .foro-box .foro-details {
+        padding-left: 1.2rem;
+        width: 100%;
+    }
 
-main .foro-left .foro-inner-left .foro-box .foro-details h3 {
-    font-weight: 700;
-    color: var(--darkRedColor);
-    font-size: var(--fs18);
-    letter-spacing: -0.02em;
-}
+        main .foro-left .foro-inner-left .foro-box .foro-details p,
+        main .foro-row-recommended .foro-box .foro-details p {
+            font-size: 1.3rem;
+            text-transform: capitalize;
+            color: var(--darkGrayColor);
+        }
 
-main .foro-left .foro-inner-left .foro-box .foro-details .foro-sub-details {
-    display: flex;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 0.4rem;
-}
+        main .foro-left .foro-inner-left .foro-box .foro-details h3,
+        main .foro-row-recommended .foro-box .foro-details h3{
+            font-weight: 700;
+            color: var(--darkRedColor);
+            font-size: var(--fs18);
+            letter-spacing: -0.02em;
+        }
+        main .foro-row-recommended .foro-box .foro-details h3 {
+            font-weight: 700;
+            color: var(--darkRedColor);
+            font-size: var(--fs18);
+            letter-spacing: -0.02em;
+            width: 100%; /*
+            word-break:break-all;*/
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            overflow: hidden;
+        }
 
-main .foro-left .foro-inner-left .foro-box .foro-details .foro-sub-details span {
-    color: var(--darkGrayColor);
-}
+        .foroRecommended-title{
+            display:block;
+            width:100%
+        }
+
+        main .foro-left .foro-inner-left .foro-box .foro-details .foro-sub-details,
+        main .foro-row-recommended .foro-box .foro-details .foro-sub-details {
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 0.4rem;
+        }
+
+            main .foro-left .foro-inner-left .foro-box .foro-details .foro-sub-details span,
+            main .foro-row-recommended .foro-box .foro-details .foro-sub-details span {
+                color: var(--darkGrayColor);
+            }
 
     .foro-comment, .foro-views {
         padding: 0.2rem 0.8rem 0;
@@ -68,6 +102,14 @@ main .foro-left .foro-inner-left .foro-box .foro-details .foro-sub-details span 
 /*main .foro-right {
     display: none;
 }*/
+
+.informacionusr, .metricas {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    width: 100%;
+    gap: 4px;
+}
 
 .foro-left {
     width: 60%;
@@ -404,18 +446,32 @@ main .foro-right .foro-recommended-communities h3 {
     background-color: #333333;
 }
 
-.foro-row {
-    display: flex;
+.foro-row, .foro-row-recommended {
     flex-direction: row;
+    display: flex;
     grid-gap: 20px;
     width: 100%;
-
     padding-left: 1rem;
     padding-right: 1rem;
     padding-top: 1rem;
 }
+.foro-row-recommended {
+    overflow-x: auto;
+    overflow-y: hidden;
+    height: auto;
+    /*padding:16px;*/
+    max-width:140vh;
+    min-width:100%;
+}
+/* Títulos para las filas de recomendaciones */
+.foro-row-recommended-title {
+    font-size: var(--fs24);
+    color: var(--darkGrayColor);
+    margin-bottom: 16px;
+    text-transform: capitalize;
+}
 
-.foro-principal{
+.foro-principal {
     height: 100vh;
 }
 
