@@ -6,269 +6,131 @@
 @inject NavigationManager NavManager
 @inject IDialogService DialogService
 
-@*<EditForm Model="@_registerRequest" OnValidSubmit="OnValidSubmit">
+<EditForm Model="_registerRequest">
     <DataAnnotationsValidator />
-    <MudGrid Justify="Justify.Center">
-        <MudItem xs="12" sm="7">
-            <MudCard>
-                <MudCardContent>
-                    <MudTextField Label="Nombre"
-                                  @bind-Value="_registerRequest.FirstName" For="@(() => _registerRequest.FirstName)" />
-                    <MudTextField Label="Apellido"
-                                  @bind-Value="_registerRequest.LastName" For="@(() => _registerRequest.LastName)" />
-                    <MudTextField Label="Email" Class="mt-3"
-                                  @bind-Value="_registerRequest.Email" For="@(() => _registerRequest.Email)" />
-                    <MudTextField Label="Contraseña" Class="mt-3"
-                                  @bind-Value="_registerRequest.Password" For="@(() => _registerRequest.Password)" InputType="InputType.Password" />
-                    <MudTextField Label="Confirmar contraseña" Class="mt-3"
-                                  @bind-Value="_registerRequest.ConfirmPassword" For="@(() => _registerRequest.ConfirmPassword)" InputType="InputType.Password" />
-                    <MudTextField Label="Numero" Class="mt-3"
-                                  @bind-Value="_registerRequest.PhoneNumber" For="@(() => _registerRequest.PhoneNumber)"/>
-                    <MudSelect T="string" Label="Idioma preferido" For="@(() => _registerRequest.Idioma)" AnchorOrigin="Origin.BottomCenter" @bind-Value="_registerRequest.Idioma">
-                        <MudSelectItem Value="@("Español")" />
-                        <MudSelectItem Value="@("Ingles")" />
-                    </MudSelect>
-                    <MudSelect T="string" Label="Estilo de juego preferido" For="@(() => _registerRequest.Estilo_preferido)" AnchorOrigin="Origin.BottomCenter" @bind-Value="_registerRequest.Estilo_preferido">
-                        <MudSelectItem Value="@("Un jugador")" />
-                        <MudSelectItem Value="@("Multijugador")" />
-                        <MudSelectItem Value="@("Cooperativo")" />
-                    </MudSelect>
-                    <MudSelect T="string" Label="Genero de juego preferido" For="@(() => _registerRequest.Genero_preferido)" AnchorOrigin="Origin.BottomCenter" @bind-Value="_registerRequest.Genero_preferido">
-                        <MudSelectItem Value="@("Accion")" />
-                        <MudSelectItem Value="@("Rol")" />
-                        <MudSelectItem Value="@("Estrategia")" />
-                        <MudSelectItem Value="@("Aventura")" />
-                        <MudSelectItem Value="@("Simulacion")" />
-                        <MudSelectItem Value="@("Deportes y carreras")" />
-                    </MudSelect>
+    <ValidationSummary />
+    <div class="background"></div>
+    <div class="centering">
+        <form class="my-form register" @onsubmit="@(()=> Submit())">
+            <div class="signup-welcome-row">
+                <img class="signup-welcome" alt="Logo" src="/assets/Registrarse/logo.svg" />
+                <h1>Sign Up!</h1>
+            </div>
+            <div class="socials-row">
+                <a href="#" title="Use Google">
+                    <img src="assets/Iniciar sesion/google.png" alt="Google" />
+                    Use Google
+                </a>
+            </div>
+            <div class="divider">
+                <div class="divider-line"></div>
+                OR
+                <div class="divider-line"></div>
+            </div>
 
-                </MudCardContent>
-                <MudCardActions>
-                    <MudButton ButtonType="ButtonType.Submit" Variant="Variant.Filled" Color="Color.Primary" OnClick="@Submit" Class="ml-auto">Registrarse</MudButton>
-                </MudCardActions>
-                <MudCardActions>
-                    <MudButton ButtonType="ButtonType.Submit" OnClick="@LogIn" Variant="Variant.Filled" Color="Color.Info" Class="ml-auto">Volver a inicio de sesión</MudButton>
-                </MudCardActions>
-            </MudCard>
-        </MudItem>
-    </MudGrid>
-</EditForm>*@
+            <div class="box-conteiner">
+                <div class="register-box">
+                    <div class="my-form__content">
+                        <div class="text-field">
+                            <label for="email">Email:</label>
+                            <input aria-label="Email" type="email" id="email" @bind="_registerRequest.Email"
+                                   name="email" placeholder="Email" autocomplete="off" required />
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-mail"
+                                 width="44" height="44" viewBox="0 0 24 24" stroke-width="1.5" stroke="#A7A2CB"
+                                 fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                <path d="M3 7a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v10a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2v-10z" />
+                                <path d="M3 7l9 6l9 -6" />
+                            </svg>
+                        </div>
 
-<div class="background"></div>
-        <div class="centering">
-            <form class="my-form register">
-                <div class="signup-welcome-row">
-                    <img
-                        class="signup-welcome"
-                        alt="Logo"
-                        src="/assets/Registrarse/logo.svg"
-                    >
-                    <h1>Sign Up!</h1>
-                </div>
-                <div class="socials-row">
-                    <a
-                        href="#"
-                        title="Use Google"
-                    >
-                        <img src="assets/Iniciar sesion/google.png" alt="Google">
-                        Use Google
-                    </a>
-                </div>
-                <div class="divider">
-                    <div class="divider-line"></div>
-                    OR
-                    <div class="divider-line"></div>
-                </div>
-        <div class="box-conteiner">
-            <div class="register-box">
-                <div class="my-form__content">
-                    <div class="text-field">
-                        <label for="email">Email:</label>
-                        <input aria-label="Email"
-                               type="email"
-                               id="email"
-                               name="email"
-                               placeholder="Email"
-                               autocomplete="off"
-                               required>
-                        <svg xmlns="http://www.w3.org/2000/svg"
-                             class="icon icon-tabler icon-tabler-mail"
-                             width="44" height="44"
-                             viewBox="0 0 24 24"
-                             stroke-width="1.5"
-                             stroke="#A7A2CB"
-                             fill="none"
-                             stroke-linecap="round"
-                             stroke-linejoin="round">
-                            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                            <path d="M3 7a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v10a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2v-10z" />
-                            <path d="M3 7l9 6l9 -6" />
-                        </svg>
-                    </div>
-                    <div class="text-field">
-                        <label for="password">
-                            Password:
-                            <input id="password" type="password" name="password" placeholder="Your Password" title="Minimum 6 characters at
-                                                            least 1 Alphabet and 1 Number"
-                                   pattern="^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$" required>
+                        <div class="text-field">
+                            <label for="password">Password:</label>
+                            <input id="password" type="password" @bind="_registerRequest.Password"
+                                   name="password" placeholder="Your Password"
+                                   title="Minimum 6 characters at least 1 Alphabet and 1 Number"
+                                   pattern="^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$" required />
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
                                  stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
                                  stroke-linejoin="round">
                                 <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                                <path d="M5 13a2 2 0 0 1 2 -2h10a2 2 0 0 1 2 2v6a2 2 0 0 1 -2 2h-10a2 2 0 0 1 -2 -2v-6z">
-                                </path>
+                                <path d="M5 13a2 2 0 0 1 2 -2h10a2 2 0 0 1 2 2v6a2 2 0 0 1 -2 2h-10a2 2 0 0 1 -2 -2v-6z"></path>
                                 <path d="M11 16a1 1 0 1 0 2 0a1 1 0 0 0 -2 0"></path>
                                 <path d="M8 11v-4a4 4 0 1 1 8 0v4"></path>
                             </svg>
-                        </label>
-                    </div>
-                    <div class="text-field">
-                        <label for="confirm-password">
-                            Repeat Password:
-                            <input id="confirm-password" type="password" name="password" placeholder="Repeat Password"
-                                   title="Minimum 6 characters at east 1 Alphabet and 1 Number"
-                                   pattern="^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$" required>
+                        </div>
+
+                        <div class="text-field">
+                            <label for="confirm-password">Repeat Password:</label>
+                            <input id="confirm-password" type="password" @bind="_registerRequest.ConfirmPassword"
+                                   name="confirm-password" placeholder="Repeat Password"
+                                   title="Minimum 6 characters at least 1 Alphabet and 1 Number"
+                                   pattern="^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$" required />
                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
                                  stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
                                  stroke-linejoin="round">
                                 <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                                <path d="M5 13a2 2 0 0 1 2 -2h10a2 2 0 0 1 2 2v6a2 2 0 0 1 -2 2h-10a2 2 0 0 1 -2 -2v-6z">
-                                </path>
+                                <path d="M5 13a2 2 0 0 1 2 -2h10a2 2 0 0 1 2 2v6a2 2 0 0 1 -2 2h-10a2 2 0 0 1 -2 -2v-6z"></path>
                                 <path d="M11 16a1 1 0 1 0 2 0a1 1 0 0 0 -2 0"></path>
                                 <path d="M8 11v-4a4 4 0 1 1 8 0v4"></path>
                             </svg>
-                        </label>
+                        </div>
+
+                        <div class="text-field">
+                            <label for="numero">Numero:</label>
+                            <input aria-label="Numero" type="text" @bind="_registerRequest.PhoneNumber" id="numero"
+                                   name="numero" placeholder="Tu numero" autocomplete="off" required />
+                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user"
+                                 width="44" height="44" viewBox="0 0 24 24" stroke-width="1.5" stroke="#A7A2CB"
+                                 fill="none" stroke-linecap="round" stroke-linejoin="round">
+                                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                <path d="M3 7a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v10a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2v-10z" />
+                                <path d="M3 7l9 6l9 -6" />
+                            </svg>
+                        </div>
                     </div>
-                    <div class="text-field">
-                        <label for="numero">Numero:</label>
-                        <input aria-label="Numero"
-                               type="text"
-                               id="numero"
-                               name="numero"
-                               placeholder="Tu numero"
-                               autocomplete="off"
-                               required>
-                        <svg xmlns="http://www.w3.org/2000/svg"
-                             class="icon icon-tabler icon-tabler-user"
-                             width="44" height="44"
-                             viewBox="0 0 24 24"
-                             stroke-width="1.5"
-                             stroke="#A7A2CB"
-                             fill="none"
-                             stroke-linecap="round"
-                             stroke-linejoin="round">
-                            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                            <path d="M3 7a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v10a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2v-10z" />
-                            <path d="M3 7l9 6l9 -6" />
-                        </svg>
+                </div>
+
+                <div class="register-box">
+                    <div class="my-form__content">
+                        <div class="text-field">
+                            <label for="nombre">Nombre:</label>
+                            <input aria-label="Nombre" type="text" @bind="_registerRequest.FirstName" id="nombre"
+                                   name="nombre" placeholder="Tu nombre" autocomplete="off" required />
+                        </div>
+
+                        <div class="text-field">
+                            <label for="apellido">Apellido:</label>
+                            <input aria-label="Apellido" type="text" @bind="_registerRequest.LastName" id="apellido"
+                                   name="apellido" placeholder="Tu apellido" autocomplete="off" required />
+                        </div>
+
+                        <div class="text-field">
+                            <label for="estilo">Estilo de juego preferido:</label>
+                            <input aria-label="Estilo" type="text" @bind="_registerRequest.Estilo_preferido" id="estilo"
+                                   name="estilo" placeholder="Estilo" autocomplete="off" required />
+                        </div>
+
+                        <div class="text-field">
+                            <label for="genero">Genero de juego preferido:</label>
+                            <input aria-label="Genero" type="text" @bind="_registerRequest.Genero_preferido" id="genero"
+                                   name="genero" placeholder="Genero" autocomplete="off" required />
+                        </div>
                     </div>
                 </div>
             </div>
-            <div class="register-box">
-                <div class="my-form__content">
-                    <div class="text-field">
-                        <label for="nombre">Nombre:</label>
-                        <input aria-label="Nombre"
-                               type="text"
-                               id="nombre"
-                               name="nombre"
-                               placeholder="Tu nombre"
-                               autocomplete="off"
-                               required>
-                        <svg xmlns="http://www.w3.org/2000/svg"
-                             class="icon icon-tabler icon-tabler-mail"
-                             width="44" height="44"
-                             viewBox="0 0 24 24"
-                             stroke-width="1.5"
-                             stroke="#A7A2CB"
-                             fill="none"
-                             stroke-linecap="round"
-                             stroke-linejoin="round">
-                            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                            <path d="M3 7a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v10a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2v-10z" />
-                            <path d="M3 7l9 6l9 -6" />
-                        </svg>
-                    </div>
-                    <div class="text-field">
-                        <label for="apellido">Apellido:</label>
-                        <input aria-label="apellido"
-                               type="text"
-                               id="apellido"
-                               name="apellido"
-                               placeholder="Tu apellido"
-                               autocomplete="off"
-                               required>
-                        <svg xmlns="http://www.w3.org/2000/svg"
-                             class="icon icon-tabler icon-tabler-mail"
-                             width="44" height="44"
-                             viewBox="0 0 24 24"
-                             stroke-width="1.5"
-                             stroke="#A7A2CB"
-                             fill="none"
-                             stroke-linecap="round"
-                             stroke-linejoin="round">
-                            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                            <path d="M3 7a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v10a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2v-10z" />
-                            <path d="M3 7l9 6l9 -6" />
-                        </svg>
-                    </div>
-                    <div class="text-field">
-                        <label for="confirm-password">
-                            Estilo de juego preferido:
-                            <input id="confirm-password" type="password" name="password" placeholder="Repeat Password"
-                                   title="Minimum 6 characters at east 1 Alphabet and 1 Number"
-                                   pattern="^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$" required>
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-                                 stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
-                                 stroke-linejoin="round">
-                                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                                <path d="M5 13a2 2 0 0 1 2 -2h10a2 2 0 0 1 2 2v6a2 2 0 0 1 -2 2h-10a2 2 0 0 1 -2 -2v-6z">
-                                </path>
-                                <path d="M11 16a1 1 0 1 0 2 0a1 1 0 0 0 -2 0"></path>
-                                <path d="M8 11v-4a4 4 0 1 1 8 0v4"></path>
-                            </svg>
-                        </label>
-                    </div>
-                    <div class="text-field">
-                        <label for="nombre">Genero de juego preferido:</label>
-                        <input aria-label="Nombre"
-                               type="text"
-                               id="nombre"
-                               name="nombre"
-                               placeholder="Tu nombre"
-                               autocomplete="off"
-                               required>
-                        <svg xmlns="http://www.w3.org/2000/svg"
-                             class="icon icon-tabler icon-tabler-user"
-                             width="44" height="44"
-                             viewBox="0 0 24 24"
-                             stroke-width="1.5"
-                             stroke="#A7A2CB"
-                             fill="none"
-                             stroke-linecap="round"
-                             stroke-linejoin="round">
-                            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                            <path d="M3 7a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v10a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2v-10z" />
-                            <path d="M3 7l9 6l9 -6" />
-                        </svg>
-                    </div>
+            <input type="submit" class="my-form__button" value="Sign-Up" />
+            <div class="my-form__actions">
+                <div>
+                    By registering you agree to our Terms and Privacy
+                </div>
+                <div class="my-form__signin">
+                    <a href="/" title="Sign In">Sign-in</a>
                 </div>
             </div>
-        </div>
-        
-        <input type="submit" class="my-form__button" value="Sign-Up">
-                <div class="my-form__actions">
-                    <div>
-                        By registering you agree to our
-                        <a href="#" title="Reset Password">Terms</a>
-                        and <a href="#" title="Reset Password">Privacy</a>
-                    </div>
-                    <div class="my-form__signin">
-                        <a href="/" title="Sign In">Sign-in</a>
-                    </div>
-                </div>
-            </form>
-        </div>
+        </form>
+    </div>
+</EditForm>
 
 @code {
     bool success;
@@ -278,36 +140,24 @@
     {
         try
         {
-            string body = "email=" + _registerRequest.Email
-            + "&firstName=" + _registerRequest.FirstName
-            + "&lastName=" + _registerRequest.LastName
-            + "&password=" + _registerRequest.Password
-            + "&confirmPassword=" + _registerRequest.ConfirmPassword
-            + "&phoneNumber=" + _registerRequest.PhoneNumber
-            + "&idioma=" + _registerRequest.Idioma
-            + "&estilo_preferido=" + _registerRequest.Estilo_preferido
-            + "&genero_preferido=" + _registerRequest.Genero_preferido;
-
-            string url = "https://localhost:44308/Auth/Register?" + body;
-            var result = await httpClient.PostAsJsonAsync(url, _registerRequest);
+            _registerRequest.Idioma = "Español";
+            var result = await httpClient.PostAsJsonAsync("https://localhost:44308/Auth/Register", _registerRequest);
 
             if (result.IsSuccessStatusCode)
             {
                 await DialogService.ShowAsync<DialogVerificacion>("Registro exitoso");
-                Thread.Sleep(700);
+                await Task.Delay(700);
                 NavManager.NavigateTo("/");
             }
             else
             {
-                throw new Exception("Error");
+                throw new Exception("Error en el registro.");
             }
-
         }
         catch (Exception ex)
         {
             DialogService.Show<DialogError>(ex.Message);
         }
-
     }
     protected async Task Register()
     {

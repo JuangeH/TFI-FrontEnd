@@ -283,16 +283,16 @@
                     @if (!isForumsLoading)
                     {
                         <div class="foro-container" style="overflow-x: scroll; overflow-y: auto; height: 100%; width: auto;">
-                            <h2 class="foro-row-recommended-title">Foros populares</h2>
+                            <h2 class="foro-row-recommended-title">Foros recomendados por visitas</h2>
                             <div class="foro-row-recommended">
-                                @if (ForosGenerales != null && ForosGenerales.Any())
+                                @if (ForosRecPorVisita != null && ForosRecPorVisita.Any())
                                 {
                                     @*AGREGAR ENUM PARA LA SUSCRIPCION*@
-                                    @foreach (var item in ForosGenerales)
+                                    @foreach (var item in ForosRecPorVisita)
                                     {
-                                        if (ForosGenerales.Count==0)
+                                        if (ForosRecPorVisita.Count==0)
                                         {
-                                            <h1>No se encontraron foros</h1>
+                                            <h1>No se registraron visitas en foros</h1>
                                         }
                                         else
                                         {
@@ -301,8 +301,126 @@
                                                 <div class="foro-details">
                                                     <p>@item.NombreVideoJuego</p>
                                                     <div class="foroRecommended-title">
-                                                        <h3 @onclick="@(()=> AbrirForo(item))"> @item.Titulo</h3>
+                                                        <h3 title="@item.Titulo" @onclick="@(()=> AbrirForo(item))"> @item.Titulo</h3>
                                                     </div>
+                                                    <div class="foro-sub-details" style="flex-direction: column; width:100%; align-items: unset;">
+                                                        <div class="informacionusr">
+                                                            <span>@item.NombreUsuarioCreador</span>
+                                                            <span>@item.FechaCreado.ToShortDateString()</span>
+                                                        </div>
+                                                        <div class="metricas">
+                                                            <div class="foro-views">
+                                                                <i class="fa-regular fa-eye"></i>
+                                                                <span>@item.Visitas</span>
+                                                            </div>
+                                                            <div class="foro-comment">
+                                                                <i class="fa-solid fa-comment"></i>
+                                                                <span>@item.CantidadComentarios</span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="foro-favorite" @onclick="(()=>GuardarForoFav(item))" role="button">
+                                                    @if (item.NombreUsuarioCreador != user?.UserName)
+                                                    {
+                                                        @if(item.favorito==true)
+                                                        {
+                                                            <i class="fa-solid fa-bookmark"></i>
+                                                        }
+                                                        else
+                                                        {
+                                                            <i class="fa-regular fa-bookmark"></i>
+                                                        }
+                                                    }
+                                                </div>
+                                            </div>
+                                        }     
+                                    }
+                                }
+                                else
+                                {
+                                    <div class="foro-box foro-first">
+                                        <h3>No hay foros disponibles</h3>
+                                    </div>
+                                }
+                            </div>
+                            <h2 class="foro-row-recommended-title">Foros recomendados por favoritos</h2>
+                            <div class="foro-row-recommended">
+                                @if (ForosGenerales != null && ForosGenerales.Any())
+                                {
+                                    @*AGREGAR ENUM PARA LA SUSCRIPCION*@
+                                    @foreach (var item in ForosGenerales)
+                                    {
+                                        if (ForosGenerales.Count==0)
+                                        {
+                                            <h1>No se encontraron foros</h1>
+                                        }
+                                        else
+                                        {
+                                            <div class="foro-box">
+                                                @*<div class="foro-img"> <img src="img/302688.jpg" alt="" /></div>*@
+                                                <div class="foro-details">
+                                                    <p>@item.NombreVideoJuego</p>
+                                                    <h3 title="@item.Titulo" @onclick="@(()=> AbrirForo(item))"> @item.Titulo</h3>
+                                                    <div class="foro-sub-details" style="flex-direction: column; width:100%; align-items: unset;">
+                                                        <div class="informacionusr">
+                                                            <span>@item.NombreUsuarioCreador</span>
+                                                            <span>@item.FechaCreado.ToShortDateString()</span>
+                                                        </div>
+                                                        <div class="metricas">
+                                                            <div class="foro-views">
+                                                                <i class="fa-regular fa-eye"></i>
+                                                                <span>@item.Visitas</span>
+                                                            </div>
+                                                            <div class="foro-comment">
+                                                                <i class="fa-solid fa-comment"></i>
+                                                                <span>@item.CantidadComentarios</span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="foro-favorite" @onclick="(()=>GuardarForoFav(item))" role="button">
+                                                    @if (item.NombreUsuarioCreador != user?.UserName)
+                                                    {
+                                                        @if(item.favorito==true)
+                                                        {
+                                                            <i class="fa-solid fa-bookmark"></i>
+                                                        }
+                                                        else
+                                                        {
+                                                            <i class="fa-regular fa-bookmark"></i>
+                                                        }
+                                                    }
+                                                </div>
+                                            </div>
+                                        }     
+                                    }
+                                }
+                                else
+                                {
+                                    <div class="foro-box foro-first">
+                                        <h3>No hay foros disponibles</h3>
+                                    </div>
+                                }
+                            </div>
+                            <h2 class="foro-row-recommended-title">Foros recomendados por creaciones</h2>
+                            <div class="foro-row-recommended">
+                                @if (ForosGenerales != null && ForosGenerales.Any())
+                                {
+                                    @*AGREGAR ENUM PARA LA SUSCRIPCION*@
+                                    @foreach (var item in ForosGenerales)
+                                    {
+                                        if (ForosGenerales.Count==0)
+                                        {
+                                            <h1>No se encontraron foros</h1>
+                                        }
+                                        else
+                                        {
+                                            <div class="foro-box">
+                                                @*<div class="foro-img"> <img src="img/302688.jpg" alt="" /></div>*@
+                                                <div class="foro-details">
+                                                    <p>@item.NombreVideoJuego</p>
+                                                    <h3 title="@item.Titulo" @onclick="@(()=> AbrirForo(item))"> @item.Titulo</h3>
                                                     <div class="foro-sub-details" style="flex-direction: column; width:100%; align-items: unset;">
                                                         <div class="informacionusr">
                                                             <span>@item.NombreUsuarioCreador</span>
@@ -361,125 +479,7 @@
                                                 @*<div class="foro-img"> <img src="img/302688.jpg" alt="" /></div>*@
                                                 <div class="foro-details">
                                                     <p>@item.NombreVideoJuego</p>
-                                                    <h3 @onclick="@(()=> AbrirForo(item))"> @item.Titulo</h3>
-                                                    <div class="foro-sub-details" style="flex-direction: column; width:100%; align-items: unset;">
-                                                        <div class="informacionusr">
-                                                            <span>@item.NombreUsuarioCreador</span>
-                                                            <span>@item.FechaCreado.ToShortDateString()</span>
-                                                        </div>
-                                                        <div class="metricas">
-                                                            <div class="foro-views">
-                                                                <i class="fa-regular fa-eye"></i>
-                                                                <span>@item.Visitas</span>
-                                                            </div>
-                                                            <div class="foro-comment">
-                                                                <i class="fa-solid fa-comment"></i>
-                                                                <span>@item.CantidadComentarios</span>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="foro-favorite" @onclick="(()=>GuardarForoFav(item))" role="button">
-                                                    @if (item.NombreUsuarioCreador != user?.UserName)
-                                                    {
-                                                        @if(item.favorito==true)
-                                                        {
-                                                            <i class="fa-solid fa-bookmark"></i>
-                                                        }
-                                                        else
-                                                        {
-                                                            <i class="fa-regular fa-bookmark"></i>
-                                                        }
-                                                    }
-                                                </div>
-                                            </div>
-                                        }     
-                                    }
-                                }
-                                else
-                                {
-                                    <div class="foro-box foro-first">
-                                        <h3>No hay foros disponibles</h3>
-                                    </div>
-                                }
-                            </div>
-                            <h2 class="foro-row-recommended-title">Foros populares</h2>
-                            <div class="foro-row-recommended">
-                                @if (ForosGenerales != null && ForosGenerales.Any())
-                                {
-                                    @*AGREGAR ENUM PARA LA SUSCRIPCION*@
-                                    @foreach (var item in ForosGenerales)
-                                    {
-                                        if (ForosGenerales.Count==0)
-                                        {
-                                            <h1>No se encontraron foros</h1>
-                                        }
-                                        else
-                                        {
-                                            <div class="foro-box">
-                                                @*<div class="foro-img"> <img src="img/302688.jpg" alt="" /></div>*@
-                                                <div class="foro-details">
-                                                    <p>@item.NombreVideoJuego</p>
-                                                    <h3 @onclick="@(()=> AbrirForo(item))"> @item.Titulo</h3>
-                                                    <div class="foro-sub-details" style="flex-direction: column; width:100%; align-items: unset;">
-                                                        <div class="informacionusr">
-                                                            <span>@item.NombreUsuarioCreador</span>
-                                                            <span>@item.FechaCreado.ToShortDateString()</span>
-                                                        </div>
-                                                        <div class="metricas">
-                                                            <div class="foro-views">
-                                                                <i class="fa-regular fa-eye"></i>
-                                                                <span>@item.Visitas</span>
-                                                            </div>
-                                                            <div class="foro-comment">
-                                                                <i class="fa-solid fa-comment"></i>
-                                                                <span>@item.CantidadComentarios</span>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="foro-favorite" @onclick="(()=>GuardarForoFav(item))" role="button">
-                                                    @if (item.NombreUsuarioCreador != user?.UserName)
-                                                    {
-                                                        @if(item.favorito==true)
-                                                        {
-                                                            <i class="fa-solid fa-bookmark"></i>
-                                                        }
-                                                        else
-                                                        {
-                                                            <i class="fa-regular fa-bookmark"></i>
-                                                        }
-                                                    }
-                                                </div>
-                                            </div>
-                                        }     
-                                    }
-                                }
-                                else
-                                {
-                                    <div class="foro-box foro-first">
-                                        <h3>No hay foros disponibles</h3>
-                                    </div>
-                                }
-                            </div>
-                            <h2 class="foro-row-recommended-title">Foros populares</h2>
-                            <div class="foro-row-recommended">
-                                @if (ForosGenerales != null && ForosGenerales.Any())
-                                {
-                                    @*AGREGAR ENUM PARA LA SUSCRIPCION*@
-                                    @foreach (var item in ForosGenerales)
-                                    {
-                                        if (ForosGenerales.Count==0)
-                                        {
-                                            <h1>No se encontraron foros</h1>
-                                        }
-                                        else
-                                        {
-                                            <div class="foro-box">
-                                                @*<div class="foro-img"> <img src="img/302688.jpg" alt="" /></div>*@
-                                                <div class="foro-details">
-                                                    <p>@item.NombreVideoJuego</p>
-                                                    <h3 @onclick="@(()=> AbrirForo(item))"> @item.Titulo</h3>
+                                                    <h3 title="@item.Titulo" @onclick="@(()=> AbrirForo(item))"> @item.Titulo</h3>
                                                     <div class="foro-sub-details" style="flex-direction: column; width:100%; align-items: unset;">
                                                         <div class="informacionusr">
                                                             <span>@item.NombreUsuarioCreador</span>
@@ -1093,7 +1093,7 @@
                                         <div class="userlist-list-item" @onclick="AbrirDetalleUsuario">
                                             <div class="userlist-list-item__avatar">
                                                <img src="/assets/Usuario Menu/user.png" alt="">
-                                            </div
+                                            </div>
                                             <div class="userlist-list-item__content">
                                                 <strong class="userlist-list-item__name">
                                                     @user.UserName
@@ -1186,6 +1186,7 @@
 
 
     public List<ForoResponse> ForosGenerales = new();
+    public List<ForoResponse> ForosRecPorVisita = new();
 
     [Parameter]
     public ForoResponse ForoSeleccionado { get; set; }
@@ -1234,6 +1235,7 @@
                     httpClient.DefaultRequestHeaders.Clear();
                     httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", user.Token);
                     ForosGenerales = await httpClient.GetFromJsonAsync<List<ForoResponse>>("Foro/ObtenerForosGenerales");
+                    ForosRecPorVisita = await httpClient.GetFromJsonAsync<List<ForoResponse>>("Recomendaciones/ObtenerRecomendacionesForoVisitado");
                     usuarios = await httpClient.GetFromJsonAsync<List<UserResponse>>("Users/ObtenerUsuarios");
                     FilteredUsers = usuarios;
                     videojuegosForo = await httpClient.GetFromJsonAsync<List<VideojuegoForoReponse>>("Videojuego/ObtenerVideojuegosForo");
@@ -1455,13 +1457,34 @@
 
             var result = await httpClient.PutAsJsonAsync<ForoResponse>($"Foro/GestionarForoFavorito?CodForo={foro.Codigo}", null);
 
-            if (foro.favorito == true)
+            foreach (var item in ForosRecPorVisita)
             {
-                foro.favorito = false;
+                if (item.Codigo==foro.Codigo)
+                {
+                    if (item.favorito == true)
+                    {
+                        item.favorito = false;
+                    }
+                    else
+                    {
+                        item.favorito = true;
+                    }
+                }
             }
-            else
+
+            foreach (var item in ForosGenerales)
             {
-                foro.favorito = true;
+                if (item.Codigo==foro.Codigo)
+                {
+                    if (item.favorito == true)
+                    {
+                        item.favorito = false;
+                    }
+                    else
+                    {
+                        item.favorito = true;
+                    }
+                }
             }
         }
         catch (Exception)

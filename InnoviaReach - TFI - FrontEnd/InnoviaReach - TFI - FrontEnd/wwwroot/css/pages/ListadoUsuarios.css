@@ -33,25 +33,32 @@ body {
 }
 
 .userlist-list {
-    margin: 0;
-    padding: 0;
+    /* margin: 0; */
+    /* padding: 0; */
     list-style-type: none;
     display: flex;
-    justify-content: space-evenly;
+    /* justify-content: space-evenly; */
     flex-wrap: wrap;
+    gap: 16px;
+    /* box-sizing: border-box; */
+    flex-direction: row;
 }
 
+
 .userlist-list-item {
-    width: 100%;
-    max-width: 390px;
-    margin-bottom: 2rem;
+    /*width: 100%;*/
+    /* max-width: 390px; */
+    /*margin-bottom: 2rem;*/
     padding: 1rem;
     border: 1px solid #e1e4ea;
     display: flex;
     align-items: center;
-    position: relative;
-  /*  color: #002b5d;*/
+    /* position: relative; */
+    /* color: #002b5d; */
     text-decoration: none;
+    flex: 0 0 calc(50% - 16px);
+    gap: 1rem;
+    box-sizing: border-box;
 }
 
     .userlist-list-item:hover {
