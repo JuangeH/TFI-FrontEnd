@@ -1235,7 +1235,7 @@
                     httpClient.DefaultRequestHeaders.Clear();
                     httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", user.Token);
                     ForosGenerales = await httpClient.GetFromJsonAsync<List<ForoResponse>>("Foro/ObtenerForosGenerales");
-                    ForosRecPorVisita = await httpClient.GetFromJsonAsync<List<ForoResponse>>("Recomendaciones/ObtenerRecomendacionesForoVisitado");
+                    //ForosRecPorVisita = await httpClient.GetFromJsonAsync<List<ForoResponse>>("Recomendaciones/ObtenerRecomendacionesForoVisitado");
                     usuarios = await httpClient.GetFromJsonAsync<List<UserResponse>>("Users/ObtenerUsuarios");
                     FilteredUsers = usuarios;
                     videojuegosForo = await httpClient.GetFromJsonAsync<List<VideojuegoForoReponse>>("Videojuego/ObtenerVideojuegosForo");
