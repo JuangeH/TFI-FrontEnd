@@ -22,15 +22,17 @@
                     </div>
                     <img src="https://images.unsplash.com/photo-1508247967583-7d982ea01526?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2250&q=80" alt="" class="userconfig-profile-cover">
                     <div class="userconfig-profile-menu">
-                        <a class="userconfig-profile-menu-link active">Suscripción</a>
-                        @*<a class="userconfig-profile-menu-link">Friends</a>
-                        <a class="userconfig-profile-menu-link">Photos</a>*@
-                        <a class="userconfig-profile-menu-link">Configuración</a>
-                    </div>
+                        <a class="userconfig-profile-menu-link @(activeTab == "Suscripción" ? "active" : "")" @onclick="@(() => SetActiveTab("Suscripción"))">
+                            Suscripción
+                        </a>
+                        <a class="userconfig-profile-menu-link @(activeTab == "Configuración" ? "active" : "")" @onclick="@(() => SetActiveTab("Configuración"))">
+                            Configuración
+                        </a>
+                    </div>        
                 </div>
                 <div class="userconfig-timeline">
                     <div class="userconfig-timeline-left">
-                        <div class="userconfig-intro box">
+                        @*<div class="userconfig-intro box">
                             <div class="userconfig-intro-title">
                                 Introduction
                                 <button class="userconfig-intro-menu"></button>
@@ -56,7 +58,7 @@
                                     Player name <a href="#">Quan Ha</a>
                                 </div>
                             </div>
-                        </div>
+                        </div>*@
                         <div class="userconfig-event box">
                             <div class="userconfig-event-wrapper">
                                 <img src="https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1950&q=80" class="event-img" />
@@ -88,45 +90,100 @@
                         </div>
                     </div>
                     <div class="userconfig-timeline-right">
-                        <div class="userconfig-album box">
-                            <div class="pricingTable">
-                                <h2 class="pricingTable-title">Encontra las capacidades premium</h2>
-                                <h3 class="pricingTable-subtitle">Con la suscripción tenes 30 días de prueba gratis.</h3>
+                        @if (activeTab == "Suscripción")
+                        {
+                            <div class="userconfig-album box">
+                                <div class="pricingTable">
+                                    <h2 class="pricingTable-title">Encontra las capacidades premium</h2>
+                                    <h3 class="pricingTable-subtitle">Con la suscripción tenes 30 días de prueba gratis.</h3>
 
-                                <ul class="pricingTable-firstTable">
-                                    <li class="pricingTable-firstTable_table">
-                                        <h1 class="pricingTable-firstTable_table__header">Suscripción gratuita</h1>
-                                        <p class="pricingTable-firstTable_table__pricing"><span>$</span><span>0</span><span></span></p>
-                                        <ul class="pricingTable-firstTable_table__options">
-                                            <li>Recomendaciones personalizadas limitadas</li>
-                                            <li>Catálogo</li>
-                                            <li>Vista de foros de comunidad</li>
-                                            <li>Publicidad</li>
-                                        </ul>
-                                    </li>
-                                    <li class="pricingTable-firstTable_table">
-                                        <h1 class="pricingTable-firstTable_table__header">Suscripción premium</h1>
-                                        <p class="pricingTable-firstTable_table__pricing"><span>$</span><span>4.620,00</span><span>Mensual</span></p>
-                                        <ul class="pricingTable-firstTable_table__options">
-                                            <li>Recomendaciones personalizadas totales</li>
-                                            <li>Capacidades del acceso gratuito</li>
-                                            <li>Sin publicidad</li>
-                                            <li>Acceso total a los foros de comunidad</li>
-                                            <li>Soporte prioritario</li>
-                                        </ul>
-                                        @if (Suscripcion==false)
-                                        {
-                                            <button class="pricingTable-firstTable_table__getstart" @onclick="ModificarSuscripcion">Suscribirse</button>
-                                        }
-                                        else
-                                        {
-                                            <button class="pricingTable-firstTable_table__getstart" style="background-color: #d14d56;" @onclick="ModificarSuscripcion">Anular suscripción</button>
-                                        }
-                                        
-                                    </li>
-                                </ul>
+                                    <ul class="pricingTable-firstTable">
+                                        <li class="pricingTable-firstTable_table">
+                                            <h1 class="pricingTable-firstTable_table__header">Suscripción gratuita</h1>
+                                            <p class="pricingTable-firstTable_table__pricing"><span>$</span><span>0</span><span></span></p>
+                                            <ul class="pricingTable-firstTable_table__options">
+                                                <li>Recomendaciones personalizadas limitadas</li>
+                                                <li>Catálogo</li>
+                                                <li>Vista de foros de comunidad</li>
+                                                <li>Publicidad</li>
+                                            </ul>
+                                        </li>
+                                        <li class="pricingTable-firstTable_table">
+                                            <h1 class="pricingTable-firstTable_table__header">Suscripción premium</h1>
+                                            <p class="pricingTable-firstTable_table__pricing"><span>$</span><span>4.620,00</span><span>Mensual</span></p>
+                                            <ul class="pricingTable-firstTable_table__options">
+                                                <li>Recomendaciones personalizadas totales</li>
+                                                <li>Capacidades del acceso gratuito</li>
+                                                <li>Sin publicidad</li>
+                                                <li>Acceso total a los foros de comunidad</li>
+                                                <li>Soporte prioritario</li>
+                                            </ul>
+                                            @if (Suscripcion == false)
+                                            {
+                                                <button class="pricingTable-firstTable_table__getstart" @onclick="ModificarSuscripcion">Suscribirse</button>
+                                            }
+                                            else
+                                            {
+                                                <button class="pricingTable-firstTable_table__getstart" style="background-color: #d14d56;" @onclick="ModificarSuscripcion">Anular suscripción</button>
+                                            }
+
+                                        </li>
+                                    </ul>
+                                </div>
                             </div>
-                        </div>
+                        }
+                        else
+                        {
+                            <div class="userconfig-album box">
+                                <div class="userdetailconfig-container">
+                                    <div class="userdetailconfig-row">
+                                        <div class="userdetailconfig-col-md-12">
+                                            <h1 class="userdetailconfig-title">Datos del usuario</h1>
+                                        </div>
+                                    </div>
+                                    <div class="userdetailconfig-row">
+                                        <div class="userdetailconfig-col-md-4">
+                                            <div class="userdetailconfig-profile-image">
+                                                <img src="/assets/Usuario Menu/user.png" class="userdetailconfig-fullwidth" />
+                                            </div>
+                                        </div>
+                                        <div class="userdetailconfig-col-md-8">
+                                            <h5 class="userdetailconfig-subtitle">Información</h5>
+                                            <div class="userdetailconfig-info-grid">
+                                                <div class="userdetailconfig-info-labels">
+                                                    <p>Nombre de usuario</p>
+                                                    <p>E-mail</p>
+                                                    <p>Telefono</p>
+                                                    <p>Idioma</p>
+                                                    <p>Estado</p>
+                                                    <p>Contraseña</p>
+                                                </div>
+                                                <div class="userdetailconfig-info-values">
+                                                    <p>@userConfigResponse.Username</p>
+                                                    <p>@userConfigResponse.Mail</p>
+                                                    <p>@userConfigResponse.Telefono</p>
+                                                    <p>@userConfigResponse.Idioma</p>
+                                                    @if (@userConfigResponse.Estado is true)
+                                                    {
+                                                        <p>Activo</p>
+                                                    }
+                                                    else
+                                                    {
+                                                        <p>Inactivo</p>
+                                                    }
+                                                    <p>*******************</p>
+                                                </div>
+                                                <div class="userdetailconfig-info-actions">
+                                                    <button class="userdetailconfig-btn userdetailconfig-btn--green">
+                                                        <span class="fa fa-pencil"></span> Cambiar contraseña
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        }
                     </div>
                 </div>
             </div>
@@ -141,10 +198,17 @@ else
 
 
 @code {
+    private string activeTab = "Suscripción"; // Tab inicial
+
+    private void SetActiveTab(string tabName)
+    {
+        activeTab = tabName;
+    }
 
     public List<ForoResponse> ForosGenerales = new();
     public List<ForoResponse> ForosDestacados = new();
     public LoginTokenResponse user;
+    public UserConfigResponse userConfigResponse;
     private bool isConfigLoading;
     private bool Suscripcion = false;
 
@@ -176,6 +240,7 @@ else
                     httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", user.Token);
                     Suscripcion = await httpClient.GetFromJsonAsync<bool>("Suscripcion/ValidarSuscripcion");
                     ForosGenerales = await httpClient.GetFromJsonAsync<List<ForoResponse>>("Foro/ObtenerForosGenerales");
+                    userConfigResponse = await httpClient.GetFromJsonAsync<UserConfigResponse>($"Users/ObtenerUsuario?UserName={user.UserName}");
                     if (!string.IsNullOrEmpty(user.UserName))
                     {
                         ForosDestacados = ForosGenerales

@@ -302,6 +302,7 @@ body {
     color: #5c5e6e;
     transition: 0.3s;
     cursor: pointer;
+    z-index:2;
 }
 
     .userconfig-profile-menu-link.active, .userconfig-profile-menu-link:hover {
@@ -426,7 +427,7 @@ body {
 
 .userconfig-event {
     position: relative;
-    margin-top: 20px;
+   /* margin-top: 20px;*/
     padding: 10px;
 }
 
@@ -1576,4 +1577,117 @@ body {
     margin: 0;
     box-sizing: border-box;
 }
-  
+
+.userdetailconfig-container {
+    font-family: "Source Sans Pro", sans-serif;
+    background-color: #181d2f;
+    color: #ccc8db;
+    padding: 20px;
+}
+
+.userdetailconfig-title {
+    font-size: 2rem;
+    font-weight: bold;
+    color: #ccc8db;
+    margin-bottom: 20px;
+}
+
+.userdetailconfig-row {
+    display: flex;
+    flex-wrap: wrap;
+    margin-bottom: 20px;
+}
+
+.userdetailconfig-col-md-4,
+.userdetailconfig-col-md-8 {
+    padding: 10px;
+}
+
+.userdetailconfig-col-md-4 {
+    flex: 1 1 33.3333%;
+}
+
+.userdetailconfig-col-md-8 {
+    flex: 1 1 66.6667%;
+}
+
+.userdetailconfig-profile-image {
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.userdetailconfig-fullwidth {
+    width: 100%;
+    height: auto;
+}
+
+.userdetailconfig-subtitle {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #ccc8db;
+    margin-bottom: 10px;
+}
+
+.userdetailconfig-info-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 20px;
+    color: #ccc8db;
+}
+
+.userdetailconfig-info-labels,
+.userdetailconfig-info-values {
+    font-size: 1rem;
+}
+
+    .userdetailconfig-info-labels p,
+    .userdetailconfig-info-values p {
+        margin: 5px 0;
+    }
+
+.userdetailconfig-info-labels {
+    text-align: left;
+    color: #5c5e6e;
+}
+
+.userdetailconfig-info-values {
+    text-align: left;
+    color: #ccc8db;
+}
+
+.userdetailconfig-info-actions {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 20px; /* Agrega espacio entre los botones */
+}
+
+.userdetailconfig-btn-red {
+    border: none;
+    background-color: #9e3a3f;
+    color: #fff;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1rem;
+    font-family: "Source Sans Pro", sans-serif;
+}
+
+.userdetailconfig-btn {
+    border: none;
+    background-color: #1b86f9;
+    color: #fff;
+    padding: 10px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 1rem;
+    font-family: "Source Sans Pro", sans-serif;
+}
+
+.userdetailconfig-btn:hover {
+    background-color: #1488fa;
+}
+
+.userdetailconfig-btn .fa {
+    margin-right: 8px;
+}

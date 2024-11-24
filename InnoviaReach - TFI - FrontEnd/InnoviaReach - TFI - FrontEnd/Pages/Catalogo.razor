@@ -14,33 +14,51 @@
             <h3 class="cat-h3">game <span>STORE</span></h3>
             <div class="cat-line"></div>
         </div>
-        <div class="cat-button-group cat-mx-auto cat-flex cat-items-center cat-justify-center cat-flex-wrap">
+        <div class="wrap-searchbar">
+            <div class="search-searchbar">
+                <input type="text" class="searchTerm-searchbar" placeholder="What are you looking for?"
+                       @bind="searchText" @oninput="OnInputChanged" @onfocus="ShowSuggestions" />
+                <button type="button" class="searchButton-searchbar" @onclick="SearchAndOpenPopup">
+                    <i class="fa fa-search"></i>
+                </button>
+                <ul class="suggestions-list @(showSuggestions && filteredSuggestions.Any() ? "active" : "")">
+                    @foreach (var suggestion in filteredSuggestions)
+                    {
+                        <li class="suggestion-item" @onclick="() => SelectSuggestion(suggestion)">
+                            @suggestion
+                        </li>
+                    }
+                </ul>
+            </div>
+        </div>
+
+        @*<div class="cat-button-group cat-mx-auto cat-flex cat-items-center cat-justify-center cat-flex-wrap">
             <button data-filter="action" class="cat-active-filter-button cat-button">action</button>
             <button data-filter="shooter" class="cat-button">shooter</button>
             <button data-filter="strategy" class="cat-button">strategy</button>
             <button data-filter="arcade" class="cat-button">arcade</button>
             <button data-filter="adventure" class="cat-button">adventure</button>
-        </div>
+        </div>*@
         @if (!isForumsLoading)
         {
-            <VideojuegoDetailDialog Show="@showPopup" OnClose="ClosePopup"></VideojuegoDetailDialog>
+            <VideojuegoDetailDialog Show="@showPopup" videojuego="@VideojuegoSeleccionado" OnClose="ClosePopup"></VideojuegoDetailDialog>
             <div class="cat-mt-16 cat-grid cat-gap-6 cat-sm:grid-cols-2 cat-md:grid-cols-3">
                 @foreach (var item in videojuegos)
                 {
-                    <div class="cat-store-item" @onclick="OpenPopup">
+                    <div class="cat-store-item" @onclick="@(()=> OpenPopup(item.Nombre))">
                         <div class="cat-img-fit-cover">
                             <img class="cat-img" src="assets/Recomendaciones/images/store-1.png" alt="">
                         </div>
                         <div class="cat-store-item-info cat-group">
-                            <h3 class="cat-h3 cat-uppercase cat-text-violet-darker cat-font-bold cat-tracking-[.04em] cat-mb-2 cat-group-hover:text-white cat-transition cat-ease-in-out cat-duration-300">Steam Store</h3>
+                            <h3 class="cat-h3 cat-uppercase cat-text-violet-darker cat-font-bold cat-tracking-[.04em] cat-mb-2 cat-group-hover:text-white cat-transition cat-ease-in-out cat-duration-300">@item.Nombre</h3>
                             <ul>
-                                <li class="cat-text-dark cat-group-hover:text-white cat-transition cat-ease-in-out cat-duration-300">
+                                @*<li class="cat-text-dark cat-group-hover:text-white cat-transition cat-ease-in-out cat-duration-300">
                                     <span class="cat-me-1 cat-font-bold">Nombre:</span>
                                     <span>@item.Nombre</span>
-                                </li>
+                                </li>*@
                                 <li class="cat-text-dark cat-group-hover:text-white cat-transition cat-ease-in-out cat-duration-300">
-                                    <span class="cat-me-1 cat-font-bold">Recomendaciones:</span>
-                                    <span>TBD</span>
+                                    <span class="cat-me-1 cat-font-bold">Rating:</span>
+                                    <span>@item.Rating</span>
                                 </li>
                             </ul>
                         </div>
@@ -64,18 +82,28 @@
 </section>
 
 @code {
-    public IEnumerable<VideojuegoForoReponse> videojuegos = new List<VideojuegoForoReponse>();
+    private string searchText = ""; // Texto actual ingresado en la búsqueda
+    private List<string> filteredSuggestions = new(); // Lista de sugerencias filtradas
+    private bool showSuggestions = false; // Mostrar u ocultar la lista de sugerencias
+
+    public IEnumerable<VideojuegoCatalogoResponse> videojuegos = new List<VideojuegoCatalogoResponse>();
     private bool isForumsLoading;
     private int currentPage = 1;
     private int totalPages;
-    private int pageSize = 21;
+    private int pageSize = 12;
     private int totalRecords;
+    private VideojuegoCatalogoDetalleResponse VideojuegoSeleccionado = new VideojuegoCatalogoDetalleResponse();
 
     private bool showPopup = false;
 
-    private void OpenPopup()
+    private async Task OpenPopup(string nombre)
     {
         showPopup = true;
+        var user = await sessionStorage.GetItemAsync<LoginTokenResponse>("user");
+        httpClient.DefaultRequestHeaders.Clear();
+        httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", user.Token);
+        var response = await httpClient.GetFromJsonAsync<VideojuegoCatalogoDetalleResponse>($"Videojuego/ObtenerVideojuegoDetalleCatalogo?nombre={nombre}");
+        VideojuegoSeleccionado = response;
     }
 
     private void ClosePopup()
@@ -116,7 +144,6 @@
 
                 }
 
-                await Task.Delay(3000);
             }
         }
         catch (Exception)
@@ -140,7 +167,7 @@
     {
         try
         {
-            var response = await httpClient.GetFromJsonAsync<PaginationResponse<VideojuegoForoReponse>>($"Videojuego/ObtenerVideojuegosCatalogo?pageNumber={currentPage}&pageSize={pageSize}");
+            var response = await httpClient.GetFromJsonAsync<PaginationResponse<VideojuegoCatalogoResponse>>($"Videojuego/ObtenerVideojuegosCatalogo?pageNumber={currentPage}&pageSize={pageSize}");
             videojuegos = response.Videojuegos;
             totalRecords = response.TotalRecords;
             totalPages = (int)Math.Ceiling((double)totalRecords / pageSize);
@@ -156,4 +183,76 @@
         currentPage = page;
         await LoadData();
     }
+
+    private async Task OnInputChanged(ChangeEventArgs e)
+    {
+        searchText = e.Value?.ToString() ?? string.Empty;
+
+        if (string.IsNullOrWhiteSpace(searchText))
+        {
+            filteredSuggestions.Clear();
+            showSuggestions = false;
+            return;
+        }
+
+        try
+        {
+            var user = await sessionStorage.GetItemAsync<LoginTokenResponse>("user");
+            httpClient.DefaultRequestHeaders.Clear();
+            httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", user.Token);
+
+            // Llamar al backend para obtener sugerencias
+            var result = await httpClient.GetFromJsonAsync<List<VideojuegoForoReponse>>($"Videojuego/BuscarVideojuegoForo?nombre={searchText}&pageSize=10");
+
+            filteredSuggestions = result?.Select(v => v.Nombre).ToList() ?? new List<string>();
+            showSuggestions = filteredSuggestions.Any();
+        }
+        catch (Exception)
+        {
+            // Manejo de errores
+        }
+    }
+    private void SelectSuggestion(string suggestion)
+    {
+        searchText = suggestion; // Actualizar el texto del input
+        showSuggestions = false; // Ocultar las sugerencias
+    }
+    private void ShowSuggestions()
+    {
+        showSuggestions = true;
+    }
+    private async Task SearchAndOpenPopup()
+    {
+        try
+        {
+            var user = await sessionStorage.GetItemAsync<LoginTokenResponse>("user");
+            httpClient.DefaultRequestHeaders.Clear();
+            httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", user.Token);
+
+            // Buscar el videojuego seleccionado
+            var videojuegoSeleccionado = await httpClient.GetFromJsonAsync<VideojuegoForoReponse>(
+                $"Videojuego/ObtenerVideojuegoForo?nombre={searchText}");
+
+            if (videojuegoSeleccionado != null)
+            {
+                await OpenPopup(videojuegoSeleccionado.Nombre);
+            }
+            else
+            {
+                Snackbar.Add("No se encontró ningún videojuego con ese nombre.", Severity.Warning);
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine($"Error al buscar el videojuego: {ex.Message}");
+            Snackbar.Add("Ocurrió un error al buscar el videojuego.", Severity.Error);
+        }
+        finally
+        {
+            isForumsLoading = false; // Ocultar spinner
+            StateHasChanged();
+        }
+    }
+
+
 }

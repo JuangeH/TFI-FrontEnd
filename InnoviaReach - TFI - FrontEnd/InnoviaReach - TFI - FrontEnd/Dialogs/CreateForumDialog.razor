@@ -2,41 +2,47 @@
 @inject ISessionStorageService sessionStorage
 @inject HttpClient httpClient
 
-@if (ShowPopup)
+@if (isSubmitting)
 {
-    <div class="createforum-popup-overlay"></div> <!-- Overlay to block the background -->
+    <SpinnerLoading show=@isSubmitting/>
 }
+else
+{
+    @if (ShowPopup)
+    {
+        <div class="createforum-popup-overlay"></div> <!-- Overlay to block the background -->
+    }
 
-<div class="createforum-popup @(ShowPopup ? "active" : "")">
-    <div class="createforum-close-btn" @onclick="ClosePopup">&times;</div>
-    <div class="createforum-form">
-        <h2>Registrar foro</h2>
-        <div class="createforum-form-element">
-            <label for="nombre">Nombre</label>
-            <input type="text" id="Titulo" placeholder="Ingresar titulo" @bind-value="Titulo">
-        </div>
-        <div class="createforum-form-element">
-            <label for="descripcion">Descripción</label>
-            <input type="text" id="descripcion" placeholder="Ingresar descripción" @bind-value="Descripcion">
-        </div>
-        <div class="createforum-form-element createforum-autosuggest">
-            <label for="videojuego">Videojuego</label>
-            <input type="text" placeholder="Type to search..." @bind="searchText" @oninput="OnInputChanged" @onfocus="ShowSuggestions" />
-            <ul class="suggestions-list @(showSuggestions && filteredSuggestions.Any() ? "active" : "")">
-                @foreach (var suggestion in filteredSuggestions)
-                {
-                    <li class="suggestion-item" @onclick="() => SelectSuggestion(suggestion)">
-                        @suggestion
-                    </li>
-                }
-            </ul>
-        </div>
-        <div class="createforum-form-element">
-            <button @onclick="Submit">Registrar</button>
+    <div class="createforum-popup @(ShowPopup ? "active" : "")">
+        <div class="createforum-close-btn" @onclick="ClosePopup">&times;</div>
+        <div class="createforum-form">
+            <h2>Registrar foro</h2>
+            <div class="createforum-form-element">
+                <label for="nombre">Nombre</label>
+                <input type="text" id="Titulo" placeholder="Ingresar titulo" @bind-value="Titulo">
+            </div>
+            <div class="createforum-form-element">
+                <label for="descripcion">Descripción</label>
+                <input type="text" id="descripcion" placeholder="Ingresar descripción" @bind-value="Descripcion">
+            </div>
+            <div class="createforum-form-element createforum-autosuggest">
+                <label for="videojuego">Videojuego</label>
+                <input type="text" placeholder="Type to search..." @bind="searchText" @oninput="OnInputChanged" @onfocus="ShowSuggestions" />
+                <ul class="suggestions-list @(showSuggestions && filteredSuggestions.Any() ? "active" : "")">
+                    @foreach (var suggestion in filteredSuggestions)
+                    {
+                        <li class="suggestion-item" @onclick="() => SelectSuggestion(suggestion)">
+                            @suggestion
+                        </li>
+                    }
+                </ul>
+            </div>
+            <div class="createforum-form-element">
+                <button @onclick="Submit">Registrar</button>
+            </div>
         </div>
     </div>
-</div>
-
+}
 @code {
     private string Descripcion = "";
     private string Titulo = "";
@@ -44,11 +50,12 @@
     private List<string> filteredSuggestions = new();
     private bool showSuggestions = false;
     private List<string> options = new(); // Todas las opciones (Videojuegos)
+    private bool isSubmitting = false;
 
     public ForoRequest foroRequest = new ForoRequest();
 
-    [Parameter]
-    public ICollection<VideojuegoForoReponse> Videojuegos { get; set; } = new HashSet<VideojuegoForoReponse>();
+    //[Parameter]
+    //public ICollection<VideojuegoForoReponse> Videojuegos { get; set; } = new HashSet<VideojuegoForoReponse>();
 
     [Parameter] public bool ShowPopup { get; set; }
     [Parameter] public EventCallback OnClose { get; set; }
@@ -59,35 +66,50 @@
         await OnClose.InvokeAsync();
     }
 
-    protected override void OnParametersSet()
-    {
-        // Inicializar las opciones solo cuando se abre el popup
-        if (ShowPopup)
-        {
-            InitializeOptions();
-        }
-    }
+    //protected override void OnParametersSet()
+    //{
+    //    // Inicializar las opciones solo cuando se abre el popup
+    //    if (ShowPopup)
+    //    {
+    //        InitializeOptions();
+    //    }
+    //}
 
-    private void InitializeOptions()
-    {
-        options.Clear();
-        foreach (var item in Videojuegos)
-        {
-            options.Add(item.Nombre);
-        }
-    }
+    //private void InitializeOptions()
+    //{
+    //    options.Clear();
+    //    foreach (var item in Videojuegos)
+    //    {
+    //        options.Add(item.Nombre);
+    //    }
+    //}
 
-    private void OnInputChanged(ChangeEventArgs e)
+    private async Task OnInputChanged(ChangeEventArgs e)
     {
         searchText = e.Value?.ToString() ?? string.Empty;
 
-        // Filtrar las sugerencias basadas en el texto ingresado
-        filteredSuggestions = options
-            .Where(o => o.Contains(searchText, StringComparison.OrdinalIgnoreCase))
-            .Take(10) // Limita el número de sugerencias visibles
-            .ToList();
+        if (string.IsNullOrWhiteSpace(searchText))
+        {
+            filteredSuggestions.Clear();
+            showSuggestions = false;
+            return;
+        }
+        try
+        {
+            // Obtener el usuario logueado
+            var user = await sessionStorage.GetItemAsync<LoginTokenResponse>("user");
+            httpClient.DefaultRequestHeaders.Clear();
+            httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", user.Token);
+            // Solicitar videojuegos al backend basados en el término de búsqueda
+            var result = await httpClient.GetFromJsonAsync<List<VideojuegoForoReponse>>($"Videojuego/BuscarVideojuegoForo?nombre={searchText}&pageSize=10");
 
-        showSuggestions = true;
+            filteredSuggestions = result?.Select(v => v.Nombre).ToList() ?? new List<string>();
+            showSuggestions = filteredSuggestions.Any();
+        }
+        catch (Exception)
+        {
+            // Manejo de errores
+        }
     }
 
     private void SelectSuggestion(string suggestion)
@@ -105,37 +127,50 @@
     {
         try
         {
+            isSubmitting = true; // Inicia la carga
+            StateHasChanged();
+
+            // Obtener el usuario logueado
             var user = await sessionStorage.GetItemAsync<LoginTokenResponse>("user");
             httpClient.DefaultRequestHeaders.Clear();
             httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", user.Token);
 
+            // Asignar valores al foroRequest
             foroRequest.User_ID = string.Empty;
             foroRequest.FechaCreado = DateTime.Now;
             foroRequest.Titulo = Titulo;
             foroRequest.Descripcion = Descripcion;
             foroRequest.Activo = true;
 
-            foreach (var item in Videojuegos)
+            // Buscar el videojuego seleccionado
+            var videojuegoSeleccionado = await httpClient.GetFromJsonAsync<VideojuegoForoReponse>(
+                $"Videojuego/ObtenerVideojuegoForo?nombre={searchText}");
+            if (videojuegoSeleccionado != null)
             {
-                if (item.Nombre==searchText)
-                {
-                    foroRequest.Videojuego_Codigo = item.Codigo;
-                }
+                foroRequest.Videojuego_Codigo = videojuegoSeleccionado.Codigo;
+            }
+            else
+            {
+                // Manejo de error si no se encuentra el videojuego
+                throw new Exception("El videojuego seleccionado no es válido.");
             }
 
-            // Asignar otros valores de foroRequest según los datos del formulario...
-
+            // Enviar el foro al backend
             var result = await httpClient.PostAsJsonAsync<ForoRequest>($"Foro/RegistrarForo", foroRequest);
-            ClosePopup();
 
+            // Cerrar el popup si la operación es exitosa
+            ClosePopup();
         }
-        catch (Exception)
+        catch (Exception ex)
         {
             // Manejo de errores
+            Console.WriteLine($"Error al registrar el foro: {ex.Message}");
         }
         finally
         {
+            isSubmitting = false; // Termina la carga
             StateHasChanged();
         }
     }
+
 }

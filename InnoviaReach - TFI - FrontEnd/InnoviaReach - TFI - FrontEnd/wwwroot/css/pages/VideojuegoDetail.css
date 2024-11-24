@@ -59,10 +59,10 @@ html, body {
     right: -100vh;
     display: flex;
     align-items: center;
-    max-width: 800px;
-    max-height: 600px;
-    width: 60%;
-    height: 80%;
+    /*max-width: 800px;
+    max-height: 600px;*/
+    width: 90%;
+    height: 90%;
     background-color: #fff;
     transform: rotate(32deg);
     transition: .64s ease-in-out;

@@ -1,6 +1,13 @@
 ﻿@using InnoviaReach___TFI___FrontEnd.Dialogs
 @inject ISessionStorageService sessionStorage
 
+@inject HttpClient httpClient
+@inject ISessionStorageService sessionStorage
+@inject IDialogService DialogService
+@using System.Net.Http.Headers
+@inject NavigationManager Navigation
+@inject ISnackbar Snackbar
+
 @* ComponenteComentarios.razor *@
 @inject IDialogService DialogService
 @foreach (var comentario in Comentarios)
@@ -27,7 +34,14 @@
                         <h6 class="comment-name">@comentario.Creador</h6>
                     }
                     <span>@comentario.FechaCreacion</span>
-                    <i class="fa fa-reply" @onclick="@(() => ToggleRespuesta(comentario.Codigo))"></i>
+                    @if (user.Suscripcion != "Basico")
+                    {
+                        <i class="fa fa-reply" @onclick="@(() => ToggleRespuesta(comentario.Codigo))"></i>
+                    }
+                    @if (user.RoleName == "Admin")
+                    {
+                        <i class="fa fa-ban" @onclick="@(() => EliminarComentario(comentario.Codigo))"></i>
+                    }
                     @if (comentario.Creador != user?.UserName)
                     {
                         <i class="fa fa-heart" @onclick="@(()=> Abrir(comentario.Codigo,comentario.Creador))"></i>
@@ -38,7 +52,11 @@
                 </div>
                 @if (ComentarioAbierto == comentario.Codigo)
                 {
-                    <ComponenteCargaRespuesta comentarioPadre_Codigo="comentario.Codigo" foro_Codigo="ForoSeleccionado.Codigo" comentarioPadre_Creador="@comentario.Creador" RegistrarComentarioCallBack="RegistrarComentarioCallBack" />
+                    @if (user.Suscripcion != "Basico")
+                    {
+                        <ComponenteCargaRespuesta comentarioPadre_Codigo="comentario.Codigo" foro_Codigo="ForoSeleccionado.Codigo" comentarioPadre_Creador="@comentario.Creador" RegistrarComentarioCallBack="RegistrarComentarioCallBack" />
+                    }
+                    
                 }
             </div>
         </li>
@@ -95,6 +113,22 @@
 
                 }
             }
+        }
+        catch (Exception)
+        {
+
+        }
+    }
+    private async Task EliminarComentario(int CodComentario)
+    {
+        try
+        {
+            var user = await sessionStorage.GetItemAsync<LoginTokenResponse>("user");
+            httpClient.DefaultRequestHeaders.Clear();
+            httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", user.Token);
+
+            await httpClient.DeleteAsync($"Foro/EliminarComentario?ComentarioId={CodComentario}");
+            StateHasChanged();
         }
         catch (Exception)
         {

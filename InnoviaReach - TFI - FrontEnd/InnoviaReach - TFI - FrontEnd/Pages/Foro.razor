@@ -29,8 +29,8 @@
     <main class="foro-main">
         <MudTabs Elevation="2" Rounded="false" ApplyEffectsToContainer="false" PanelClass="pa-6" Centered=true Class="foro-mudTabs" Border="false">
             <MudTabPanel Text="Foros Generales" OnClick="AbrirForosGenerales">
-                @if (!CreacionForo)
-                {
+                @*@if (!CreacionForo)
+                {*@
                     @if (!foroAbierto)
                     {
                         @if (!isForumsLoading)
@@ -81,6 +81,13 @@
                                                                     }
                                                                 }
                                                             </div>
+                                                            @if (user.RoleName == "Admin")
+                                                            {
+                                                                <MudMenu Icon="@Icons.Material.Filled.MoreVert"
+                                                                            AriaLabel="Open user menu">
+                                                                    <MudMenuItem @onclick="@(()=> EliminarForo(item.Codigo))">Eliminar</MudMenuItem>
+                                                                </MudMenu>
+                                                            }
                                                         </div>
                                                     }
                                                 
@@ -96,11 +103,10 @@
                                     </section>
                                     <section class="foro-right">
                                         <div class="foro-box foro-first">
-                                            <h3>honda shadow forums</h3>
-                                            <span>since 2007</span>
+                                            <h3>InnoviaReach Foros</h3>
+                                            <span>@DateTime.Today.Year.ToString()</span>
                                             <p>
-                                                Welcome to Honda Shadow Forum. Come in and discuss any Honda
-                                                Shadow models: VT1100, VT250, VT750 and the VT500.
+                                                Bienvenido a los foros de Innovia. Sumate a descubrir nuevas perspectivas y experiencias!
                                             </p>
                                             <div class="foro-stats">
                                                 <div>
@@ -114,7 +120,10 @@
                                             </div>
                                             <div class="foro-buttons">
                                                 <a href="#" class="foro-btn foro-btn-red"><i class="fa-solid fa-user-large"></i> join community</a>
-                                                <a class="foro-btn foro-btn-white" @onclick="OpenDialogAsync"><i class="fa-solid fa-plus"></i> Crear foro</a>
+                                                @if (user.Suscripcion!="Basico")
+                                                {
+                                                    <a class="foro-btn foro-btn-white" @onclick="OpenDialogAsync"><i class="fa-solid fa-plus"></i> Crear foro</a>
+                                                }
                                             </div>
                                         </div>
                                         <div class="foro-box foro-top-forums">
@@ -208,7 +217,10 @@
                                     </li>
                                 </ul>
                             </div>
-                            <ComponenteCargaComentario CargaComentarioInicialCallBack="CargaComentarioInicialCallBack" foro_Codigo="ForoSeleccionado.Codigo" />
+                            @if (user.Suscripcion!="Basico")
+                            {
+                                <ComponenteCargaComentario CargaComentarioInicialCallBack="CargaComentarioInicialCallBack" foro_Codigo="ForoSeleccionado.Codigo" />
+                            }
                             <!-- Contenedor Principal -->
                             <div class="comments-container">
                                 @if (ComentariosRaiz.Count<1)
@@ -243,7 +255,14 @@
                                                                 <h6 class="comment-name">@comentario.Creador</h6>
                                                             }
                                                             <span>@comentario.FechaCreacion</span>
-                                                            <i class="fa fa-reply" @onclick="@(()=> ToggleRespuesta(comentario.Codigo))"></i>
+                                                            @if (user.Suscripcion != "Basico")
+                                                            {
+                                                                <i class="fa fa-reply" @onclick="@(()=> ToggleRespuesta(comentario.Codigo))"></i>
+                                                            }
+                                                            @if (user.RoleName == "Admin")
+                                                            {
+                                                                <i class="fa fa-ban" @onclick="@(()=> EliminarComentario(comentario.Codigo))"></i>
+                                                            }
                                                             @if (comentario.Creador != user?.UserName)
                                                             {
                                                                 <i class="fa fa-heart" @onclick="@(()=> Abrir(comentario.Codigo,comentario.Creador))"></i>
@@ -254,7 +273,10 @@
                                                         </div>
                                                         @if (ComentarioAbierto == comentario.Codigo)
                                                         {
-                                                            <ComponenteCargaRespuesta comentarioPadre_Codigo="comentario.Codigo" foro_Codigo="ForoSeleccionado.Codigo" comentarioPadre_Creador="@comentario.Creador" RegistrarComentarioCallBack="RegistrarComentarioCallBack" />
+                                                            @if (user.Suscripcion!="Basico")
+                                                            {
+                                                                <ComponenteCargaRespuesta comentarioPadre_Codigo="comentario.Codigo" foro_Codigo="ForoSeleccionado.Codigo" comentarioPadre_Creador="@comentario.Creador" RegistrarComentarioCallBack="RegistrarComentarioCallBack" />
+                                                            }
                                                         }
                                                     </div>
                                                 </div>
@@ -271,13 +293,14 @@
                             </div>
                         </div>
                     }
-                }
+                @*}*@
+                @*
                 else
                 {
                     <ComponenteCrearForo Videojuegos="videojuegosForo" />
-                }
+                }*@
             </MudTabPanel>
-            <MudTabPanel Text="Foros Recomendados">
+            <MudTabPanel Text="Foros Recomendados" OnClick="AbrirForosGenerales">
                 @if (!foroAbierto)
                 {
                     @if (!isForumsLoading)
@@ -333,6 +356,13 @@
                                                         }
                                                     }
                                                 </div>
+                                                @if (user.RoleName == "Admin")
+                                                {
+                                                    <MudMenu Icon="@Icons.Material.Filled.MoreVert"
+                                                                AriaLabel="Open user menu">
+                                                        <MudMenuItem @onclick="@(()=> EliminarForo(item.Codigo))">Eliminar</MudMenuItem>
+                                                    </MudMenu>
+                                                }
                                             </div>
                                         }     
                                     }
@@ -392,6 +422,13 @@
                                                         }
                                                     }
                                                 </div>
+                                                @if (user.RoleName == "Admin")
+                                                {
+                                                    <MudMenu Icon="@Icons.Material.Filled.MoreVert"
+                                                                AriaLabel="Open user menu">
+                                                        <MudMenuItem @onclick="@(()=> EliminarForo(item.Codigo))">Eliminar</MudMenuItem>
+                                                    </MudMenu>
+                                                }
                                             </div>
                                         }     
                                     }
@@ -451,6 +488,13 @@
                                                         }
                                                     }
                                                 </div>
+                                                @if (user.RoleName == "Admin")
+                                                {
+                                                    <MudMenu Icon="@Icons.Material.Filled.MoreVert"
+                                                                AriaLabel="Open user menu">
+                                                        <MudMenuItem @onclick="@(()=> EliminarForo(item.Codigo))">Eliminar</MudMenuItem>
+                                                    </MudMenu>
+                                                }
                                             </div>
                                         }     
                                     }
@@ -510,6 +554,13 @@
                                                         }
                                                     }
                                                 </div>
+                                                @if (user.RoleName == "Admin")
+                                                {
+                                                    <MudMenu Icon="@Icons.Material.Filled.MoreVert"
+                                                                AriaLabel="Open user menu">
+                                                        <MudMenuItem @onclick="@(()=> EliminarForo(item.Codigo))">Eliminar</MudMenuItem>
+                                                    </MudMenu>
+                                                }
                                             </div>
                                         }     
                                     }
@@ -552,7 +603,10 @@
                                 </li>
                             </ul>
                         </div>
-                        <ComponenteCargaComentario CargaComentarioInicialCallBack="CargaComentarioInicialCallBack" foro_Codigo="ForoSeleccionado.Codigo" />
+                        @if (user.Suscripcion!="Basico")
+                        {
+                            <ComponenteCargaComentario CargaComentarioInicialCallBack="CargaComentarioInicialCallBack" foro_Codigo="ForoSeleccionado.Codigo" />
+                        }
                         <!-- Contenedor Principal -->
                         <div class="comments-container">
                             @if (ComentariosRaiz.Count<1)
@@ -587,7 +641,14 @@
                                                         <h6 class="comment-name">@comentario.Creador</h6>
                                                     }
                                                     <span>@comentario.FechaCreacion</span>
-                                                    <i class="fa fa-reply" @onclick="@(()=> ToggleRespuesta(comentario.Codigo))"></i>
+                                                    @if (user.Suscripcion != "Basico")
+                                                    {
+                                                        <i class="fa fa-reply" @onclick="@(()=> ToggleRespuesta(comentario.Codigo))"></i>
+                                                    }
+                                                    @if (user.RoleName == "Admin")
+                                                    {
+                                                        <i class="fa fa-ban" @onclick="@(()=> EliminarComentario(comentario.Codigo))"></i>
+                                                    }
                                                     @if (comentario.Creador != user?.UserName)
                                                     {
                                                         <i class="fa fa-heart" @onclick="@(()=> Abrir(comentario.Codigo,comentario.Creador))"></i>
@@ -598,7 +659,10 @@
                                                 </div>
                                                 @if (ComentarioAbierto == comentario.Codigo)
                                                 {
-                                                    <ComponenteCargaRespuesta comentarioPadre_Codigo="comentario.Codigo" foro_Codigo="ForoSeleccionado.Codigo" comentarioPadre_Creador="@comentario.Creador" RegistrarComentarioCallBack="RegistrarComentarioCallBack" />
+                                                    @if (user.Suscripcion!="Basico")
+                                                    {
+                                                        <ComponenteCargaRespuesta comentarioPadre_Codigo="comentario.Codigo" foro_Codigo="ForoSeleccionado.Codigo" comentarioPadre_Creador="@comentario.Creador" RegistrarComentarioCallBack="RegistrarComentarioCallBack" />
+                                                    }
                                                 }
                                             </div>
                                         </div>
@@ -654,6 +718,13 @@
                                                         <div class="foro-favorite" @onclick="(()=>GuardarForoFav(item))" role="button">
                                                             <i class="fa-solid fa-bookmark"></i>
                                                         </div>
+                                                        @if (user.RoleName == "Admin")
+                                                        {
+                                                            <MudMenu Icon="@Icons.Material.Filled.MoreVert"
+                                                                        AriaLabel="Open user menu">
+                                                                <MudMenuItem @onclick="@(()=> EliminarForo(item.Codigo))">Eliminar</MudMenuItem>
+                                                            </MudMenu>
+                                                        }
                                                     </div>
                                                 }
                                             }
@@ -676,11 +747,10 @@
                                 </section>
                                 <section class="foro-right">
                                     <div class="foro-box foro-first">
-                                        <h3>honda shadow forums</h3>
-                                        <span>since 2007</span>
+                                        <h3>InnoviaReach Foros</h3>
+                                        <span>@DateTime.Today.Year.ToString()</span>
                                         <p>
-                                            Welcome to Honda Shadow Forum. Come in and discuss any Honda
-                                            Shadow models: VT1100, VT250, VT750 and the VT500.
+                                            Bienvenido a los foros de Innovia. Sumate a descubrir nuevas perspectivas y experiencias!
                                         </p>
                                         <div class="foro-stats">
                                             <div>
@@ -694,7 +764,10 @@
                                         </div>
                                         <div class="foro-buttons">
                                             <a href="#" class="foro-btn foro-btn-red"><i class="fa-solid fa-user-large"></i> join community</a>
-                                            <a class="foro-btn foro-btn-white" @onclick="OpenDialogAsync"><i class="fa-solid fa-plus" @onclick="OpenDialogAsync"></i> Crear foro</a>
+                                            @if (user.Suscripcion!="Basico")
+                                            {
+                                                <a class="foro-btn foro-btn-white" @onclick="OpenDialogAsync"><i class="fa-solid fa-plus"></i> Crear foro</a>
+                                            }
                                         </div>
                                     </div>
                                     <div class="foro-box foro-top-forums">
@@ -788,7 +861,10 @@
                                 </li>
                             </ul>
                         </div>
-                        <ComponenteCargaComentario CargaComentarioInicialCallBack="CargaComentarioInicialCallBack" foro_Codigo="ForoSeleccionado.Codigo" />
+                        @if (user.Suscripcion!="Basico")
+                        {
+                            <ComponenteCargaComentario CargaComentarioInicialCallBack="CargaComentarioInicialCallBack" foro_Codigo="ForoSeleccionado.Codigo" />
+                        }
                         <!-- Contenedor Principal -->
                         <div class="comments-container">
                             @if (ComentariosRaiz.Count<1)
@@ -823,7 +899,14 @@
                                                         <h6 class="comment-name">@comentario.Creador</h6>
                                                     }
                                                     <span>@comentario.FechaCreacion</span>
-                                                    <i class="fa fa-reply" @onclick="@(()=> ToggleRespuesta(comentario.Codigo))"></i>
+                                                    @if (user.Suscripcion != "Basico")
+                                                    {
+                                                        <i class="fa fa-reply" @onclick="@(()=> ToggleRespuesta(comentario.Codigo))"></i>
+                                                    }
+                                                    @if (user.RoleName == "Admin")
+                                                    {
+                                                        <i class="fa fa-ban" @onclick="@(()=> EliminarComentario(comentario.Codigo))"></i>
+                                                    }
                                                     @if (comentario.Creador != user?.UserName)
                                                     {
                                                         <i class="fa fa-heart" @onclick="@(()=> Abrir(comentario.Codigo,comentario.Creador))"></i>
@@ -834,7 +917,10 @@
                                                 </div>
                                                 @if (ComentarioAbierto == comentario.Codigo)
                                                 {
-                                                    <ComponenteCargaRespuesta comentarioPadre_Codigo="comentario.Codigo" foro_Codigo="ForoSeleccionado.Codigo" comentarioPadre_Creador="@comentario.Creador" RegistrarComentarioCallBack="RegistrarComentarioCallBack" />
+                                                    @if (user.Suscripcion!="Basico")
+                                                    {
+                                                        <ComponenteCargaRespuesta comentarioPadre_Codigo="comentario.Codigo" foro_Codigo="ForoSeleccionado.Codigo" comentarioPadre_Creador="@comentario.Creador" RegistrarComentarioCallBack="RegistrarComentarioCallBack" />
+                                                    }
                                                 }
                                             </div>
                                         </div>
@@ -852,7 +938,7 @@
                     </div>
                 }
             </MudTabPanel>
-            <MudTabPanel Text="Tus Foros">
+            <MudTabPanel Text="Tus Foros" OnClick="AbrirForosGenerales">
                 @if (!foroAbierto)
                 {
                     @if (!isForumsLoading)
@@ -886,6 +972,13 @@
                                                             </div>
                                                         </div>
                                                         <div class="foro-favorite" @onclick="(()=>GuardarForoFav(item))" role="button"></div>
+                                                        @if (user.RoleName == "Admin")
+                                                        {
+                                                            <MudMenu Icon="@Icons.Material.Filled.MoreVert"
+                                                                        AriaLabel="Open user menu">
+                                                                <MudMenuItem @onclick="@(()=> EliminarForo(item.Codigo))">Eliminar</MudMenuItem>
+                                                            </MudMenu>
+                                                        }
                                                     </div>
                                                 }
                                             }
@@ -900,11 +993,10 @@
                                 </section>
                                 <section class="foro-right">
                                     <div class="foro-box foro-first">
-                                        <h3>honda shadow forums</h3>
-                                        <span>since 2007</span>
+                                        <h3>InnoviaReach Foros</h3>
+                                        <span>@DateTime.Today.Year.ToString()</span>
                                         <p>
-                                            Welcome to Honda Shadow Forum. Come in and discuss any Honda
-                                            Shadow models: VT1100, VT250, VT750 and the VT500.
+                                            Bienvenido a los foros de Innovia. Sumate a descubrir nuevas perspectivas y experiencias!
                                         </p>
                                         <div class="foro-stats">
                                             <div>
@@ -918,7 +1010,10 @@
                                         </div>
                                         <div class="foro-buttons">
                                             <a href="#" class="foro-btn foro-btn-red"><i class="fa-solid fa-user-large"></i> join community</a>
-                                            <a class="foro-btn foro-btn-white" @onclick="OpenDialogAsync"><i class="fa-solid fa-plus" @onclick="OpenDialogAsync"></i> Crear foro</a>
+                                            @if (user.Suscripcion!="Basico")
+                                            {
+                                                <a class="foro-btn foro-btn-white" @onclick="OpenDialogAsync"><i class="fa-solid fa-plus"></i> Crear foro</a>
+                                            }
                                         </div>
                                     </div>
                                     <div class="foro-box foro-top-forums">
@@ -1012,7 +1107,10 @@
                                 </li>
                             </ul>
                         </div>
-                        <ComponenteCargaComentario CargaComentarioInicialCallBack="CargaComentarioInicialCallBack" foro_Codigo="ForoSeleccionado.Codigo" />
+                        @if (user.Suscripcion!="Basico")
+                        {
+                            <ComponenteCargaComentario CargaComentarioInicialCallBack="CargaComentarioInicialCallBack" foro_Codigo="ForoSeleccionado.Codigo" />
+                        }
                         <!-- Contenedor Principal -->
                         <div class="comments-container">
                             @if (ComentariosRaiz.Count<1)
@@ -1047,7 +1145,14 @@
                                                             <h6 class="comment-name">@comentario.Creador</h6>
                                                         }
                                                         <span>@comentario.FechaCreacion</span>
-                                                        <i class="fa fa-reply" @onclick="@(()=> ToggleRespuesta(comentario.Codigo))"></i>
+                                                        @if (user.Suscripcion != "Basico")
+                                                        {
+                                                            <i class="fa fa-reply" @onclick="@(()=> ToggleRespuesta(comentario.Codigo))"></i>
+                                                        }
+                                                        @if (user.RoleName == "Admin")
+                                                        {
+                                                            <i class="fa fa-ban" @onclick="@(()=> EliminarComentario(comentario.Codigo))"></i>
+                                                        }
                                                         @if (comentario.Creador != user?.UserName)
                                                         {
                                                             <i class="fa fa-heart" @onclick="@(()=> Abrir(comentario.Codigo,comentario.Creador))"></i>
@@ -1058,7 +1163,10 @@
                                                     </div>
                                                     @if (ComentarioAbierto == comentario.Codigo)
                                                     {
-                                                        <ComponenteCargaRespuesta comentarioPadre_Codigo="comentario.Codigo" foro_Codigo="ForoSeleccionado.Codigo" comentarioPadre_Creador="@comentario.Creador" RegistrarComentarioCallBack="RegistrarComentarioCallBack" />
+                                                        @if (user.Suscripcion!="Basico")
+                                                        {
+                                                            <ComponenteCargaRespuesta comentarioPadre_Codigo="comentario.Codigo" foro_Codigo="ForoSeleccionado.Codigo" comentarioPadre_Creador="@comentario.Creador" RegistrarComentarioCallBack="RegistrarComentarioCallBack" />
+                                                        }
                                                     }
                                                 </div>
                                             </div>
@@ -1076,7 +1184,9 @@
                     </div>
                 }
             </MudTabPanel>
-            <MudTabPanel Text="Usuarios" OnClick="AbrirUsuarios">
+            @if (esAdmin is true)
+            {
+                <MudTabPanel Text="Usuarios" OnClick="AbrirUsuarios">
                 @if (!UsuarioDetalle)
                 {
                     <div class="userlist-container">
@@ -1088,21 +1198,21 @@
                             <div id="userlist-list" class="userlist-list">
                                 @if (usuarios != null)
                                 {
-                                    @foreach (var user in FilteredUsers)
+                                    @foreach (var item in FilteredUsers)
                                     {
-                                        <div class="userlist-list-item" @onclick="AbrirDetalleUsuario">
+                                        <div class="userlist-list-item" @onclick="() => AbrirDetalleUsuario(item.UserName)">
                                             <div class="userlist-list-item__avatar">
                                                <img src="/assets/Usuario Menu/user.png" alt="">
                                             </div>
                                             <div class="userlist-list-item__content">
                                                 <strong class="userlist-list-item__name">
-                                                    @user.UserName
+                                                    @item.UserName
                                                 </strong>
                                                 <span class="userlist-list-item__info">
-                                                    @user.Email <br>
-                                                    Estilo preferido: @user.Estilo_preferido <br>
-                                                    Género preferido: @user.Genero_preferido <br>
-                                                    Estado: @(user.Active ? "Activo" : "Inactivo")
+                                                    @item.Email <br>
+                                                    Estilo preferido: @item.Estilo_preferido <br>
+                                                    Género preferido: @item.Genero_preferido <br>
+                                                    Estado: @(item.Active ? "Activo" : "Inactivo")
                                                 </span>
                                             </div>
                                         </div>
@@ -1114,13 +1224,14 @@
                 }
                 else
                 {
-                   <ComponenteDetalleUsuario />
+                   <ComponenteDetalleUsuario UserName="@usuarioSeleccionado"/>
                 }
             </MudTabPanel>
+            }
         </MudTabs>
     </main>
 </div>
-<CreateForumDialog ShowPopup="@showLoginPopup" OnClose="CloseForumDialogAsync" Videojuegos="videojuegosForo"/>
+<CreateForumDialog ShowPopup="@showLoginPopup" OnClose="CloseForumDialogAsync"/>
 
 @code {
     /* LISTADO DE USUARIOS */
@@ -1154,6 +1265,8 @@
     private bool forosfav;
     private bool forosprop;
     private bool forosrec;
+    private bool esAdmin = false;
+    private string usuarioSeleccionado = "";
 
     private int _rating;
     private readonly DialogOptions _dialogOptions = new() { FullWidth = true };
@@ -1194,7 +1307,7 @@
     public ICollection<UserResponse> usuarios = new HashSet<UserResponse>();
     public ICollection<ComentarioResponse> Comentarios = new HashSet<ComentarioResponse>();
     public ICollection<ComentarioResponse> ComentariosRaiz = new HashSet<ComentarioResponse>();
-    public ICollection<VideojuegoForoReponse> videojuegosForo = new HashSet<VideojuegoForoReponse>();
+    //public ICollection<VideojuegoForoReponse> videojuegosForo = new HashSet<VideojuegoForoReponse>();
     public LoginTokenResponse user;
     public bool foroAbierto;
     public bool CreacionForo;
@@ -1232,13 +1345,18 @@
                 try
                 {
                     user = await sessionStorage.GetItemAsync<LoginTokenResponse>("user");
+                    if (user != null)
+                    {
+                        esAdmin = user.RoleName == "Admin";
+                    }
                     httpClient.DefaultRequestHeaders.Clear();
                     httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", user.Token);
                     ForosGenerales = await httpClient.GetFromJsonAsync<List<ForoResponse>>("Foro/ObtenerForosGenerales");
                     //ForosRecPorVisita = await httpClient.GetFromJsonAsync<List<ForoResponse>>("Recomendaciones/ObtenerRecomendacionesForoVisitado");
                     usuarios = await httpClient.GetFromJsonAsync<List<UserResponse>>("Users/ObtenerUsuarios");
                     FilteredUsers = usuarios;
-                    videojuegosForo = await httpClient.GetFromJsonAsync<List<VideojuegoForoReponse>>("Videojuego/ObtenerVideojuegosForo");
+
+                    //videojuegosForo = await httpClient.GetFromJsonAsync<List<VideojuegoForoReponse>>("Videojuego/ObtenerVideojuegosForo");
                     Snackbar.Clear();
                     Snackbar.Add("Conecta tu cuenta de Steam", Severity.Info, (options) =>
                     {
@@ -1261,7 +1379,7 @@
                 }
 
                 // Esperar un breve momento para asegurarse de que el componente se haya renderizado completamente
-                await Task.Delay(3000);
+                //await Task.Delay(3000);
             }
         }
         catch (Exception)
@@ -1309,29 +1427,30 @@
             StateHasChanged();
         }
     }
-    protected async Task CrearForo()
-    {
-        try
-        {
-            CreacionForo = true;
-        }
-        catch (Exception)
-        {
-            CreacionForo = false;
-            //<<<IMPORTANTE>>>
-            //SI YO PONGO THROW EN UN CATCH EN ESTA INSTANCIA YO MANDO LA EXCEPCION AL FRONT Y VA A ROMPER LA WEB ABRUPTAMENTE
-            //LO IDEAL ACA ES MOSTRAR UN MENSAJE AL USUARIO QUE OCURRIO UN ERROR AL ABRIR EL FORO
-        }
-        finally
-        {
-            StateHasChanged();
-        }
-    }
-    protected async Task AbrirDetalleUsuario()
+    //protected async Task CrearForo()
+    //{
+    //    try
+    //    {
+    //        CreacionForo = true;
+    //    }
+    //    catch (Exception)
+    //    {
+    //        CreacionForo = false;
+    //        //<<<IMPORTANTE>>>
+    //        //SI YO PONGO THROW EN UN CATCH EN ESTA INSTANCIA YO MANDO LA EXCEPCION AL FRONT Y VA A ROMPER LA WEB ABRUPTAMENTE
+    //        //LO IDEAL ACA ES MOSTRAR UN MENSAJE AL USUARIO QUE OCURRIO UN ERROR AL ABRIR EL FORO
+    //    }
+    //    finally
+    //    {
+    //        StateHasChanged();
+    //    }
+    //}
+    protected async Task AbrirDetalleUsuario(string UserName)
     {
         try
         {
             UsuarioDetalle = true;
+            usuarioSeleccionado = UserName;
         }
         catch (Exception)
         {
@@ -1494,6 +1613,44 @@
         finally
         {
             StateHasChanged();
+        }
+    }
+    private async Task EliminarForo(int CodForo)
+    {
+        try
+        {
+            var user = await sessionStorage.GetItemAsync<LoginTokenResponse>("user");
+            httpClient.DefaultRequestHeaders.Clear();
+            httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", user.Token);
+
+            await httpClient.DeleteAsync($"Foro/EliminarForo?ForoId={CodForo}");
+
+            ForosGenerales = await httpClient.GetFromJsonAsync<List<ForoResponse>>("Foro/ObtenerForosGenerales");
+
+            StateHasChanged();
+
+        }
+        catch (Exception)
+        {
+
+        }
+    }
+    private async Task EliminarComentario(int CodComentario)
+    {
+        try
+        {
+            var user = await sessionStorage.GetItemAsync<LoginTokenResponse>("user");
+            httpClient.DefaultRequestHeaders.Clear();
+            httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", user.Token);
+
+            await httpClient.DeleteAsync($"Foro/EliminarComentario?ComentarioId={CodComentario}");
+
+            await AbrirForo(ForoSeleccionado);
+
+        }
+        catch (Exception)
+        {
+
         }
     }
 }

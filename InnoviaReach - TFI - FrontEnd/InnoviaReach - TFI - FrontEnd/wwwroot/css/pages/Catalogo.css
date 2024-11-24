@@ -323,7 +323,7 @@ hr,
 figure,
 p,
 pre {
-    margin: 0;
+    /*margin: 0;*/
 }
 
 fieldset {
@@ -2160,3 +2160,84 @@ ul {
         box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
     }
 }*/
+
+@import url(https://fonts.googleapis.com/css?family=Open+Sans);
+
+/*body {
+    background: #f2f2f2;
+    font-family: 'Open Sans', sans-serif;
+}
+*/
+.search-searchbar {
+    width: 100%;
+    position: relative;
+    display: flex;
+    align-items: center; /* Centra verticalmente el contenido */
+    background-color: rgba(5, 4, 21, 0.9); /* Fondo oscuro para consistencia */
+    border-radius: 6px; /* Bordes suaves */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Sombra suave */
+}
+
+.searchTerm-searchbar {
+    flex-grow: 1;
+    border: none;
+    padding: 12px 16px;
+    font-size: 1rem;
+    color: #fff; /* Texto blanco para contraste */
+    background-color: transparent; /* Sin fondo */
+    outline: none;
+    font-family: "Poppins", sans-serif;
+}
+
+    .searchTerm-searchbar::placeholder {
+        color: #9DBFAF; /* Placeholder claro */
+        font-weight: 400;
+    }
+
+.searchButton-searchbar {
+    padding: 10px;
+    background-color: rgb(0, 159, 157); /* Consistente con el color primario */
+    color: #fff;
+    border: none;
+    font-size: 1.25rem;
+    border-radius: 0 6px 6px 0;
+    cursor: pointer;
+    transition: background-color 0.3s ease-in-out;
+}
+
+    .searchButton-searchbar:hover {
+        background-color: rgb(185, 25, 142); /* Color alternativo al pasar el mouse */
+    }
+
+.wrap-searchbar {
+    width: 100%; /* Asegura que la barra ocupa todo el contenedor */
+    max-width: 600px;
+    margin: 0 auto; /* Centrar en contenedor */
+    padding: 10px;
+}
+.suggestions-list {
+    position: absolute; /* Asegura que la lista se posicione en relación al contenedor padre */
+    top: 100%; /* Coloca la lista justo debajo del input */
+    left: 0;
+    z-index: 10; /* Asegura que esté por encima de otros elementos */
+    width: 100%; /* Coincide con el ancho del contenedor */
+    background-color: rgba(5, 4, 21, 0.9); /* Fondo consistente con el diseño */
+    border-radius: 0 0 6px 6px; /* Bordes inferiores redondeados */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Sombra suave */
+    list-style: none; /* Elimina viñetas de la lista */
+    max-height: 200px; /* Altura máxima para la lista */
+    overflow-y: auto; /* Permite scroll si hay muchas sugerencias */
+    padding: 0;
+    margin: 0;
+}
+
+.suggestion-item {
+    padding: 10px 16px;
+    color: #fff;
+    cursor: pointer;
+    transition: background-color 0.3s ease-in-out;
+}
+
+    .suggestion-item:hover {
+        background-color: rgba(0, 159, 157, 0.7); /* Color de fondo al pasar el mouse */
+    }

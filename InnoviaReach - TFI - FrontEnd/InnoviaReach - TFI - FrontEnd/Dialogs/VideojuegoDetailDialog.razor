@@ -1,11 +1,32 @@
-﻿<div class="popup" style="@(Show ? "visibility:visible; opacity:1;" : "")">
+﻿@using System.Net.Http.Headers
+@inject HttpClient httpClient
+@inject ISnackbar Snackbar
+@inject ISessionStorageService sessionStorage
+@inject NavigationManager NavManager
+
+<div class="popup" style="@(Show ? "visibility:visible; opacity:1;" : "")">
     <div class="popup-inner" style="@(Show ? "bottom:0; right:0; transform:rotate(0);" : "")">
         <div class="popup__photo">
-            <img src="https://images.unsplash.com/photo-1515224526905-51c7d77c7bb8?ixlib=rb-0.3.5&s=9980646201037d28700d826b1bd096c4&auto=format&fit=crop&w=700&q=80" alt="">
+            <img src="@videojuego.Imagen" alt="">
         </div>
         <div class="popup__text">
-            <h1>Lorem ipsum dolor sit amet</h1>
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer ex velit, viverra non vulputate vitae, blandit vitae nisl. Nullam fermentum orci et erat viverra bibendum. Aliquam sed varius nibh, vitae mattis purus. Mauris elementum sapien non ullamcorper vulputate. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Sed eget felis sit amet eros viverra pulvinar.</p>
+            <h1>@videojuego.Nombre</h1>
+            <p>@videojuego.Descripcion</p>
+            <h3>Generos</h3>
+            @foreach (var item in videojuego.Generos)
+            {
+                <p>@item</p>
+            }
+            <h3>Plataformas disponibles</h3>
+            @foreach (var item in videojuego.Plataformas)
+            {
+                <p>@item</p>
+            }
+            <h3>Tiendas</h3>
+            @foreach (var item in videojuego.Tiendas)
+            {
+                <p>@item</p>
+            }
         </div>
         <div class="popup__close" @onclick="ClosePopup">X</div>
     </div>
@@ -14,9 +35,12 @@
 @code {
     [Parameter] public bool Show { get; set; }
     [Parameter] public EventCallback OnClose { get; set; }
+    [Parameter] public VideojuegoCatalogoDetalleResponse videojuego { get; set; }
 
     private void ClosePopup()
     {
         OnClose.InvokeAsync();
     }
+    
+
 }
