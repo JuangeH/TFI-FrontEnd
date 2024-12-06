@@ -16,18 +16,6 @@
                 <img class="signup-welcome" alt="Logo" src="/assets/Registrarse/logo.svg" />
                 <h1>Sign Up!</h1>
             </div>
-            <div class="socials-row">
-                <a href="#" title="Use Google">
-                    <img src="assets/Iniciar sesion/google.png" alt="Google" />
-                    Use Google
-                </a>
-            </div>
-            <div class="divider">
-                <div class="divider-line"></div>
-                OR
-                <div class="divider-line"></div>
-            </div>
-
             <div class="box-conteiner">
                 <div class="register-box">
                     <div class="my-form__content">
@@ -88,11 +76,6 @@
                                 <path d="M3 7l9 6l9 -6" />
                             </svg>
                         </div>
-                    </div>
-                </div>
-
-                <div class="register-box">
-                    <div class="my-form__content">
                         <div class="text-field">
                             <label for="nombre">Nombre:</label>
                             <input aria-label="Nombre" type="text" @bind="_registerRequest.FirstName" id="nombre"
@@ -103,18 +86,6 @@
                             <label for="apellido">Apellido:</label>
                             <input aria-label="Apellido" type="text" @bind="_registerRequest.LastName" id="apellido"
                                    name="apellido" placeholder="Tu apellido" autocomplete="off" required />
-                        </div>
-
-                        <div class="text-field">
-                            <label for="estilo">Estilo de juego preferido:</label>
-                            <input aria-label="Estilo" type="text" @bind="_registerRequest.Estilo_preferido" id="estilo"
-                                   name="estilo" placeholder="Estilo" autocomplete="off" required />
-                        </div>
-
-                        <div class="text-field">
-                            <label for="genero">Genero de juego preferido:</label>
-                            <input aria-label="Genero" type="text" @bind="_registerRequest.Genero_preferido" id="genero"
-                                   name="genero" placeholder="Genero" autocomplete="off" required />
                         </div>
                     </div>
                 </div>

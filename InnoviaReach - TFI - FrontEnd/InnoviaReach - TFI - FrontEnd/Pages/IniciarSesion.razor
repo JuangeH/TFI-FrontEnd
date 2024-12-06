@@ -1,4 +1,10 @@
 ﻿@layout LoginLayout
+@inject IStringLocalizer<Resource> Localizer
+@inject NavigationManager nav
+@inject LocalizationService local
+@inject IHttpContextAccessor HttpContextAccessor
+@using System.Globalization
+
 @page "/login"
 
 <PageTitle>Inicio de sesión</PageTitle>
@@ -10,6 +16,8 @@
 @inject NavigationManager NavManager
 @inject IDialogService DialogService
 @using System.Net.Http.Json
+@using InnoviaReach___TFI___FrontEnd.Services
+@using Microsoft.AspNetCore.Localization
 @using Newtonsoft.Json
 
 <div class="login-container">
@@ -20,43 +28,29 @@
             </a>
             <form class="my-form login" @onsubmit=Submit>
                 <div class="form-welcome-row">
-                    <h1>Welcome back! &#128079;</h1>
-                    <h2>Login with your account!</h2>
-                </div>
-                <div class="socials-row">
-                    <a href="#" title="Use Github">
-                        <img src="assets/Iniciar sesion/google.png" alt="Google">
-                        Continue with Google
-                    </a>
-                </div>
-                <div class="divider">
-                    <div class="divider-line"></div>
-                    or
-                    <div class="divider-line"></div>
+                    <h1>Current Culture: @CultureInfo.CurrentCulture.Name</h1>
+                    <h1>Value of WelcomeMessage: @(Localizer["WelcomeMessage"] ?? "Fallback Value")</h1>
+                    <h1>Value of SubWelcomeMessage: @(Localizer["SubWelcomeMessage"] ?? "Fallback Value")</h1>
                 </div>
                 <div class="text-field">
-                    <label for="email">Email</label>
-                    <input @bind-value=_loginRequest.username type="email" id="email" name="email" autocomplete="off" placeholder="you@example.com"
+                    <label for="email">@Localizer["EmailLabel"]</label>
+                    <input @bind-value=_loginRequest.username type="email" id="email" name="email" autocomplete="off" placeholder="@Localizer["EmailPlaceholder"]"
                            required>
-                    <div class="error-message">Email in incorrect format</div>
+                    <div class="error-message">@Localizer["EmailError"]</div>
                 </div>
                 <div class="text-field">
-                    <label for="password">Password</label>
-                    <input @bind-value=_loginRequest.password id="password" type="password" name="password" placeholder="Your password" title="Minimum 6 characters at
-                                                        least 1 Alphabet and 1 Number">
-                    <div class="error-message">
-                        Minimum 6 characters at
-                        least 1 Alphabet and 1 Number
-                    </div>
+                    <label for="password">@Localizer["PasswordLabel"]</label>
+                    <input @bind-value=_loginRequest.password id="password" type="password" name="password" placeholder="@Localizer["PasswordPlaceholder"]" title="@Localizer["PasswordError"]">
+                    <div class="error-message">@Localizer["PasswordError"]</div>
                 </div>
                 <button class="my-form__button" type="submit" disabled="@isSubmitting">
-                    Sign In
+                    @Localizer["SignInButton"]
                 </button>
                 <div class="my-form__actions">
                     <div class="my-form__row">
-                        <span>Don't have an account?</span>
-                        <a @onclick=Register title="Reset Password">
-                            Sign Up Now
+                        <span>@Localizer["NoAccountMessage"]</span>
+                        <a @onclick=Register title="@Localizer["SignUpLink"]">
+                            @Localizer["SignUpLink"]
                         </a>
                     </div>
                 </div>
@@ -66,8 +60,7 @@
             <div class="blockquote-wrapper">
                 <img src="assets/Iniciar sesion/returns.png" alt="Returns" class="returns">
                 <blockquote>
-                    With Laplace, I have significantly outperformed S&P 500 in the last three
-                    years.
+                    With Laplace, I have significantly outperformed S&P 500 in the last three years.
                 </blockquote>
                 <div class="author">
                     <img src="assets/Iniciar sesion/avatar.png" alt="Avatar" class="avatar">
@@ -78,6 +71,7 @@
     </div>
 </div>
 
+
 @code {
     bool isSubmitting = false;
     bool success;
@@ -85,6 +79,30 @@
     [Inject]
     private ISessionStorageService _sessionStorageService { get; set; }
 
+    [Inject]
+    private IStringLocalizer<MyLocalization> LocalizerVTEST { get; set; }
+
+    protected override void OnInitialized()
+    {
+        string tester = Localizer["WelcomeMessage"];
+        SetCulture("en");
+        string tester2 = local["WelcomeMessage"];
+    }
+    private void SetCulture(string culture)
+    {
+        var cultureInfo = new CultureInfo(culture);
+        CultureInfo.DefaultThreadCurrentCulture = cultureInfo;
+        CultureInfo.DefaultThreadCurrentUICulture = cultureInfo;
+
+        // Actualizar el contexto de localización para el middleware
+        HttpContextAccessor.HttpContext.Response.Cookies.Append(
+            CookieRequestCultureProvider.DefaultCookieName,
+            CookieRequestCultureProvider.MakeCookieValue(new RequestCulture(cultureInfo)),
+            new CookieOptions { Expires = DateTimeOffset.UtcNow.AddYears(1) }
+        );
+
+        nav.NavigateTo(nav.Uri, forceLoad: true);
+    }
     protected async Task Submit()
     {
         if (isSubmitting) return; // Prevenir múltiples envíos
@@ -100,6 +118,20 @@
                 string content = await response.Content.ReadAsStringAsync();
                 LoginTokenResponse login = JsonConvert.DeserializeObject<LoginTokenResponse>(content) ?? throw new Exception("Ocurrió un error");
                 await _sessionStorageService.SetItemAsync("user", login);
+
+                var user = await httpClient.GetFromJsonAsync<UserConfigResponse>($"Users/ObtenerUsuario?UserName={login.UserName}");
+
+                if (user.Idioma.ToUpper() == "ESPAÑOL")
+                {
+                    // Guardar el idioma preferido del usuario
+                    await _sessionStorageService.SetItemAsync("PreferredLanguage", "es");
+                }
+                else
+                {
+                    // Guardar el idioma preferido del usuario
+                    await _sessionStorageService.SetItemAsync("PreferredLanguage", "en");
+                }
+
 
                 NavManager.NavigateTo("/");
             }

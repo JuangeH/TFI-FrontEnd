@@ -7,530 +7,142 @@
 @inject NavigationManager NavManager
 
 @*<SteamAccounDialog Show="@showPopup" OnClose="ClosePopup"></SteamAccounDialog>*@
-<section class="sc-popular bg-violet-dark-active" style="height: 100vh">
-    <div class="container">
-        <div class="sc-title">
-            <h3>top popular <span>games</span></h3>
-            <div class="line"></div>
-        </div>
-        <div class="game-card-list grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-            <div class="game-card">
-                <div class="game-card-top rec-img-fit-cover">
-                    <img class="rec-img" src="assets/Recomendaciones/images/game-1.png" alt="">
-                    <div class="ratings-count">
-                        241
-                        <img src="assets/Recomendaciones/icons/star-black.svg" alt="" class="ms-2 rec-img">
-                    </div>
-                </div>
-                <div class="game-card-bottom">
-                    <div class="flex flex-col sm:flex-row justify-between items-start flex-wrap">
-                        <div class="py-1">
-                            <h4 class="text-white uppercase game-card-title">Minecraft Legends</h4>
-                            <p class="para-text">Minecraft Legends, a real-time strategy action ...</p>
-                        </div>
-                        <div class="star-rating mt-2 sm:mt-0 py-1">
-                            <img class="rec-img" src="assets/Recomendaciones/icons/star-green.svg">
-                            <img class="rec-img" src="assets/Recomendaciones/icons/star-green.svg">
-                            <img class="rec-img" src="assets/Recomendaciones/icons/star-green.svg">
-                            <img class="rec-img" src="assets/Recomendaciones/icons/star-green.svg">
-                            <img class="rec-img" src="assets/Recomendaciones/icons/star-green-half.svg">
-                        </div>
-                    </div>
 
-                    <div class="block-wrap flex justify-between items-end">
-                        <div class="details-group">
-                            <div class="flex items-center">
-                                <p class="font-semibold">Release Date: &nbsp;</p>
-                                <p>07.12.2015</p>
+<MudTabs Elevation="2" Rounded="false" ApplyEffectsToContainer="false" PanelClass="pa-6" Centered=true Class="foro-mudTabs" Border="false">
+    <MudTabPanel Text="Recomendaciones individuales">
+        @if (!areRecsLoading)
+        {
+            <VideojuegoDetailDialog Show="@showPopup" videojuego="@VideojuegoSeleccionado" OnClose="ClosePopup"></VideojuegoDetailDialog>
+            <section class="sc-popular bg-violet-dark-active" style="height: 90vh">
+                <div class="container">
+                    @if (recomendacionesVid.Count==0)
+                    {
+                        <div class="sc-title">
+                            <h3>No registra actividad del usuario para recomendaciones</h3>
+                            <div class="line"></div>
+                        </div>
+                    }
+                    else
+                    {
+                        @foreach (var group in recomendacionesVid.GroupBy(r => r.VideojuegoReferencia))
+                        {
+                            var tipos = group.Select(g => g.TipoRecomendacion).Distinct().ToList();
+                            <div class="sc-title">
+                                @if (tipos.Contains("Contenido") && tipos.Contains("Foro"))
+                                {
+                                    <h3>Videojuegos recomendados <span>por la comunidad y visitar @group.Key</span></h3>
+                                }
+                                else if (tipos.Contains("Contenido"))
+                                {
+                                    <h3>Videojuegos recomendados <span>por visitar @group.Key</span></h3>
+                                }
+                                else if (tipos.Contains("Foro"))
+                                {
+                                    <h3>Videojuegos recomendados <span>por la comunidad de @group.Key</span></h3>
+                                }
+                                <div class="line"></div>
                             </div>
-                            <div class="flex items-center">
-                                <p class="font-semibold">Updated: &nbsp;</p>
-                                <p>Action | Desktop</p>
+
+                            <div class="recomendaciones-container" style="overflow-x: scroll; overflow-y: auto; width: auto;">
+                                <div class="recomendaciones-row-recommended">
+                                    @foreach (var item in group.DistinctBy(r => r.VideojuegoRecomendado))
+                                    {
+                                        <div class="game-card" @onclick="@(()=> OpenPopup(item.VideojuegoRecomendado))">
+                                            <div class="game-card-top rec-img-fit-cover">
+                                                <img class="rec-img" src=@item.VideojuegoRecomendadoImagen alt="">
+                                            </div>
+                                            <div class="game-card-bottom">
+                                                <div class="flex flex-col sm:flex-row justify-between items-start flex-wrap">
+                                                    <div class="py-1">
+                                                        <h4 class="text-white uppercase game-card-title">@item.VideojuegoRecomendado</h4>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    }
+                                </div>
                             </div>
-                        </div>
-
-                        <div class="flex flex-col items-end justify-between">
-                            <a href="#" class="btn-primary uppercase">see more</a>
-                        </div>
-                    </div>
+                        }
+                    }
+                    
                 </div>
-            </div>
-
-            <div class="game-card">
-                <div class="game-card-top rec-img-fit-cover">
-                    <img class="rec-img" src="assets/Recomendaciones/images/game-2.png" alt="">
-                    <div class="ratings-count">
-                        241
-                        <img src="assets/Recomendaciones/icons/star-black.svg" alt="" class="ms-2 rec-img">
-                    </div>
-                </div>
-                <div class="game-card-bottom">
-                    <div class="flex flex-col sm:flex-row justify-between items-start flex-wrap">
-                        <div class="py-1">
-                            <h4 class="text-white uppercase game-card-title">Minecraft Legends</h4>
-                            <p class="para-text">Minecraft Legends, a real-time strategy action ...</p>
+            </section>
+        }
+        else
+        {
+            <SpinnerLoading show=@areRecsLoading />
+        }
+    </MudTabPanel>
+    <MudTabPanel Text="Recomendaciones colaborativas">
+        @if (!areRecsLoading)
+        {
+            <section class="sc-popular bg-violet-dark-active" style="height: 90vh">
+                <div class="container">
+                    @if (recomendacionesUsr.Count == 0)
+                    {
+                        <div class="sc-title">
+                            <h3>No registra actividad de usuarios para recomendaciones</h3>
+                            <div class="line"></div>
                         </div>
-                        <div class="star-rating mt-2 sm:mt-0 py-1">
-                            <img class="rec-img" src="assets/Recomendaciones/icons/star-green.svg">
-                            <img class="rec-img" src="assets/Recomendaciones/icons/star-green.svg">
-                            <img class="rec-img" src="assets/Recomendaciones/icons/star-green.svg">
-                            <img class="rec-img"src="assets/Recomendaciones/icons/star-green.svg">
-                            <img class="rec-img" src="assets/Recomendaciones/icons/star-green-half.svg">
-                        </div>
-                    </div>
-
-                    <div class="block-wrap flex justify-between items-end">
-                        <div class="details-group">
-                            <div class="flex items-center">
-                                <p class="font-semibold">Release Date: &nbsp;</p>
-                                <p>07.12.2015</p>
+                    }
+                    else
+                    {
+                        @foreach (var group in recomendacionesUsr.GroupBy(r => r.TipoRecomendacion))
+                        {
+                            var tipos = group.Select(g => g.TipoRecomendacion).Distinct().ToList();
+                            <div class="sc-title">
+                                @if (tipos.Contains("Visita"))
+                                {
+                                    <h3>Videojuegos recomendados <span>por visitas de otros usuarios</span></h3>
+                                }
+                                else
+                                {
+                                    <h3>Videojuegos recomendados <span>por otros usuarios activos en la comunidad</span></h3>
+                                }
+                                <div class="line"></div>
                             </div>
-                            <div class="flex items-center">
-                                <p class="font-semibold">Updated: &nbsp;</p>
-                                <p>Action | Desktop</p>
+
+                            <div class="recomendaciones-container" style="overflow-x: scroll; overflow-y: auto; width: auto;">
+                                <div class="recomendaciones-row-recommended">
+                                    @foreach (var item in group.DistinctBy(r => r.VideojuegoRecomendado))
+                                    {
+                                        <div class="game-card" @onclick="@(()=> OpenPopup(item.VideojuegoRecomendado))">
+                                            <div class="game-card-top rec-img-fit-cover">
+                                                <img class="rec-img" src=@item.VideojuegoRecomendadoImagen alt="">
+                                            </div>
+                                            <div class="game-card-bottom">
+                                                <div class="flex flex-col sm:flex-row justify-between items-start flex-wrap">
+                                                    <div class="py-1">
+                                                        <h4 class="text-white uppercase game-card-title">@item.VideojuegoRecomendado</h4>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    }
+                                </div>
                             </div>
-                        </div>
-
-                        <div class="flex flex-col items-end justify-between">
-                            <a href="#" class="btn-primary uppercase">see more</a>
-                        </div>
-                    </div>
+                        }
+                    }
                 </div>
-            </div>
-
-            <div class="game-card">
-                <div class="game-card-top rec-img-fit-cover">
-                    <img class="rec-img" src="assets/Recomendaciones/images/game-3.png" alt="">
-                    <div class="ratings-count">
-                        241
-                        <img src="assets/Recomendaciones/icons/star-black.svg" alt="" class="ms-2 rec-img">
-                    </div>
-                </div>
-                <div class="game-card-bottom">
-                    <div class="flex flex-col sm:flex-row justify-between items-start flex-wrap">
-                        <div class="py-1">
-                            <h4 class="text-white uppercase game-card-title">Minecraft Legends</h4>
-                            <p class="para-text">Minecraft Legends, a real-time strategy action ...</p>
-                        </div>
-                        <div class="star-rating mt-2 sm:mt-0 py-1">
-                            <img class="rec-img" src="assets/Recomendaciones/icons/star-green.svg">
-                            <img class="rec-img" src="assets/Recomendaciones/icons/star-green.svg">
-                            <img class="rec-img" src="assets/Recomendaciones/icons/star-green.svg">
-                            <img class="rec-img" src="assets/Recomendaciones/icons/star-green.svg">
-                            <img class="rec-img" src="assets/Recomendaciones/icons/star-green-half.svg">
-                        </div>
-                    </div>
-
-                    <div class="block-wrap flex justify-between items-end">
-                        <div class="details-group">
-                            <div class="flex items-center">
-                                <p class="font-semibold">Release Date: &nbsp;</p>
-                                <p>07.12.2015</p>
-                            </div>
-                            <div class="flex items-center">
-                                <p class="font-semibold">Updated: &nbsp;</p>
-                                <p>Action | Desktop</p>
-                            </div>
-                        </div>
-
-                        <div class="flex flex-col items-end justify-between">
-                            <a href="#" class="btn-primary uppercase">see more</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="game-card">
-                <div class="game-card-top rec-img-fit-cover">
-                    <img class="rec-img" src="assets/Recomendaciones/images/game-4.png" alt="">
-                    <div class="ratings-count">
-                        241
-                        <img src="assets/Recomendaciones/icons/star-black.svg" alt="" class="ms-2 rec-img">
-                    </div>
-                </div>
-                <div class="game-card-bottom">
-                    <div class="flex flex-col sm:flex-row justify-between items-start flex-wrap">
-                        <div class="py-1">
-                            <h4 class="text-white uppercase game-card-title">Minecraft Legends</h4>
-                            <p class="para-text">Minecraft Legends, a real-time strategy action ...</p>
-                        </div>
-                        <div class="star-rating mt-2 sm:mt-0 py-1">
-                            <img class="rec-img" src="assets/Recomendaciones/icons/star-green.svg">
-                            <img class="rec-img" src="assets/Recomendaciones/icons/star-green.svg">
-                            <img class="rec-img" src="assets/Recomendaciones/icons/star-green.svg">
-                            <img class="rec-img" src="assets/Recomendaciones/icons/star-green.svg">
-                            <img class="rec-img" src="assets/Recomendaciones/icons/star-green-half.svg">
-                        </div>
-                    </div>
-
-                    <div class="block-wrap flex justify-between items-end">
-                        <div class="details-group">
-                            <div class="flex items-center">
-                                <p class="font-semibold">Release Date: &nbsp;</p>
-                                <p>07.12.2015</p>
-                            </div>
-                            <div class="flex items-center">
-                                <p class="font-semibold">Updated: &nbsp;</p>
-                                <p>Action | Desktop</p>
-                            </div>
-                        </div>
-
-                        <div class="flex flex-col items-end justify-between">
-                            <a href="#" class="btn-primary uppercase">see more</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="game-card">
-                <div class="game-card-top rec-img-fit-cover">
-                    <img class="rec-img" src="assets/Recomendaciones/images/game-5.png" alt="">
-                    <div class="ratings-count">
-                        241
-                        <img src="assets/Recomendaciones/icons/star-black.svg" alt="" class="ms-2 rec-img">
-                    </div>
-                </div>
-                <div class="game-card-bottom">
-                    <div class="flex flex-col sm:flex-row justify-between items-start flex-wrap">
-                        <div class="py-1">
-                            <h4 class="text-white uppercase game-card-title">Minecraft Legends</h4>
-                            <p class="para-text">Minecraft Legends, a real-time strategy action ...</p>
-                        </div>
-                        <div class="star-rating mt-2 sm:mt-0 py-1">
-                            <img class="rec-img" src="assets/Recomendaciones/icons/star-green.svg">
-                            <img class="rec-img" src="assets/Recomendaciones/icons/star-green.svg">
-                            <img class="rec-img" src="assets/Recomendaciones/icons/star-green.svg">
-                            <img class="rec-img" src="assets/Recomendaciones/icons/star-green.svg">
-                            <img class="rec-img" src="assets/Recomendaciones/icons/star-green-half.svg">
-                        </div>
-                    </div>
-
-                    <div class="block-wrap flex justify-between items-end">
-                        <div class="details-group">
-                            <div class="flex items-center">
-                                <p class="font-semibold">Release Date: &nbsp;</p>
-                                <p>07.12.2015</p>
-                            </div>
-                            <div class="flex items-center">
-                                <p class="font-semibold">Updated: &nbsp;</p>
-                                <p>Action | Desktop</p>
-                            </div>
-                        </div>
-
-                        <div class="flex flex-col items-end justify-between">
-                            <a href="#" class="btn-primary uppercase">see more</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="game-card">
-                <div class="game-card-top rec-img-fit-cover">
-                    <img class="rec-img" src="assets/Recomendaciones/images/game-6.png" alt="">
-                    <div class="ratings-count">
-                        241
-                        <img src="assets/Recomendaciones/icons/star-black.svg" alt="" class="ms-2 rec-img">
-                    </div>
-                </div>
-                <div class="game-card-bottom">
-                    <div class="flex flex-col sm:flex-row justify-between items-start flex-wrap">
-                        <div class="py-1">
-                            <h4 class="text-white uppercase game-card-title">Minecraft Legends</h4>
-                            <p class="para-text">Minecraft Legends, a real-time strategy action ...</p>
-                        </div>
-                        <div class="star-rating mt-2 sm:mt-0 py-1">
-                            <img class="rec-img" src="assets/Recomendaciones/icons/star-green.svg">
-                            <img class="rec-img" src="assets/Recomendaciones/icons/star-green.svg">
-                            <img class="rec-img" src="assets/Recomendaciones/icons/star-green.svg">
-                            <img class="rec-img" src="assets/Recomendaciones/icons/star-green.svg">
-                            <img class="rec-img" src="assets/Recomendaciones/icons/star-green-half.svg">
-                        </div>
-                    </div>
-
-                    <div class="block-wrap flex justify-between items-end">
-                        <div class="details-group">
-                            <div class="flex items-center">
-                                <p class="font-semibold">Release Date: &nbsp;</p>
-                                <p>07.12.2015</p>
-                            </div>
-                            <div class="flex items-center">
-                                <p class="font-semibold">Updated: &nbsp;</p>
-                                <p>Action | Desktop</p>
-                            </div>
-                        </div>
-
-                        <div class="flex flex-col items-end justify-between">
-                            <a href="#" class="btn-primary uppercase">see more</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="sc-title">
-            <h3>top popular <span>games</span></h3>
-            <div class="line"></div>
-        </div>
-        <div class="game-card-list grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-            <div class="game-card">
-                <div class="game-card-top rec-img-fit-cover">
-                    <img class="rec-img" src="assets/Recomendaciones/images/game-1.png" alt="">
-                    <div class="ratings-count">
-                        241
-                        <img src="assets/Recomendaciones/icons/star-black.svg" alt="" class="ms-2 rec-img">
-                    </div>
-                </div>
-                <div class="game-card-bottom">
-                    <div class="flex flex-col sm:flex-row justify-between items-start flex-wrap">
-                        <div class="py-1">
-                            <h4 class="text-white uppercase game-card-title">Minecraft Legends</h4>
-                            <p class="para-text">Minecraft Legends, a real-time strategy action ...</p>
-                        </div>
-                        <div class="star-rating mt-2 sm:mt-0 py-1">
-                            <img class="rec-img" src="assets/Recomendaciones/icons/star-green.svg">
-                            <img class="rec-img" src="assets/Recomendaciones/icons/star-green.svg">
-                            <img class="rec-img" src="assets/Recomendaciones/icons/star-green.svg">
-                            <img class="rec-img" src="assets/Recomendaciones/icons/star-green.svg">
-                            <img class="rec-img" src="assets/Recomendaciones/icons/star-green-half.svg">
-                        </div>
-                    </div>
-
-                    <div class="block-wrap flex justify-between items-end">
-                        <div class="details-group">
-                            <div class="flex items-center">
-                                <p class="font-semibold">Release Date: &nbsp;</p>
-                                <p>07.12.2015</p>
-                            </div>
-                            <div class="flex items-center">
-                                <p class="font-semibold">Updated: &nbsp;</p>
-                                <p>Action | Desktop</p>
-                            </div>
-                        </div>
-
-                        <div class="flex flex-col items-end justify-between">
-                            <a href="#" class="btn-primary uppercase">see more</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="game-card">
-                <div class="game-card-top rec-img-fit-cover">
-                    <img class="rec-img" src="assets/Recomendaciones/images/game-2.png" alt="">
-                    <div class="ratings-count">
-                        241
-                        <img src="assets/Recomendaciones/icons/star-black.svg" alt="" class="ms-2 rec-img">
-                    </div>
-                </div>
-                <div class="game-card-bottom">
-                    <div class="flex flex-col sm:flex-row justify-between items-start flex-wrap">
-                        <div class="py-1">
-                            <h4 class="text-white uppercase game-card-title">Minecraft Legends</h4>
-                            <p class="para-text">Minecraft Legends, a real-time strategy action ...</p>
-                        </div>
-                        <div class="star-rating mt-2 sm:mt-0 py-1">
-                            <img class="rec-img" src="assets/Recomendaciones/icons/star-green.svg">
-                            <img class="rec-img" src="assets/Recomendaciones/icons/star-green.svg">
-                            <img class="rec-img" src="assets/Recomendaciones/icons/star-green.svg">
-                            <img class="rec-img" src="assets/Recomendaciones/icons/star-green.svg">
-                            <img class="rec-img" src="assets/Recomendaciones/icons/star-green-half.svg">
-                        </div>
-                    </div>
-
-                    <div class="block-wrap flex justify-between items-end">
-                        <div class="details-group">
-                            <div class="flex items-center">
-                                <p class="font-semibold">Release Date: &nbsp;</p>
-                                <p>07.12.2015</p>
-                            </div>
-                            <div class="flex items-center">
-                                <p class="font-semibold">Updated: &nbsp;</p>
-                                <p>Action | Desktop</p>
-                            </div>
-                        </div>
-
-                        <div class="flex flex-col items-end justify-between">
-                            <a href="#" class="btn-primary uppercase">see more</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="game-card">
-                <div class="game-card-top rec-img-fit-cover">
-                    <img class="rec-img" src="assets/Recomendaciones/images/game-3.png" alt="">
-                    <div class="ratings-count">
-                        241
-                        <img src="assets/Recomendaciones/icons/star-black.svg" alt="" class="ms-2 rec-img">
-                    </div>
-                </div>
-                <div class="game-card-bottom">
-                    <div class="flex flex-col sm:flex-row justify-between items-start flex-wrap">
-                        <div class="py-1">
-                            <h4 class="text-white uppercase game-card-title">Minecraft Legends</h4>
-                            <p class="para-text">Minecraft Legends, a real-time strategy action ...</p>
-                        </div>
-                        <div class="star-rating mt-2 sm:mt-0 py-1">
-                            <img class="rec-img" src="assets/Recomendaciones/icons/star-green.svg">
-                            <img class="rec-img" src="assets/Recomendaciones/icons/star-green.svg">
-                            <img class="rec-img" src="assets/Recomendaciones/icons/star-green.svg">
-                            <img class="rec-img" src="assets/Recomendaciones/icons/star-green.svg">
-                            <img class="rec-img" src="assets/Recomendaciones/icons/star-green-half.svg">
-                        </div>
-                    </div>
-
-                    <div class="block-wrap flex justify-between items-end">
-                        <div class="details-group">
-                            <div class="flex items-center">
-                                <p class="font-semibold">Release Date: &nbsp;</p>
-                                <p>07.12.2015</p>
-                            </div>
-                            <div class="flex items-center">
-                                <p class="font-semibold">Updated: &nbsp;</p>
-                                <p>Action | Desktop</p>
-                            </div>
-                        </div>
-
-                        <div class="flex flex-col items-end justify-between">
-                            <a href="#" class="btn-primary uppercase">see more</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="game-card">
-                <div class="game-card-top rec-img-fit-cover">
-                    <img class="rec-img" src="assets/Recomendaciones/images/game-4.png" alt="">
-                    <div class="ratings-count">
-                        241
-                        <img src="assets/Recomendaciones/icons/star-black.svg" alt="" class="ms-2 rec-img">
-                    </div>
-                </div>
-                <div class="game-card-bottom">
-                    <div class="flex flex-col sm:flex-row justify-between items-start flex-wrap">
-                        <div class="py-1">
-                            <h4 class="text-white uppercase game-card-title">Minecraft Legends</h4>
-                            <p class="para-text">Minecraft Legends, a real-time strategy action ...</p>
-                        </div>
-                        <div class="star-rating mt-2 sm:mt-0 py-1">
-                            <img class="rec-img" src="assets/Recomendaciones/icons/star-green.svg">
-                            <img class="rec-img" src="assets/Recomendaciones/icons/star-green.svg">
-                            <img class="rec-img" src="assets/Recomendaciones/icons/star-green.svg">
-                            <img class="rec-img" src="assets/Recomendaciones/icons/star-green.svg">
-                            <img class="rec-img" src="assets/Recomendaciones/icons/star-green-half.svg">
-                        </div>
-                    </div>
-
-                    <div class="block-wrap flex justify-between items-end">
-                        <div class="details-group">
-                            <div class="flex items-center">
-                                <p class="font-semibold">Release Date: &nbsp;</p>
-                                <p>07.12.2015</p>
-                            </div>
-                            <div class="flex items-center">
-                                <p class="font-semibold">Updated: &nbsp;</p>
-                                <p>Action | Desktop</p>
-                            </div>
-                        </div>
-
-                        <div class="flex flex-col items-end justify-between">
-                            <a href="#" class="btn-primary uppercase">see more</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="game-card">
-                <div class="game-card-top rec-img-fit-cover">
-                    <img class="rec-img" src="assets/Recomendaciones/images/game-5.png" alt="">
-                    <div class="ratings-count">
-                        241
-                        <img src="assets/Recomendaciones/icons/star-black.svg" alt="" class="ms-2 rec-img">
-                    </div>
-                </div>
-                <div class="game-card-bottom">
-                    <div class="flex flex-col sm:flex-row justify-between items-start flex-wrap">
-                        <div class="py-1">
-                            <h4 class="text-white uppercase game-card-title">Minecraft Legends</h4>
-                            <p class="para-text">Minecraft Legends, a real-time strategy action ...</p>
-                        </div>
-                        <div class="star-rating mt-2 sm:mt-0 py-1">
-                            <img class="rec-img" src="assets/Recomendaciones/icons/star-green.svg">
-                            <img class="rec-img" src="assets/Recomendaciones/icons/star-green.svg">
-                            <img class="rec-img" src="assets/Recomendaciones/icons/star-green.svg">
-                            <img class="rec-img" src="assets/Recomendaciones/icons/star-green.svg">
-                            <img class="rec-img" src="assets/Recomendaciones/icons/star-green-half.svg">
-                        </div>
-                    </div>
-
-                    <div class="block-wrap flex justify-between items-end">
-                        <div class="details-group">
-                            <div class="flex items-center">
-                                <p class="font-semibold">Release Date: &nbsp;</p>
-                                <p>07.12.2015</p>
-                            </div>
-                            <div class="flex items-center">
-                                <p class="font-semibold">Updated: &nbsp;</p>
-                                <p>Action | Desktop</p>
-                            </div>
-                        </div>
-
-                        <div class="flex flex-col items-end justify-between">
-                            <a href="#" class="btn-primary uppercase">see more</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div class="game-card">
-                <div class="game-card-top rec-img-fit-cover">
-                    <img class="rec-img" src="assets/Recomendaciones/images/game-6.png" alt="">
-                    <div class="ratings-count">
-                        241
-                        <img src="assets/Recomendaciones/icons/star-black.svg" alt="" class="ms-2 rec-img">
-                    </div>
-                </div>
-                <div class="game-card-bottom">
-                    <div class="flex flex-col sm:flex-row justify-between items-start flex-wrap">
-                        <div class="py-1">
-                            <h4 class="text-white uppercase game-card-title">Minecraft Legends</h4>
-                            <p class="para-text">Minecraft Legends, a real-time strategy action ...</p>
-                        </div>
-                        <div class="star-rating mt-2 sm:mt-0 py-1">
-                            <img class="rec-img" src="assets/Recomendaciones/icons/star-green.svg">
-                            <img class="rec-img" src="assets/Recomendaciones/icons/star-green.svg">
-                            <img class="rec-img" src="assets/Recomendaciones/icons/star-green.svg">
-                            <img class="rec-img" src="assets/Recomendaciones/icons/star-green.svg">
-                            <img class="rec-img" src="assets/Recomendaciones/icons/star-green-half.svg">
-                        </div>
-                    </div>
-
-                    <div class="block-wrap flex justify-between items-end">
-                        <div class="details-group">
-                            <div class="flex items-center">
-                                <p class="font-semibold">Release Date: &nbsp;</p>
-                                <p>07.12.2015</p>
-                            </div>
-                            <div class="flex items-center">
-                                <p class="font-semibold">Updated: &nbsp;</p>
-                                <p>Action | Desktop</p>
-                            </div>
-                        </div>
-
-                        <div class="flex flex-col items-end justify-between">
-                            <a href="#" class="btn-primary uppercase">see more</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
-
+            </section>
+        }
+        else
+        {
+            <SpinnerLoading show=@areRecsLoading />
+        }
+    </MudTabPanel>
+</MudTabs>
 
 @code {
+    private bool areRecsLoading = true;
     public LoginTokenResponse user;
 
+    private VideojuegoCatalogoDetalleResponse VideojuegoSeleccionado = new VideojuegoCatalogoDetalleResponse();
+    private ICollection<RecomendacionVideojuegoResponse> recomendacionesVid  = new HashSet<RecomendacionVideojuegoResponse>();
+    private ICollection<RecomendacionUsuarioResponse> recomendacionesUsr = new HashSet<RecomendacionUsuarioResponse>();
+
     private bool showPopup = false;
+    private string VideojuegoActual = "";
 
     private void ClosePopup()
     {
@@ -547,19 +159,28 @@
             StateHasChanged();
         }
     }
+    private async Task OpenPopup(string nombre)
+    {
+        showPopup = true;
+        var user = await sessionStorage.GetItemAsync<LoginTokenResponse>("user");
+        httpClient.DefaultRequestHeaders.Clear();
+        httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", user.Token);
+        var response = await httpClient.GetFromJsonAsync<VideojuegoCatalogoDetalleResponse>($"Videojuego/ObtenerVideojuegoDetalleCatalogo?nombre={nombre}");
+        VideojuegoSeleccionado = response;
+    }
 
     protected override async Task OnInitializedAsync()
     {
+        areRecsLoading = true;
         // Verificar si el popup ya fue mostrado en la sesión
-        var popupShown = await sessionStorage.GetItemAsync<bool>("popupShown");
+        //var popupShown = await sessionStorage.GetItemAsync<bool>("popupShown");
 
-        if (!popupShown)
-        {
-            // Si el popup no fue mostrado, lo mostramos y guardamos el estado en sessionStorage
-            showPopup = true;
-            await sessionStorage.SetItemAsync("popupShown", true);
-        }
-
+        //if (!popupShown)
+        //{
+        //    // Si el popup no fue mostrado, lo mostramos y guardamos el estado en sessionStorage
+        //    showPopup = true;
+        //    await sessionStorage.SetItemAsync("popupShown", true);
+        //}
         StateHasChanged();
     }
 
@@ -571,17 +192,20 @@
             {
                 try
                 {
+                    areRecsLoading = true;
                     user = await sessionStorage.GetItemAsync<LoginTokenResponse>("user");
                     httpClient.DefaultRequestHeaders.Clear();
                     httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", user.Token);
+                    recomendacionesVid = await httpClient.GetFromJsonAsync<List<RecomendacionVideojuegoResponse>>("Recomendaciones/ObtenerRecomendacionesIndividuales");
+                    recomendacionesUsr = await httpClient.GetFromJsonAsync<List<RecomendacionUsuarioResponse>>("Recomendaciones/ObtenerRecomendacionesColaborativas");
                 }
                 catch (Exception)
                 {
 
                 }
 
-                // Esperar un breve momento para asegurarse de que el componente se haya renderizado completamente
-                await Task.Delay(3000);
+                //// Esperar un breve momento para asegurarse de que el componente se haya renderizado completamente
+                //await Task.Delay(6000);
             }
         }
         catch (Exception)
@@ -590,6 +214,7 @@
         }
         finally
         {
+            areRecsLoading = false;
             StateHasChanged();
         }
     }

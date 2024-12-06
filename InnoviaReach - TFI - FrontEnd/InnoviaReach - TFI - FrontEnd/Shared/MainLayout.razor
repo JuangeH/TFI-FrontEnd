@@ -1,5 +1,8 @@
-﻿@inherits LayoutComponentBase
+﻿@using InnoviaReach___TFI___FrontEnd.Services
+@inherits LayoutComponentBase
 @inject NavigationManager NavManager
+@inject LocalizationService LocalizationService
+@inject ISessionStorageService SessionStorageService
 
 <MudThemeProvider @bind-IsDarkMode="@_isDarkMode" Theme="_theme" />
 <MudDialogProvider />
@@ -64,4 +67,16 @@ else
             // Puedes manejar el error aquí si es necesario
         }
     }
+    //protected override async Task OnAfterRenderAsync(bool firstRender)
+    //{
+    //    if (firstRender)
+    //    {
+    //        // Obtener el idioma desde sessionStorage
+    //        var preferredLanguage = await SessionStorageService.GetItemAsync<string>("PreferredLanguage") ?? "en";
+    //        LocalizationService.SetCulture(preferredLanguage);
+
+    //        // Forzar renderizado para que aplique el idioma
+    //        StateHasChanged();
+    //    }
+    //}
 }

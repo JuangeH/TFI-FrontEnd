@@ -174,7 +174,7 @@
                                                     <p>*******************</p>
                                                 </div>
                                                 <div class="userdetailconfig-info-actions">
-                                                    <button class="userdetailconfig-btn userdetailconfig-btn--green">
+                                                    <button class="userdetailconfig-btn userdetailconfig-btn--green" @onclick="OpenDialogAsync">
                                                         <span class="fa fa-pencil"></span> Cambiar contraseña
                                                     </button>
                                                 </div>
@@ -195,10 +195,23 @@ else
 {
     <SpinnerLoading show=@isConfigLoading />
 }
+<ChangePasswordDialog ShowPopup="@showChangePassPopup" OnClose="CloseChagePassDialogAsync" />
 
 
 @code {
     private string activeTab = "Suscripción"; // Tab inicial
+    private bool showChangePassPopup = false;
+
+    protected async Task OpenDialogAsync()
+    {
+        showChangePassPopup = true;
+    }
+
+    protected async Task CloseChagePassDialogAsync()
+    {
+        showChangePassPopup = false;
+       
+    }
 
     private void SetActiveTab(string tabName)
     {
@@ -249,16 +262,16 @@ else
                             .Take(3)
                             .ToList();
                     }
-                    Snackbar.Clear();
-                    Snackbar.Add("Conecta tu cuenta de Steam", Severity.Info, (options) =>
-                    {
-                        options.CloseAfterNavigation = false;
-                        //config.Onclick = snackbar =>
-                        //{
-                        //    SayHello();
-                        //    return Task.CompletedTask;
-                        //};
-                    });
+                    //Snackbar.Clear();
+                    //Snackbar.Add("Conecta tu cuenta de Steam", Severity.Info, (options) =>
+                    //{
+                    //    options.CloseAfterNavigation = false;
+                    //    //config.Onclick = snackbar =>
+                    //    //{
+                    //    //    SayHello();
+                    //    //    return Task.CompletedTask;
+                    //    //};
+                    //});
                 }
                 catch (Exception)
                 {

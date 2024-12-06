@@ -93,12 +93,18 @@
                                                 <p>*******************</p>
                                             </div>
                                             <div class="userdetailconfig-info-actions">
-                                                <button class="userdetailconfig-btn userdetailconfig-btn--green">
-                                                    <span class="fa fa-pencil"></span> Cambiar contraseña
-                                                </button>
-                                                <button class="userdetailconfig-btn-red userdetailconfig-btn--green">
-                                                    <span class="fa fa-ban"></span> Deshabilitar Usuario
-                                                </button>
+                                                @if (user.UserName==UserName)
+                                                {
+                                                    <button class="userdetailconfig-btn userdetailconfig-btn--green" @onclick="OpenDialogAsync">
+                                                        <span class="fa fa-pencil"></span> Cambiar contraseña
+                                                    </button>
+                                                }
+                                                @if (user.RoleName == "Admin")
+                                                {
+                                                    <button class="userdetailconfig-btn-red userdetailconfig-btn--green">
+                                                        <span class="fa fa-ban"></span> Deshabilitar Usuario
+                                                    </button>
+                                                }
                                             </div>
                                         </div>
                                     </div>
@@ -109,14 +115,14 @@
                 </div>
             </div>
         </div>
-        <div class="userconfig-overlay" @click="rightSide = false; leftSide = false" :class="{ 'active': rightSide || leftSide }"></div>
+@*        <div class="userconfig-overlay" @click="rightSide = false; leftSide = false" :class="{ 'active': rightSide || leftSide }"></div>*@
     </div>
 }
 else
 {
     <SpinnerLoading show=@isConfigLoading />
 }
-
+<ChangePasswordDialog ShowPopup="@showChangePassPopup" OnClose="CloseChagePassDialogAsync" />
 
 @code {
     [Parameter]
@@ -127,6 +133,18 @@ else
     private void SetActiveTab(string tabName)
     {
         activeTab = tabName;
+    }
+
+    private bool showChangePassPopup = false;
+
+    protected async Task OpenDialogAsync()
+    {
+        showChangePassPopup = true;
+    }
+
+    protected async Task CloseChagePassDialogAsync()
+    {
+        showChangePassPopup = false;
     }
 
     public List<ForoResponse> ForosGenerales = new();
@@ -173,16 +191,16 @@ else
                             .Take(3)
                             .ToList();
                     }
-                    Snackbar.Clear();
-                    Snackbar.Add("Conecta tu cuenta de Steam", Severity.Info, (options) =>
-                    {
-                        options.CloseAfterNavigation = false;
-                        //config.Onclick = snackbar =>
-                        //{
-                        //    SayHello();
-                        //    return Task.CompletedTask;
-                        //};
-                    });
+                    //Snackbar.Clear();
+                    //Snackbar.Add("Conecta tu cuenta de Steam", Severity.Info, (options) =>
+                    //{
+                    //    options.CloseAfterNavigation = false;
+                    //    //config.Onclick = snackbar =>
+                    //    //{
+                    //    //    SayHello();
+                    //    //    return Task.CompletedTask;
+                    //    //};
+                    //});
                 }
                 catch (Exception)
                 {

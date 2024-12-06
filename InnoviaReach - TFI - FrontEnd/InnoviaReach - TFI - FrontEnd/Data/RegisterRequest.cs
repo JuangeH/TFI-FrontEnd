@@ -31,12 +31,6 @@ namespace InnoviaReach___TFI___FrontEnd.Data
         public string Idioma { get; set; }
 
         [Required(ErrorMessage = "Campo requerido")]
-        public string Estilo_preferido { get; set; }
-
-        [Required(ErrorMessage = "Campo requerido")]
-        public string Genero_preferido { get; set; }
-
-        [Required(ErrorMessage = "Campo requerido")]
         public bool Actualizaciones { get; set; }
 
         [Required(ErrorMessage = "Campo requerido")]

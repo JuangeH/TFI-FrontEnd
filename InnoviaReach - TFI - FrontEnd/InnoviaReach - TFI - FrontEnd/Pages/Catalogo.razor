@@ -39,7 +39,7 @@
             <button data-filter="arcade" class="cat-button">arcade</button>
             <button data-filter="adventure" class="cat-button">adventure</button>
         </div>*@
-        @if (!isForumsLoading)
+        @if (!isCatalogLoading)
         {
             <VideojuegoDetailDialog Show="@showPopup" videojuego="@VideojuegoSeleccionado" OnClose="ClosePopup"></VideojuegoDetailDialog>
             <div class="cat-mt-16 cat-grid cat-gap-6 cat-sm:grid-cols-2 cat-md:grid-cols-3">
@@ -76,7 +76,7 @@
         }
         else
         {
-            <SpinnerLoading show=@isForumsLoading />
+            <SpinnerLoading show=@isCatalogLoading />
         }
     </div>
 </section>
@@ -87,7 +87,7 @@
     private bool showSuggestions = false; // Mostrar u ocultar la lista de sugerencias
 
     public IEnumerable<VideojuegoCatalogoResponse> videojuegos = new List<VideojuegoCatalogoResponse>();
-    private bool isForumsLoading;
+    private bool isCatalogLoading;
     private int currentPage = 1;
     private int totalPages;
     private int pageSize = 12;
@@ -98,12 +98,19 @@
 
     private async Task OpenPopup(string nombre)
     {
-        showPopup = true;
-        var user = await sessionStorage.GetItemAsync<LoginTokenResponse>("user");
-        httpClient.DefaultRequestHeaders.Clear();
-        httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", user.Token);
-        var response = await httpClient.GetFromJsonAsync<VideojuegoCatalogoDetalleResponse>($"Videojuego/ObtenerVideojuegoDetalleCatalogo?nombre={nombre}");
-        VideojuegoSeleccionado = response;
+        try
+        {
+            showPopup = true;
+            var user = await sessionStorage.GetItemAsync<LoginTokenResponse>("user");
+            httpClient.DefaultRequestHeaders.Clear();
+            httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", user.Token);
+            var response = await httpClient.GetFromJsonAsync<VideojuegoCatalogoDetalleResponse>($"Videojuego/ObtenerVideojuegoDetalleCatalogo?nombre={nombre}");
+            VideojuegoSeleccionado = response;
+        }
+        catch (Exception)
+        {
+            
+        }
     }
 
     private void ClosePopup()
@@ -122,21 +129,21 @@
                     var user = await sessionStorage.GetItemAsync<LoginTokenResponse>("user");
                     httpClient.DefaultRequestHeaders.Clear();
                     httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", user.Token);
-                    Snackbar.Clear();
-                    Snackbar.Add("Conecta tu cuenta de Steam", Severity.Info, (options) =>
-                    {
-                        options.CloseAfterNavigation = false;
-                        options.Onclick = snackbar =>
-                        {
-                            NavManager.NavigateTo("/Config");
-                            return Task.CompletedTask;
-                        };
-                        //config.Onclick = snackbar =>
-                        //{
-                        //    SayHello();
-                        //    return Task.CompletedTask;
-                        //};
-                    });
+                    //Snackbar.Clear();
+                    //Snackbar.Add("Conecta tu cuenta de Steam", Severity.Info, (options) =>
+                    //{
+                    //    options.CloseAfterNavigation = false;
+                    //    options.Onclick = snackbar =>
+                    //    {
+                    //        NavManager.NavigateTo("/Config");
+                    //        return Task.CompletedTask;
+                    //    };
+                    //    //config.Onclick = snackbar =>
+                    //    //{
+                    //    //    SayHello();
+                    //    //    return Task.CompletedTask;
+                    //    //};
+                    //});
                     await LoadData();
                 }
                 catch (Exception)
@@ -152,14 +159,14 @@
         }
         finally
         {
-            isForumsLoading = false;
+            isCatalogLoading = false;
             StateHasChanged();
         }
     }
 
     protected override async Task OnInitializedAsync()
     {
-        isForumsLoading = true;
+        isCatalogLoading = true;
         StateHasChanged();
     }
 
@@ -249,7 +256,7 @@
         }
         finally
         {
-            isForumsLoading = false; // Ocultar spinner
+            isCatalogLoading = false; // Ocultar spinner
             StateHasChanged();
         }
     }

@@ -1,14 +1,32 @@
 using Blazored.SessionStorage;
 using InnoviaReach___TFI___FrontEnd.Data;
+using InnoviaReach___TFI___FrontEnd.Services;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
+using Microsoft.AspNetCore.Localization;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
 using MudBlazor;
 using MudBlazor.Services;
+using System.Globalization;
 
 var builder = WebApplication.CreateBuilder(args);
 
+
+// Agregar soporte para localización
+builder.Services.AddLocalization();
+
+// Configurar culturas soportadas
+var supportedCultures = new[] { "es", "en" };
+
+var localizationOptions = new RequestLocalizationOptions()
+    .SetDefaultCulture(supportedCultures[1])
+    .AddSupportedCultures(supportedCultures)
+    .AddSupportedUICultures(supportedCultures);
+
 // Add services to the container.
+builder.Services.AddScoped<LocalizationService>();
+builder.Services.AddHttpContextAccessor();
 builder.Services.AddRazorPages();
 builder.Services.AddBlazoredSessionStorage();
 builder.Services.AddServerSideBlazor();
@@ -39,7 +57,12 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
+app.UseRequestLocalization(localizationOptions);
+
 app.MapBlazorHub();
 app.MapFallbackToPage("/_Host");
+
+CultureInfo.DefaultThreadCurrentCulture = new CultureInfo("en");
+CultureInfo.DefaultThreadCurrentUICulture = new CultureInfo("en");
 
 app.Run();

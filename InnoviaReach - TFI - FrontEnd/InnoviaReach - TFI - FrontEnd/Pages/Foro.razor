@@ -110,23 +110,23 @@
                                             </p>
                                             <div class="foro-stats">
                                                 <div>
-                                                    <h4>1.6M</h4>
+                                                    <h4>@ForosGenerales.Count</h4>
                                                     <span>posts</span>
                                                 </div>
                                                 <div>
-                                                    <h4>79.4k</h4>
+                                                    <h4>@usuarios.Count</h4>
                                                     <span>members</span>
                                                 </div>
                                             </div>
                                             <div class="foro-buttons">
-                                                <a href="#" class="foro-btn foro-btn-red"><i class="fa-solid fa-user-large"></i> join community</a>
+                                                @*<a href="#" class="foro-btn foro-btn-red"><i class="fa-solid fa-user-large"></i> join community</a>*@
                                                 @if (user.Suscripcion!="Basico")
                                                 {
                                                     <a class="foro-btn foro-btn-white" @onclick="OpenDialogAsync"><i class="fa-solid fa-plus"></i> Crear foro</a>
                                                 }
                                             </div>
                                         </div>
-                                        <div class="foro-box foro-top-forums">
+                                       @* <div class="foro-box foro-top-forums">
                                             <h3>our top forums</h3>
                                             <a href="#">View All <i class="fa-solid fa-arrow-right"></i></a>
                                             <div class="foro-inner-box">
@@ -184,7 +184,7 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
+                                        </div>*@
                                     </section>
                                 </div>
                             </div>
@@ -376,12 +376,12 @@
                             </div>
                             <h2 class="foro-row-recommended-title">Foros recomendados por favoritos</h2>
                             <div class="foro-row-recommended">
-                                @if (ForosGenerales != null && ForosGenerales.Any())
+                                @if (ForosRecPorForosFav != null && ForosRecPorForosFav.Any())
                                 {
                                     @*AGREGAR ENUM PARA LA SUSCRIPCION*@
-                                    @foreach (var item in ForosGenerales)
+                                    @foreach (var item in ForosRecPorForosFav)
                                     {
-                                        if (ForosGenerales.Count==0)
+                                        if (ForosRecPorForosFav.Count==0)
                                         {
                                             <h1>No se encontraron foros</h1>
                                         }
@@ -440,80 +440,14 @@
                                     </div>
                                 }
                             </div>
-                            <h2 class="foro-row-recommended-title">Foros recomendados por creaciones</h2>
+                            <h2 class="foro-row-recommended-title">Foros recomendados en base a usuarios similares</h2>
                             <div class="foro-row-recommended">
-                                @if (ForosGenerales != null && ForosGenerales.Any())
+                                @if (ForosRecColab != null && ForosRecColab.Any())
                                 {
                                     @*AGREGAR ENUM PARA LA SUSCRIPCION*@
-                                    @foreach (var item in ForosGenerales)
+                                    @foreach (var item in ForosRecColab)
                                     {
-                                        if (ForosGenerales.Count==0)
-                                        {
-                                            <h1>No se encontraron foros</h1>
-                                        }
-                                        else
-                                        {
-                                            <div class="foro-box">
-                                                @*<div class="foro-img"> <img src="img/302688.jpg" alt="" /></div>*@
-                                                <div class="foro-details">
-                                                    <p>@item.NombreVideoJuego</p>
-                                                    <h3 title="@item.Titulo" @onclick="@(()=> AbrirForo(item))"> @item.Titulo</h3>
-                                                    <div class="foro-sub-details" style="flex-direction: column; width:100%; align-items: unset;">
-                                                        <div class="informacionusr">
-                                                            <span>@item.NombreUsuarioCreador</span>
-                                                            <span>@item.FechaCreado.ToShortDateString()</span>
-                                                        </div>
-                                                        <div class="metricas">
-                                                            <div class="foro-views">
-                                                                <i class="fa-regular fa-eye"></i>
-                                                                <span>@item.Visitas</span>
-                                                            </div>
-                                                            <div class="foro-comment">
-                                                                <i class="fa-solid fa-comment"></i>
-                                                                <span>@item.CantidadComentarios</span>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="foro-favorite" @onclick="(()=>GuardarForoFav(item))" role="button">
-                                                    @if (item.NombreUsuarioCreador != user?.UserName)
-                                                    {
-                                                        @if(item.favorito==true)
-                                                        {
-                                                            <i class="fa-solid fa-bookmark"></i>
-                                                        }
-                                                        else
-                                                        {
-                                                            <i class="fa-regular fa-bookmark"></i>
-                                                        }
-                                                    }
-                                                </div>
-                                                @if (user.RoleName == "Admin")
-                                                {
-                                                    <MudMenu Icon="@Icons.Material.Filled.MoreVert"
-                                                                AriaLabel="Open user menu">
-                                                        <MudMenuItem @onclick="@(()=> EliminarForo(item.Codigo))">Eliminar</MudMenuItem>
-                                                    </MudMenu>
-                                                }
-                                            </div>
-                                        }     
-                                    }
-                                }
-                                else
-                                {
-                                    <div class="foro-box foro-first">
-                                        <h3>No hay foros disponibles</h3>
-                                    </div>
-                                }
-                            </div>
-                            <h2 class="foro-row-recommended-title">Foros populares</h2>
-                            <div class="foro-row-recommended">
-                                @if (ForosGenerales != null && ForosGenerales.Any())
-                                {
-                                    @*AGREGAR ENUM PARA LA SUSCRIPCION*@
-                                    @foreach (var item in ForosGenerales)
-                                    {
-                                        if (ForosGenerales.Count==0)
+                                        if (ForosRecColab.Count==0)
                                         {
                                             <h1>No se encontraron foros</h1>
                                         }
@@ -754,23 +688,23 @@
                                         </p>
                                         <div class="foro-stats">
                                             <div>
-                                                <h4>1.6M</h4>
+                                                <h4>@ForosGenerales.Count</h4>
                                                 <span>posts</span>
                                             </div>
                                             <div>
-                                                <h4>79.4k</h4>
+                                                <h4>@usuarios.Count</h4>
                                                 <span>members</span>
                                             </div>
                                         </div>
                                         <div class="foro-buttons">
-                                            <a href="#" class="foro-btn foro-btn-red"><i class="fa-solid fa-user-large"></i> join community</a>
+                                            @*<a href="#" class="foro-btn foro-btn-red"><i class="fa-solid fa-user-large"></i> join community</a>*@
                                             @if (user.Suscripcion!="Basico")
                                             {
                                                 <a class="foro-btn foro-btn-white" @onclick="OpenDialogAsync"><i class="fa-solid fa-plus"></i> Crear foro</a>
                                             }
                                         </div>
                                     </div>
-                                    <div class="foro-box foro-top-forums">
+                                   @* <div class="foro-box foro-top-forums">
                                         <h3>our top forums</h3>
                                         <a href="#">View All <i class="fa-solid fa-arrow-right"></i></a>
                                         <div class="foro-inner-box">
@@ -828,7 +762,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
+                                    </div>*@
                                 </section>
                             </div>
                         </div>
@@ -1000,23 +934,23 @@
                                         </p>
                                         <div class="foro-stats">
                                             <div>
-                                                <h4>1.6M</h4>
+                                                <h4>@ForosGenerales.Count</h4>
                                                 <span>posts</span>
                                             </div>
                                             <div>
-                                                <h4>79.4k</h4>
+                                                <h4>@usuarios.Count</h4>
                                                 <span>members</span>
                                             </div>
                                         </div>
                                         <div class="foro-buttons">
-                                            <a href="#" class="foro-btn foro-btn-red"><i class="fa-solid fa-user-large"></i> join community</a>
+                                           @* <a href="#" class="foro-btn foro-btn-red"><i class="fa-solid fa-user-large"></i> join community</a>*@
                                             @if (user.Suscripcion!="Basico")
                                             {
                                                 <a class="foro-btn foro-btn-white" @onclick="OpenDialogAsync"><i class="fa-solid fa-plus"></i> Crear foro</a>
                                             }
                                         </div>
                                     </div>
-                                    <div class="foro-box foro-top-forums">
+                                   @* <div class="foro-box foro-top-forums">
                                         <h3>our top forums</h3>
                                         <a href="#">View All <i class="fa-solid fa-arrow-right"></i></a>
                                         <div class="foro-inner-box">
@@ -1074,7 +1008,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                    </div>
+                                    </div>*@
                                 </section>
                             </div>
                         </div>
@@ -1210,8 +1144,6 @@
                                                 </strong>
                                                 <span class="userlist-list-item__info">
                                                     @item.Email <br>
-                                                    Estilo preferido: @item.Estilo_preferido <br>
-                                                    Género preferido: @item.Genero_preferido <br>
                                                     Estado: @(item.Active ? "Activo" : "Inactivo")
                                                 </span>
                                             </div>
@@ -1300,6 +1232,8 @@
 
     public List<ForoResponse> ForosGenerales = new();
     public List<ForoResponse> ForosRecPorVisita = new();
+    public List<ForoResponse> ForosRecPorForosFav = new();
+    public List<ForoResponse> ForosRecColab = new();
 
     [Parameter]
     public ForoResponse ForoSeleccionado { get; set; }
@@ -1352,26 +1286,28 @@
                     httpClient.DefaultRequestHeaders.Clear();
                     httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", user.Token);
                     ForosGenerales = await httpClient.GetFromJsonAsync<List<ForoResponse>>("Foro/ObtenerForosGenerales");
-                    //ForosRecPorVisita = await httpClient.GetFromJsonAsync<List<ForoResponse>>("Recomendaciones/ObtenerRecomendacionesForoVisitado");
+                    ForosRecPorVisita = await httpClient.GetFromJsonAsync<List<ForoResponse>>("Recomendaciones/ObtenerForosRecomendadosVisita");
+                    ForosRecPorForosFav = await httpClient.GetFromJsonAsync<List<ForoResponse>>("Recomendaciones/ObtenerForosRecomendadosForosFav");
+                    ForosRecColab = await httpClient.GetFromJsonAsync<List<ForoResponse>>("Recomendaciones/ObtenerForosRecomendadosColab");
                     usuarios = await httpClient.GetFromJsonAsync<List<UserResponse>>("Users/ObtenerUsuarios");
                     FilteredUsers = usuarios;
 
                     //videojuegosForo = await httpClient.GetFromJsonAsync<List<VideojuegoForoReponse>>("Videojuego/ObtenerVideojuegosForo");
-                    Snackbar.Clear();
-                    Snackbar.Add("Conecta tu cuenta de Steam", Severity.Info, (options) =>
-                    {
-                        options.CloseAfterNavigation = false;
-                        options.Onclick = snackbar =>
-                        {
-                            Navigation.NavigateTo("/Config");
-                            return Task.CompletedTask;
-                        };
-                        //config.Onclick = snackbar =>
-                        //{
-                        //    SayHello();
-                        //    return Task.CompletedTask;
-                        //};
-                    });
+                    //Snackbar.Clear();
+                    //Snackbar.Add("Conecta tu cuenta de Steam", Severity.Info, (options) =>
+                    //{
+                    //    options.CloseAfterNavigation = false;
+                    //    options.Onclick = snackbar =>
+                    //    {
+                    //        Navigation.NavigateTo("/Config");
+                    //        return Task.CompletedTask;
+                    //    };
+                    //    //config.Onclick = snackbar =>
+                    //    //{
+                    //    //    SayHello();
+                    //    //    return Task.CompletedTask;
+                    //    //};
+                    //});
                 }
                 catch (Exception) 
                 { 

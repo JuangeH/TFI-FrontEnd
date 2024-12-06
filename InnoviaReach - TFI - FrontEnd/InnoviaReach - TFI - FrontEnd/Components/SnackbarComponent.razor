@@ -18,22 +18,22 @@
                     user = await sessionStorage.GetItemAsync<LoginTokenResponse>("user");
                     httpClient.DefaultRequestHeaders.Clear();
                     httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", user.Token);
-                    SteamAccountInfo = await httpClient.GetFromJsonAsync<SteamAccountResponse>("Foro/ValidarSteamAccount");
-                    Snackbar.Clear();
-                    Snackbar.Add("Conecta tu cuenta de Steam", Severity.Info, (options) =>
-                    {
-                        options.CloseAfterNavigation = false;
-                        options.Onclick = snackbar =>
-                        {
-                            NavManager.NavigateTo("/Config");
-                            return Task.CompletedTask;
-                        };
-                        //config.Onclick = snackbar =>
-                        //{
-                        //    SayHello();
-                        //    return Task.CompletedTask;
-                        //};
-                    });
+                    //SteamAccountInfo = await httpClient.GetFromJsonAsync<SteamAccountResponse>("Foro/ValidarSteamAccount");
+                    //Snackbar.Clear();
+                    //Snackbar.Add("Conecta tu cuenta de Steam", Severity.Info, (options) =>
+                    //{
+                    //    options.CloseAfterNavigation = false;
+                    //    options.Onclick = snackbar =>
+                    //    {
+                    //        NavManager.NavigateTo("/Config");
+                    //        return Task.CompletedTask;
+                    //    };
+                    //    //config.Onclick = snackbar =>
+                    //    //{
+                    //    //    SayHello();
+                    //    //    return Task.CompletedTask;
+                    //    //};
+                    //});
                 }
                 catch (Exception)
                 {

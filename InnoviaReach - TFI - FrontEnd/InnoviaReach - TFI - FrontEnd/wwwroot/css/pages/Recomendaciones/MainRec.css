@@ -2122,4 +2122,23 @@ ul {
         --tw-shadow-colored: 0 0 #0000;
         box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
     }
+    .recomendaciones-container {
+        width: 100%;
+    }
+    .recomendaciones-row-recommended {
+        overflow-x: auto;
+        overflow-y: hidden;
+        height: auto;
+        /*padding:16px;*/
+        max-width: 140vh;
+        min-width: 100%;
+
+        flex-direction: row;
+        display: flex;
+        grid-gap: 20px;
+        width: 100%;
+        padding-left: 1rem;
+        padding-right: 1rem;
+        padding-top: 1rem;
+    }
 }
