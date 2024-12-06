@@ -1,0 +1,50 @@
+﻿@using System.Globalization
+@inject IJSRuntime JS
+@inject NavigationManager Navigation
+@inject IStringLocalizer<Resource> Localizer
+
+<p>
+    <label>
+        @(Localizer["SelectCulture"])
+        <select value="@selectedCulture.Name" @onchange="HandleSelectedCultureChanged">
+            @foreach (var culture in supportedCultures)
+            {
+                <option value="@culture.Name">@culture.DisplayName</option>
+            }
+        </select>
+    </label>
+</p>
+
+@code
+{
+    private CultureInfo[] supportedCultures = new[]
+    {
+        new CultureInfo("en"),
+        new CultureInfo("es"),
+    };
+
+    private CultureInfo? selectedCulture;
+
+    protected override async Task OnInitializedAsync()
+    {
+        selectedCulture = CultureInfo.CurrentCulture;
+    }
+
+    private async Task HandleSelectedCultureChanged(ChangeEventArgs args)
+    {
+        var selectedValue = (string)args.Value!;
+        selectedCulture = CultureInfo.GetCultureInfo(selectedValue);
+
+        if (CultureInfo.CurrentCulture != selectedCulture)
+        {
+            var uri = new Uri(Navigation.Uri)
+                .GetComponents(UriComponents.PathAndQuery, UriFormat.Unescaped);
+            var cultureEscaped = Uri.EscapeDataString(selectedCulture.Name);
+            var uriEscaped = Uri.EscapeDataString(uri);
+
+            Navigation.NavigateTo(
+                $"Culture/Set?culture={cultureEscaped}&redirectUri={uriEscaped}",
+                forceLoad: true);
+        }
+    }
+}

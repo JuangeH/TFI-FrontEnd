@@ -2,7 +2,7 @@
 @inject IStringLocalizer<Resource> Localizer
 @inject NavigationManager nav
 @inject LocalizationService local
-@inject IHttpContextAccessor HttpContextAccessor
+@* @inject IHttpContextAccessor HttpContextAccessor *@
 @using System.Globalization
 
 @page "/login"
@@ -13,11 +13,13 @@
 @using InnoviaReach___TFI___FrontEnd.Components
 @using InnoviaReach___TFI___FrontEnd.Data
 @inject HttpClient httpClient
+@inject IServiceProvider serviceProvider
 @inject NavigationManager NavManager
 @inject IDialogService DialogService
 @using System.Net.Http.Json
 @using InnoviaReach___TFI___FrontEnd.Services
 @using Microsoft.AspNetCore.Localization
+@using Microsoft.Extensions.Options
 @using Newtonsoft.Json
 
 <div class="login-container">
@@ -28,6 +30,9 @@
             </a>
             <form class="my-form login" @onsubmit=Submit>
                 <div class="form-welcome-row">
+
+                    <CultureSelector></CultureSelector>
+
                     <h1>Current Culture: @CultureInfo.CurrentCulture.Name</h1>
                     <h1>Value of WelcomeMessage: @(Localizer["WelcomeMessage"] ?? "Fallback Value")</h1>
                     <h1>Value of SubWelcomeMessage: @(Localizer["SubWelcomeMessage"] ?? "Fallback Value")</h1>
@@ -82,27 +87,6 @@
     [Inject]
     private IStringLocalizer<MyLocalization> LocalizerVTEST { get; set; }
 
-    protected override void OnInitialized()
-    {
-        string tester = Localizer["WelcomeMessage"];
-        SetCulture("en");
-        string tester2 = local["WelcomeMessage"];
-    }
-    private void SetCulture(string culture)
-    {
-        var cultureInfo = new CultureInfo(culture);
-        CultureInfo.DefaultThreadCurrentCulture = cultureInfo;
-        CultureInfo.DefaultThreadCurrentUICulture = cultureInfo;
-
-        // Actualizar el contexto de localización para el middleware
-        HttpContextAccessor.HttpContext.Response.Cookies.Append(
-            CookieRequestCultureProvider.DefaultCookieName,
-            CookieRequestCultureProvider.MakeCookieValue(new RequestCulture(cultureInfo)),
-            new CookieOptions { Expires = DateTimeOffset.UtcNow.AddYears(1) }
-        );
-
-        nav.NavigateTo(nav.Uri, forceLoad: true);
-    }
     protected async Task Submit()
     {
         if (isSubmitting) return; // Prevenir múltiples envíos

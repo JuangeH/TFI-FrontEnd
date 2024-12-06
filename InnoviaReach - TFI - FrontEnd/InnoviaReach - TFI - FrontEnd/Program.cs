@@ -20,11 +20,13 @@ builder.Services.AddLocalization();
 var supportedCultures = new[] { "es", "en" };
 
 var localizationOptions = new RequestLocalizationOptions()
-    .SetDefaultCulture(supportedCultures[1])
+    .SetDefaultCulture(supportedCultures[0])
     .AddSupportedCultures(supportedCultures)
     .AddSupportedUICultures(supportedCultures);
 
+
 // Add services to the container.
+builder.Services.AddControllers();
 builder.Services.AddScoped<LocalizationService>();
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddRazorPages();
@@ -51,6 +53,8 @@ if (!app.Environment.IsDevelopment())
     app.UseHsts();
 }
 
+app.MapControllers();
+
 app.UseHttpsRedirection();
 
 app.UseStaticFiles();
@@ -59,10 +63,19 @@ app.UseRouting();
 
 app.UseRequestLocalization(localizationOptions);
 
+app.MapGet("Culture/Set", (string culture, string redirectUri, HttpContext context) =>
+{
+    if (culture is not null)
+    {
+        context.Response.Cookies.Append(CookieRequestCultureProvider.DefaultCookieName,
+            CookieRequestCultureProvider.MakeCookieValue(new RequestCulture(culture, culture)),
+            new CookieOptions { Expires = DateTimeOffset.Now.AddDays(30) });
+    }
+
+    return Results.LocalRedirect(redirectUri);
+});
+
 app.MapBlazorHub();
 app.MapFallbackToPage("/_Host");
-
-CultureInfo.DefaultThreadCurrentCulture = new CultureInfo("en");
-CultureInfo.DefaultThreadCurrentUICulture = new CultureInfo("en");
 
 app.Run();
