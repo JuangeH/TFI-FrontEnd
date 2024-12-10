@@ -1,0 +1,82 @@
+﻿@using System.Net.Http.Headers
+@inject ISessionStorageService sessionStorage
+@inject HttpClient httpClient
+@inject IStringLocalizer<Resource> Localizer
+@inject ISnackbar Snackbar
+
+@if (isSubmitting)
+{
+    <SpinnerLoading show=@isSubmitting />
+}
+else
+{
+    @if (ShowPopup)
+    {
+        <div class="createforum-popup-overlay"></div> <!-- Overlay to block the background -->
+    }
+
+    <div class="createforum-popup @(ShowPopup ? "active" : "")">
+        <div class="createforum-close-btn" @onclick="ClosePopup">&times;</div>
+        <div class="createforum-form">
+            <h2>@Localizer["DisableUser"]</h2>
+            <div class="createforum-form-element">
+                <label for="descripcion">@Localizer["Motive"]</label>
+                <input @bind-value=usuarioBaneadoRequest.Motivo type="text" id="descripcion" placeholder="@Localizer["EnterMotive"]">
+            </div>
+            <div class="createforum-form-element">
+                <button @onclick="Submit">@Localizer["Perform"]</button>
+            </div>
+        </div>
+    </div>
+}
+@code {
+    private bool isSubmitting = false;
+
+    public UsuarioBaneadoRequest usuarioBaneadoRequest = new UsuarioBaneadoRequest();
+
+    [Parameter] public bool ShowPopup { get; set; }
+    [Parameter] public EventCallback OnClose { get; set; }
+    [Parameter] public string UserName { get; set; }
+
+    private async void ClosePopup()
+    {
+        ShowPopup = false;
+        await OnClose.InvokeAsync();
+    }
+
+    private async Task Submit()
+    {
+        try
+        {
+            isSubmitting = true;
+            StateHasChanged();
+
+            var user = await sessionStorage.GetItemAsync<LoginTokenResponse>("user");
+            httpClient.DefaultRequestHeaders.Clear();
+            httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", user.Token);
+
+            var result = await httpClient.PostAsJsonAsync<UsuarioBaneadoRequest>($"Users/BanearUsuario", new UsuarioBaneadoRequest() { UserAdmin_ID = "", UserName = UserName, Motivo = usuarioBaneadoRequest.Motivo, FechaDeBaneo = DateTime.Now});
+            
+            if (result.IsSuccessStatusCode)
+            {
+                Snackbar.Add("Usuario baneado", Severity.Success, options =>
+                {
+                    options.VisibleStateDuration = 1000;
+                });
+            }
+            ClosePopup();
+        }
+        catch (Exception ex)
+        {
+            Snackbar.Add("Error al banear usuario", Severity.Error, options =>
+            {
+                options.VisibleStateDuration = 1000;
+            });
+        }
+        finally
+        {
+            isSubmitting = false;
+            StateHasChanged();
+        }
+    }
+}

@@ -4,6 +4,9 @@
 @inject LocalizationService local
 @* @inject IHttpContextAccessor HttpContextAccessor *@
 @using System.Globalization
+@inject ISessionStorageService sessionStorage
+@inject ISnackbar Snackbar
+
 
 @page "/login"
 
@@ -21,21 +24,16 @@
 @using Microsoft.AspNetCore.Localization
 @using Microsoft.Extensions.Options
 @using Newtonsoft.Json
+@using System.Net.Http.Headers
 
 <div class="login-container">
     <div class="form-wrapper">
         <main class="form-side">
-            <a href="#" title="Logo">
-                <img src="assets/Iniciar sesion/laplace.svg" alt="Laplace Logo" class="logo">
-            </a>
             <form class="my-form login" @onsubmit=Submit>
                 <div class="form-welcome-row">
-
                     <CultureSelector></CultureSelector>
-
-                    <h1>Current Culture: @CultureInfo.CurrentCulture.Name</h1>
-                    <h1>Value of WelcomeMessage: @(Localizer["WelcomeMessage"] ?? "Fallback Value")</h1>
-                    <h1>Value of SubWelcomeMessage: @(Localizer["SubWelcomeMessage"] ?? "Fallback Value")</h1>
+                    <h1>@(Localizer["WelcomeMessage"] ?? "Fallback Value")</h1>
+                    <h1>@(Localizer["SubWelcomeMessage"] ?? "Fallback Value")</h1>
                 </div>
                 <div class="text-field">
                     <label for="email">@Localizer["EmailLabel"]</label>
@@ -62,22 +60,13 @@
             </form>
         </main>
         <aside class="info-side">
-            <div class="blockquote-wrapper">
-                <img src="assets/Iniciar sesion/returns.png" alt="Returns" class="returns">
-                <blockquote>
-                    With Laplace, I have significantly outperformed S&P 500 in the last three years.
-                </blockquote>
-                <div class="author">
-                    <img src="assets/Iniciar sesion/avatar.png" alt="Avatar" class="avatar">
-                    <span class="author-name">ai_trader</span>
-                </div>
-            </div>
         </aside>
     </div>
 </div>
 
 
 @code {
+    public LoginTokenResponse user;
     bool isSubmitting = false;
     bool success;
     LoginRequest _loginRequest = new LoginRequest();
@@ -87,6 +76,11 @@
     [Inject]
     private IStringLocalizer<MyLocalization> LocalizerVTEST { get; set; }
 
+    protected override async Task OnInitializedAsync()
+    {
+        //await Login();
+    }
+
     protected async Task Submit()
     {
         if (isSubmitting) return; // Prevenir múltiples envíos
@@ -94,7 +88,7 @@
 
         try
         {
-            string url = "https://localhost:44308/Auth/Login?username=" + _loginRequest.username + "&password=" + _loginRequest.password;
+            string url = @$"https://localhost:44308/Auth/Login";
             var response = await httpClient.PostAsJsonAsync(url, _loginRequest);
 
             if (response.IsSuccessStatusCode)
@@ -103,30 +97,85 @@
                 LoginTokenResponse login = JsonConvert.DeserializeObject<LoginTokenResponse>(content) ?? throw new Exception("Ocurrió un error");
                 await _sessionStorageService.SetItemAsync("user", login);
 
-                var user = await httpClient.GetFromJsonAsync<UserConfigResponse>($"Users/ObtenerUsuario?UserName={login.UserName}");
+                var currentUri = nav.Uri;
 
-                if (user.Idioma.ToUpper() == "ESPAÑOL")
-                {
-                    // Guardar el idioma preferido del usuario
-                    await _sessionStorageService.SetItemAsync("PreferredLanguage", "es");
-                }
-                else
-                {
-                    // Guardar el idioma preferido del usuario
-                    await _sessionStorageService.SetItemAsync("PreferredLanguage", "en");
-                }
+                // Extraer solo la parte de la ruta y consulta de la URL actual
+                var uri = new Uri(currentUri).GetComponents(UriComponents.PathAndQuery, UriFormat.Unescaped);
 
+                // Escapar correctamente los valores para incluirlos en la URL
+                var cultureEscaped = Uri.EscapeDataString(CultureInfo.CurrentCulture.Name);
+                var uriEscaped = Uri.EscapeDataString(currentUri); // Usamos la URL completa del frontend
+
+                user = await sessionStorage.GetItemAsync<LoginTokenResponse>("user");
+                httpClient.DefaultRequestHeaders.Clear();
+                httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", user?.Token ?? string.Empty);
+
+                var result = await httpClient.PostAsJsonAsync<CultureRequest>($"Users/Culture/Set", new CultureRequest() { culture = cultureEscaped, redirectUri = uriEscaped });
 
                 NavManager.NavigateTo("/");
             }
             else
             {
-                throw new Exception("Error");
+                throw new Exception();
             }
         }
         catch (Exception ex)
         {
-            await DialogService.Show<DialogError>(ex.Message).Result;
+            Snackbar.Add("Error al iniciar sesión", Severity.Error, options =>
+            {
+                options.VisibleStateDuration = 1000;
+            });
+        }
+        finally
+        {
+            isSubmitting = false; // Habilitar el botón de envío de nuevo
+        }
+    }
+    protected async Task Login()
+    {
+    //    if (isSubmitting) return; // Prevenir múltiples envíos
+    //    isSubmitting = true; // Deshabilitar el botón de envío
+
+        try
+        {
+            //string url = "https:localhost:44308/Auth/Login?username=" + _loginRequest.username + "&password=" + _loginRequest.password;
+            string url = @$"https://localhost:44308/Auth/Login";
+            var response = await httpClient.PostAsJsonAsync(url, new LoginRequest(){username = "juanhenrich1@gmail.com", password="1234567"});
+
+            if (response.IsSuccessStatusCode)
+            {
+                string content = await response.Content.ReadAsStringAsync();
+                LoginTokenResponse login = JsonConvert.DeserializeObject<LoginTokenResponse>(content) ?? throw new Exception("Ocurrió un error");
+                await _sessionStorageService.SetItemAsync("user", login);
+
+                var currentUri = nav.Uri;
+
+                // Extraer solo la parte de la ruta y consulta de la URL actual
+                var uri = new Uri(currentUri).GetComponents(UriComponents.PathAndQuery, UriFormat.Unescaped);
+
+                // Escapar correctamente los valores para incluirlos en la URL
+                var cultureEscaped = Uri.EscapeDataString(CultureInfo.CurrentCulture.Name);
+                var uriEscaped = Uri.EscapeDataString(currentUri); // Usamos la URL completa del frontend
+
+                user = await sessionStorage.GetItemAsync<LoginTokenResponse>("user");
+                httpClient.DefaultRequestHeaders.Clear();
+                httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", user?.Token ?? string.Empty);
+
+                var result = await httpClient.PostAsJsonAsync<CultureRequest>($"Users/Culture/Set", new CultureRequest() { culture = cultureEscaped, redirectUri = uriEscaped });
+
+                NavManager.NavigateTo("/");
+            }
+            else
+            {
+                throw new Exception();
+            }
+        }
+        catch (Exception ex)
+        {
+            Snackbar.Add("Error al iniciar sesión", Severity.Error, options =>
+            {
+                options.VisibleStateDuration = 1000;
+            });
         }
         finally
         {

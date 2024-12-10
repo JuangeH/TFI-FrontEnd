@@ -1,10 +1,13 @@
 ﻿@layout LoginLayout
 @page "/Registro"
+@using System.Globalization
 
-<PageTitle>Registro</PageTitle>
+<PageTitle>@Localizer["PageTitle"]</PageTitle>
 @inject HttpClient httpClient
 @inject NavigationManager NavManager
 @inject IDialogService DialogService
+@inject IStringLocalizer<Resource> Localizer
+@inject ISnackbar Snackbar
 
 <EditForm Model="_registerRequest">
     <DataAnnotationsValidator />
@@ -13,90 +16,71 @@
     <div class="centering">
         <form class="my-form register" @onsubmit="@(()=> Submit())">
             <div class="signup-welcome-row">
-                <img class="signup-welcome" alt="Logo" src="/assets/Registrarse/logo.svg" />
-                <h1>Sign Up!</h1>
+                <img class="signup-welcome" alt="@Localizer["LogoAlt"]" src="/assets/Registrarse/logo.svg" />
+                <h1>@Localizer["SignUpTitle"]</h1>
             </div>
             <div class="box-conteiner">
                 <div class="register-box">
                     <div class="my-form__content">
                         <div class="text-field">
-                            <label for="email">Email:</label>
-                            <input aria-label="Email" type="email" id="email" @bind="_registerRequest.Email"
-                                   name="email" placeholder="Email" autocomplete="off" required />
-                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-mail"
-                                 width="44" height="44" viewBox="0 0 24 24" stroke-width="1.5" stroke="#A7A2CB"
-                                 fill="none" stroke-linecap="round" stroke-linejoin="round">
-                                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                                <path d="M3 7a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v10a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2v-10z" />
-                                <path d="M3 7l9 6l9 -6" />
-                            </svg>
+                            <label for="nombre">@Localizer["Username"]</label>
+                            <input aria-label="@Localizer["Username"]" type="text" @bind="_registerRequest.UserName" id="Username"
+                                   name="Username" placeholder="@Localizer["UsernamePlaceHolder"]" autocomplete="off"
+                                   pattern="^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$" required />
                         </div>
 
                         <div class="text-field">
-                            <label for="password">Password:</label>
+                            <label for="email">@Localizer["EmailLabel"]</label>
+                            <input aria-label="@Localizer["EmailLabel"]" type="email" id="email" @bind="_registerRequest.Email"
+                                   name="email" placeholder="@Localizer["EmailPlaceholder"]" autocomplete="off" required />
+                        </div>
+
+                        <div class="text-field">
+                            <label for="password">@Localizer["PasswordLabel"]</label>
                             <input id="password" type="password" @bind="_registerRequest.Password"
-                                   name="password" placeholder="Your Password"
-                                   title="Minimum 6 characters at least 1 Alphabet and 1 Number"
+                                   name="password" placeholder="@Localizer["PasswordPlaceholder"]"
+                                   title="@Localizer["PasswordTitle"]"
                                    pattern="^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$" required />
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-                                 stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
-                                 stroke-linejoin="round">
-                                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                                <path d="M5 13a2 2 0 0 1 2 -2h10a2 2 0 0 1 2 2v6a2 2 0 0 1 -2 2h-10a2 2 0 0 1 -2 -2v-6z"></path>
-                                <path d="M11 16a1 1 0 1 0 2 0a1 1 0 0 0 -2 0"></path>
-                                <path d="M8 11v-4a4 4 0 1 1 8 0v4"></path>
-                            </svg>
                         </div>
 
                         <div class="text-field">
-                            <label for="confirm-password">Repeat Password:</label>
+                            <label for="confirm-password">@Localizer["ConfirmPasswordLabel"]</label>
                             <input id="confirm-password" type="password" @bind="_registerRequest.ConfirmPassword"
-                                   name="confirm-password" placeholder="Repeat Password"
-                                   title="Minimum 6 characters at least 1 Alphabet and 1 Number"
+                                   name="confirm-password" placeholder="@Localizer["ConfirmPasswordPlaceholder"]"
+                                   title="@Localizer["PasswordTitle"]"
                                    pattern="^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$" required />
-                            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-                                 stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round"
-                                 stroke-linejoin="round">
-                                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
-                                <path d="M5 13a2 2 0 0 1 2 -2h10a2 2 0 0 1 2 2v6a2 2 0 0 1 -2 2h-10a2 2 0 0 1 -2 -2v-6z"></path>
-                                <path d="M11 16a1 1 0 1 0 2 0a1 1 0 0 0 -2 0"></path>
-                                <path d="M8 11v-4a4 4 0 1 1 8 0v4"></path>
-                            </svg>
                         </div>
 
                         <div class="text-field">
-                            <label for="numero">Numero:</label>
-                            <input aria-label="Numero" type="text" @bind="_registerRequest.PhoneNumber" id="numero"
-                                   name="numero" placeholder="Tu numero" autocomplete="off" required />
-                            <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-user"
-                                 width="44" height="44" viewBox="0 0 24 24" stroke-width="1.5" stroke="#A7A2CB"
-                                 fill="none" stroke-linecap="round" stroke-linejoin="round">
-                                <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                                <path d="M3 7a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v10a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2v-10z" />
-                                <path d="M3 7l9 6l9 -6" />
-                            </svg>
+                            <label for="numero">@Localizer["PhoneLabel"]</label>
+                            <input aria-label="@Localizer["PhoneLabel"]" type="text" @bind="_registerRequest.PhoneNumber" id="numero"
+                                   name="numero" placeholder="@Localizer["PhonePlaceholder"]" autocomplete="off" 
+                                   pattern="^\d+$" required />
+
                         </div>
                         <div class="text-field">
-                            <label for="nombre">Nombre:</label>
-                            <input aria-label="Nombre" type="text" @bind="_registerRequest.FirstName" id="nombre"
-                                   name="nombre" placeholder="Tu nombre" autocomplete="off" required />
+                            <label for="nombre">@Localizer["FirstNameLabel"]</label>
+                            <input aria-label="@Localizer["FirstNameLabel"]" type="text" @bind="_registerRequest.FirstName" id="nombre"
+                                   name="nombre" placeholder="@Localizer["FirstNamePlaceholder"]" autocomplete="off" 
+                                   pattern="^[A-Za-z]+$" required />
                         </div>
 
                         <div class="text-field">
-                            <label for="apellido">Apellido:</label>
-                            <input aria-label="Apellido" type="text" @bind="_registerRequest.LastName" id="apellido"
-                                   name="apellido" placeholder="Tu apellido" autocomplete="off" required />
+                            <label for="apellido">@Localizer["LastNameLabel"]</label>
+                            <input aria-label="@Localizer["LastNameLabel"]" type="text" @bind="_registerRequest.LastName" id="apellido"
+                                   name="apellido" placeholder="@Localizer["LastNamePlaceholder"]" autocomplete="off" 
+                                   pattern="^[A-Za-z]+$" required />
                         </div>
                     </div>
                 </div>
             </div>
-            <input type="submit" class="my-form__button" value="Sign-Up" />
+            <input type="submit" class="my-form__button" value="@Localizer["SignUpButton"]" />
             <div class="my-form__actions">
                 <div>
-                    By registering you agree to our Terms and Privacy
+                    @Localizer["TermsMessage"]
                 </div>
                 <div class="my-form__signin">
-                    <a href="/" title="Sign In">Sign-in</a>
+                    <a href="/" title="@Localizer["SignInLink"]">@Localizer["SignInLink"]</a>
                 </div>
             </div>
         </form>
@@ -111,52 +95,26 @@
     {
         try
         {
-            _registerRequest.Idioma = "Español";
+            _registerRequest.Idioma = CultureInfo.CurrentCulture.Name;
             var result = await httpClient.PostAsJsonAsync("https://localhost:44308/Auth/Register", _registerRequest);
 
             if (result.IsSuccessStatusCode)
             {
-                await DialogService.ShowAsync<DialogVerificacion>("Registro exitoso");
-                await Task.Delay(700);
+                await DialogService.ShowAsync<DialogVerificacion>(Localizer["SuccessMessage"]);
+                await Task.Delay(1000);
                 NavManager.NavigateTo("/");
             }
             else
             {
-                throw new Exception("Error en el registro.");
+                throw new Exception();
             }
         }
         catch (Exception ex)
         {
-            DialogService.Show<DialogError>(ex.Message);
+            Snackbar.Add("Error al registrar usuario", Severity.Error, options =>
+            {
+                options.VisibleStateDuration = 1000;
+            });
         }
-    }
-    protected async Task Register()
-    {
-        try
-        {
-            NavManager.NavigateTo("/Registro");
-        }
-        catch (Exception ex)
-        {
-
-        }
-
-    }
-    protected async Task LogIn()
-    {
-        try
-        {
-            NavManager.NavigateTo("/");
-        }
-        catch (Exception ex)
-        {
-
-        }
-
-    }
-    private void OnValidSubmit(EditContext context)
-    {
-        success = true;
-        StateHasChanged();
     }
 }

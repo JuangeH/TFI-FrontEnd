@@ -10,9 +10,9 @@ namespace InnoviaReach.Domain.Request
     public class ChangePasswordRequest
     {
         [Required(ErrorMessage = "Campo requerido")]
-        public string password { get; set; }
+        public string OldPassword { get; set; }
 
         [Required(ErrorMessage = "Campo requerido")]
-        public string Confirmpassword { get; set; }
+        public string NewPassword { get; set; }
     }
 }

@@ -19,6 +19,10 @@ build_property._RazorSourceGeneratorDebug =
 build_metadata.AdditionalFiles.TargetPath = QXBwLnJhem9y
 build_metadata.AdditionalFiles.CssScope = 
 
+[C:/Users/Juan/Desktop/Repositorios/TFI-FrontEnd/InnoviaReach - TFI - FrontEnd/InnoviaReach - TFI - FrontEnd/Components/CultureSelector.razor]
+build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xDdWx0dXJlU2VsZWN0b3IucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
 [C:/Users/Juan/Desktop/Repositorios/TFI-FrontEnd/InnoviaReach - TFI - FrontEnd/InnoviaReach - TFI - FrontEnd/Components/SnackbarComponent.razor]
 build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xTbmFja2JhckNvbXBvbmVudC5yYXpvcg==
 build_metadata.AdditionalFiles.CssScope = 
@@ -29,6 +33,10 @@ build_metadata.AdditionalFiles.CssScope =
 
 [C:/Users/Juan/Desktop/Repositorios/TFI-FrontEnd/InnoviaReach - TFI - FrontEnd/InnoviaReach - TFI - FrontEnd/Components/SpinnerLoading.razor]
 build_metadata.AdditionalFiles.TargetPath = Q29tcG9uZW50c1xTcGlubmVyTG9hZGluZy5yYXpvcg==
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Juan/Desktop/Repositorios/TFI-FrontEnd/InnoviaReach - TFI - FrontEnd/InnoviaReach - TFI - FrontEnd/Dialogs/BanUserDialog.razor]
+build_metadata.AdditionalFiles.TargetPath = RGlhbG9nc1xCYW5Vc2VyRGlhbG9nLnJhem9y
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/Juan/Desktop/Repositorios/TFI-FrontEnd/InnoviaReach - TFI - FrontEnd/InnoviaReach - TFI - FrontEnd/Dialogs/ChangePasswordDialog.razor]
@@ -45,6 +53,10 @@ build_metadata.AdditionalFiles.CssScope =
 
 [C:/Users/Juan/Desktop/Repositorios/TFI-FrontEnd/InnoviaReach - TFI - FrontEnd/InnoviaReach - TFI - FrontEnd/Dialogs/DialogVerificacion.razor]
 build_metadata.AdditionalFiles.TargetPath = RGlhbG9nc1xEaWFsb2dWZXJpZmljYWNpb24ucmF6b3I=
+build_metadata.AdditionalFiles.CssScope = 
+
+[C:/Users/Juan/Desktop/Repositorios/TFI-FrontEnd/InnoviaReach - TFI - FrontEnd/InnoviaReach - TFI - FrontEnd/Dialogs/ErrorDialog.razor]
+build_metadata.AdditionalFiles.TargetPath = RGlhbG9nc1xFcnJvckRpYWxvZy5yYXpvcg==
 build_metadata.AdditionalFiles.CssScope = 
 
 [C:/Users/Juan/Desktop/Repositorios/TFI-FrontEnd/InnoviaReach - TFI - FrontEnd/InnoviaReach - TFI - FrontEnd/Dialogs/ForumRatingDialog.razor]

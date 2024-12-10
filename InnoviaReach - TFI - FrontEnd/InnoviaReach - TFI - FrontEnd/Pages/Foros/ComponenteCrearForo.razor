@@ -3,27 +3,30 @@
 @using System.Net.Http.Headers
 @inject ISessionStorageService sessionStorage
 @inject HttpClient httpClient
+@inject IStringLocalizer<Resource> Localizer
+@inject ISnackbar Snackbar
 
 <div class="createforum-box">
     <div class="createforum-box-form">
         <div class="createforum-box-login-tab"></div>
         <div class="createforum-box-login-title">
-            <div class="createforum-i createforum-i-login"></div><h2>LOGIN</h2>
+            <div class="createforum-i createforum-i-login"></div>
+            <h2>@Localizer["Login"]</h2>
         </div>
         <div class="createforum-box-login">
             <div class="createforum-fieldset-body" id="login_form">
-                <button onclick="openLoginInfo();" class="createforum-b createforum-b-form createforum-i createforum-i-more" title="Mais Informações"></button>
+                <button onclick="openLoginInfo();" class="createforum-b createforum-b-form createforum-i createforum-i-more" title="@Localizer["MoreInfo"]"></button>
                 <p class="createforum-field">
-                    <label for="user">E-MAIL</label>
-                    <input type="text" id="user" name="user" title="Username">
+                    <label for="user">@Localizer["Email"]</label>
+                    <input type="text" id="user" name="user" title="@Localizer["Username"]">
                     <span id="valida" class="createforum-i createforum-i-warning"></span>
                 </p>
                 <p class="createforum-field">
-                    <label for="pass">PASSWORD</label>
-                    <input type="password" id="pass" name="pass" title="Password">
+                    <label for="pass">@Localizer["Password"]</label>
+                    <input type="password" id="pass" name="pass" title="@Localizer["Password"]">
                     <span id="valida" class="createforum-i createforum-i-close"></span>
                 </p>
-                <input type="submit" id="do_login" value="GET STARTED" title="Get Started">
+                <input type="submit" id="do_login" value="@Localizer["GetStarted"]" title="@Localizer["GetStarted"]">
             </div>
         </div>
     </div>
@@ -39,23 +42,23 @@
     {
         if (string.IsNullOrWhiteSpace(pw))
         {
-            yield return "Password is required!";
+            yield return Localizer["PasswordRequired"];
             yield break;
         }
         if (pw.Length < 8)
-            yield return "Password must be at least of length 8";
+            yield return Localizer["PasswordMinLength"];
         if (!Regex.IsMatch(pw, @"[A-Z]"))
-            yield return "Password must contain at least one capital letter";
+            yield return Localizer["PasswordCapitalLetter"];
         if (!Regex.IsMatch(pw, @"[a-z]"))
-            yield return "Password must contain at least one lowercase letter";
+            yield return Localizer["PasswordLowercaseLetter"];
         if (!Regex.IsMatch(pw, @"[0-9]"))
-            yield return "Password must contain at least one digit";
+            yield return Localizer["PasswordDigit"];
     }
 
     private string PasswordMatch(string arg)
     {
         if (pwField1.Value != arg)
-            return "Passwords don't match";
+            return Localizer["PasswordsDontMatch"];
         return null;
     }
 
@@ -64,7 +67,6 @@
     private HashSet<VideojuegoForoReponse> selectedItems = new HashSet<VideojuegoForoReponse>();
 
     private IEnumerable<VideojuegoForoReponse> Elements = new List<VideojuegoForoReponse>();
-
 
     private bool FilterFunc1(VideojuegoForoReponse element) => FilterFunc(element, searchString1);
 
@@ -96,16 +98,25 @@
             foroRequest.Videojuego_Codigo = selectedItem1.Codigo;
 
             var result = await httpClient.PostAsJsonAsync<ForoRequest>($"Foro/RegistrarForo", foroRequest);
+
+            if (result.IsSuccessStatusCode)
+            {
+                Snackbar.Add("Foro registrado", Severity.Success, options =>
+                {
+                    options.VisibleStateDuration = 1000;
+                });
+            }
         }
         catch (Exception)
         {
-
+            Snackbar.Add("Error al registrar foro", Severity.Error, options =>
+            {
+                options.VisibleStateDuration = 1000;
+            });
         }
         finally
         {
             StateHasChanged();
         }
     }
-
-
 }

@@ -10,6 +10,7 @@
 @using System.Net.Http.Headers
 @inject NavigationManager Navigation
 @inject ISnackbar Snackbar
+@inject IStringLocalizer<Resource> Localizer
 
 <div class="foro-principal">
     <header class="foro-header" id="foro-header">
@@ -28,593 +29,7 @@
     </header>
     <main class="foro-main">
         <MudTabs Elevation="2" Rounded="false" ApplyEffectsToContainer="false" PanelClass="pa-6" Centered=true Class="foro-mudTabs" Border="false">
-            <MudTabPanel Text="Foros Generales" OnClick="AbrirForosGenerales">
-                @*@if (!CreacionForo)
-                {*@
-                    @if (!foroAbierto)
-                    {
-                        @if (!isForumsLoading)
-                        {
-                            <div class="foro-container" style="display: flex; overflow-y: auto; height: 100%; width: auto;">
-                                <div class="foro-row">
-                                    <section class="foro-left">
-                                        <div class="foro-inner-left">
-                                            @if (ForosGenerales != null && ForosGenerales.Any())
-                                            {
-                                                @*AGREGAR ENUM PARA LA SUSCRIPCION*@
-                                                @foreach (var item in ForosGenerales)
-                                                {
-                                                    if (ForosGenerales.Count==0)
-                                                    {
-                                                        <h1>No se encontraron foros</h1>
-                                                    }
-                                                    else
-                                                    {
-                                                        <div class="foro-box">
-                                                            @*<div class="foro-img"> <img src="img/302688.jpg" alt="" /></div>*@
-                                                            <div class="foro-details">
-                                                                <p>@item.NombreVideoJuego</p>
-                                                                <h3 @onclick="@(()=> AbrirForo(item))"> @item.Titulo</h3>
-                                                                <div class="foro-sub-details">
-                                                                    <span>@item.NombreUsuarioCreador</span>
-                                                                    <span>@item.FechaCreado.ToShortDateString()</span>
-                                                                    <div class="foro-views">
-                                                                        <i class="fa-regular fa-eye"></i>
-                                                                        <span>@item.Visitas</span>
-                                                                    </div>
-                                                                    <div class="foro-comment">
-                                                                        <i class="fa-solid fa-comment"></i>
-                                                                        <span>@item.CantidadComentarios</span>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                            <div class="foro-favorite" @onclick="(()=>GuardarForoFav(item))" role="button">
-                                                                @if (item.NombreUsuarioCreador != user?.UserName)
-                                                                {
-                                                                    @if(item.favorito==true)
-                                                                    {
-                                                                        <i class="fa-solid fa-bookmark"></i>
-                                                                    }
-                                                                    else
-                                                                    {
-                                                                        <i class="fa-regular fa-bookmark"></i>
-                                                                    }
-                                                                }
-                                                            </div>
-                                                            @if (user.RoleName == "Admin")
-                                                            {
-                                                                <MudMenu Icon="@Icons.Material.Filled.MoreVert"
-                                                                            AriaLabel="Open user menu">
-                                                                    <MudMenuItem @onclick="@(()=> EliminarForo(item.Codigo))">Eliminar</MudMenuItem>
-                                                                </MudMenu>
-                                                            }
-                                                        </div>
-                                                    }
-                                                
-                                                }
-                                            }
-                                            else
-                                            {
-                                                <div class="foro-box foro-first">
-                                                    <h3>No hay foros disponibles</h3>
-                                                </div>
-                                            }
-                                        </div>
-                                    </section>
-                                    <section class="foro-right">
-                                        <div class="foro-box foro-first">
-                                            <h3>InnoviaReach Foros</h3>
-                                            <span>@DateTime.Today.Year.ToString()</span>
-                                            <p>
-                                                Bienvenido a los foros de Innovia. Sumate a descubrir nuevas perspectivas y experiencias!
-                                            </p>
-                                            <div class="foro-stats">
-                                                <div>
-                                                    <h4>@ForosGenerales.Count</h4>
-                                                    <span>posts</span>
-                                                </div>
-                                                <div>
-                                                    <h4>@usuarios.Count</h4>
-                                                    <span>members</span>
-                                                </div>
-                                            </div>
-                                            <div class="foro-buttons">
-                                                @*<a href="#" class="foro-btn foro-btn-red"><i class="fa-solid fa-user-large"></i> join community</a>*@
-                                                @if (user.Suscripcion!="Basico")
-                                                {
-                                                    <a class="foro-btn foro-btn-white" @onclick="OpenDialogAsync"><i class="fa-solid fa-plus"></i> Crear foro</a>
-                                                }
-                                            </div>
-                                        </div>
-                                       @* <div class="foro-box foro-top-forums">
-                                            <h3>our top forums</h3>
-                                            <a href="#">View All <i class="fa-solid fa-arrow-right"></i></a>
-                                            <div class="foro-inner-box">
-                                                <h4><a href="#">general bike discussion</a></h4>
-                                                <div class="foro-stats">
-                                                    <div class="foro-stat foro-comments">
-                                                        <i class="fa-solid fa-comment"></i><span> 709.4k</span>
-                                                    </div>
-                                                    <div class="foro-stat foro-views">
-                                                        <i class="fa-regular fa-eye"></i><span>104.4M</span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="foro-inner-box">
-                                                <h4><a href="#">technical discussion</a></h4>
-                                                <div class="foro-stats">
-                                                    <div class="foro-stat foro-comments">
-                                                        <i class="fa-solid fa-comment"></i><span> 599.1k</span>
-                                                    </div>
-                                                    <div class="foro-stat foro-views">
-                                                        <i class="fa-regular fa-eye"></i><span>81.3M</span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="foro-inner-box">
-                                                <h4><a href="#">member introductions</a></h4>
-                                                <div class="foro-stats">
-                                                    <div class="foro-stat foro-comments">
-                                                        <i class="fa-solid fa-comment"></i><span> 189.5k</span>
-                                                    </div>
-                                                    <div class="foro-stat foro-views">
-                                                        <i class="fa-regular fa-eye"></i><span>19.5M</span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="foro-inner-box">
-                                                <h4><a href="#">road stories</a></h4>
-                                                <div class="foro-stats">
-                                                    <div class="foro-stat foro-comments">
-                                                        <i class="fa-solid fa-comment"></i><span> 133.5k</span>
-                                                    </div>
-                                                    <div class="foro-stat foro-views">
-                                                        <i class="fa-regular fa-eye"></i><span>7.7M</span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <div class="foro-inner-box">
-                                                <h4><a href="#">honda shadow videos</a></h4>
-                                                <div class="foro-stats">
-                                                    <div class="foro-stat foro-comments">
-                                                        <i class="fa-solid fa-comment"></i><span> 123.1k</span>
-                                                    </div>
-                                                    <div class="foro-stat foro-views">
-                                                        <i class="fa-regular fa-eye"></i><span>16.3M</span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>*@
-                                    </section>
-                                </div>
-                            </div>
-                        }
-                        else
-                        {
-                           <SpinnerLoading show=@isForumsLoading/>
-                        }
-                    }
-                    else
-                    {
-                        <div class="detalleForo-main">
-                            <div class="comments-container">
-                                <ul id="comments-list" class="comments-list">
-                                    <li>
-                                        <div class="comment-main-level">
-                                            <div class="comment-avatar"><img src="http://i9.photobucket.com/albums/a88/creaticode/avatar_1_zps8e1c80cd.jpg" alt=""></div>
-                                            <div class="comment-box">
-                                                <div class="comment-head">
-                                                    <h6 class="comment-name by-author">@ForoSeleccionado.NombreUsuarioCreador</h6>
-                                                    <span>@ForoSeleccionado.FechaCreado</span>
-                                                    @*<i class="fa fa-reply"></i>
-                                                    <i class="fa fa-heart"></i>*@
-                                                </div>
-                                                <div class="comment-content">
-                                                   @ForoSeleccionado.Descripcion
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </li>
-                                </ul>
-                            </div>
-                            @if (user.Suscripcion!="Basico")
-                            {
-                                <ComponenteCargaComentario CargaComentarioInicialCallBack="CargaComentarioInicialCallBack" foro_Codigo="ForoSeleccionado.Codigo" />
-                            }
-                            <!-- Contenedor Principal -->
-                            <div class="comments-container">
-                                @if (ComentariosRaiz.Count<1)
-                                {
-                                    <h1>No se han registrado comentarios </h1>
-                                }
-                                else
-                                {
-                                    <h1>Comentarios </h1>
-                                    <ul id="comments-list" class="comments-list">
-                                        @foreach (var comentario in ComentariosRaiz)
-                                        {
-                                            <li>
-                                                <div class="comment-main-level">
-                                                    <!-- Avatar -->
-                                                    <div class="comment-avatar">
-                                                        <img src="http://i9.photobucket.com/albums/a88/creaticode/avatar_1_zps8e1c80cd.jpg" alt="">
-                                                        <MudRating SelectedValue="1" ReadOnly="true" MaxValue="1" />
-                                                        <div class="comment-punctuation">
-                                                            @comentario.PromedioPuntaje (@comentario.CantidadVotos)
-                                                        </div>
-                                                    </div>
-                                                    <!-- Contenedor del Comentario -->
-                                                    <div class="comment-box">
-                                                        <div class="comment-head">
-                                                            @if (comentario.Creador==ForoSeleccionado.NombreUsuarioCreador)
-                                                            {
-                                                                <h6 class="comment-name by-author">@comentario.Creador</h6>
-                                                            }
-                                                            else
-                                                            {
-                                                                <h6 class="comment-name">@comentario.Creador</h6>
-                                                            }
-                                                            <span>@comentario.FechaCreacion</span>
-                                                            @if (user.Suscripcion != "Basico")
-                                                            {
-                                                                <i class="fa fa-reply" @onclick="@(()=> ToggleRespuesta(comentario.Codigo))"></i>
-                                                            }
-                                                            @if (user.RoleName == "Admin")
-                                                            {
-                                                                <i class="fa fa-ban" @onclick="@(()=> EliminarComentario(comentario.Codigo))"></i>
-                                                            }
-                                                            @if (comentario.Creador != user?.UserName)
-                                                            {
-                                                                <i class="fa fa-heart" @onclick="@(()=> Abrir(comentario.Codigo,comentario.Creador))"></i>
-                                                            }
-                                                        </div>
-                                                        <div class="comment-content">
-                                                            @(new MarkupString (@comentario.Contenido))
-                                                        </div>
-                                                        @if (ComentarioAbierto == comentario.Codigo)
-                                                        {
-                                                            @if (user.Suscripcion!="Basico")
-                                                            {
-                                                                <ComponenteCargaRespuesta comentarioPadre_Codigo="comentario.Codigo" foro_Codigo="ForoSeleccionado.Codigo" comentarioPadre_Creador="@comentario.Creador" RegistrarComentarioCallBack="RegistrarComentarioCallBack" />
-                                                            }
-                                                        }
-                                                    </div>
-                                                </div>
-                                            </li>
-                                            @if (comentario.Respuestas.Any())
-                                            {
-                                                @* Llamada recursiva para mostrar respuestas *@
-                                                <ComponenteComentarios Comentarios="@comentario.Respuestas" ForoSeleccionado="ForoSeleccionado" ComentarioAbierto="ComentarioAbierto" OnToggleRespuesta="@ToggleRespuesta" RegistrarComentarioCallBack="RegistrarComentarioCallBack" />
-
-                                            }
-                                        }
-                                    </ul>
-                                }
-                            </div>
-                        </div>
-                    }
-                @*}*@
-                @*
-                else
-                {
-                    <ComponenteCrearForo Videojuegos="videojuegosForo" />
-                }*@
-            </MudTabPanel>
-            <MudTabPanel Text="Foros Recomendados" OnClick="AbrirForosGenerales">
-                @if (!foroAbierto)
-                {
-                    @if (!isForumsLoading)
-                    {
-                        <div class="foro-container" style="overflow-x: scroll; overflow-y: auto; height: 100%; width: auto;">
-                            <h2 class="foro-row-recommended-title">Foros recomendados por visitas</h2>
-                            <div class="foro-row-recommended">
-                                @if (ForosRecPorVisita != null && ForosRecPorVisita.Any())
-                                {
-                                    @*AGREGAR ENUM PARA LA SUSCRIPCION*@
-                                    @foreach (var item in ForosRecPorVisita)
-                                    {
-                                        if (ForosRecPorVisita.Count==0)
-                                        {
-                                            <h1>No se registraron visitas en foros</h1>
-                                        }
-                                        else
-                                        {
-                                            <div class="foro-box">
-                                                @*<div class="foro-img"> <img src="img/302688.jpg" alt="" /></div>*@
-                                                <div class="foro-details">
-                                                    <p>@item.NombreVideoJuego</p>
-                                                    <div class="foroRecommended-title">
-                                                        <h3 title="@item.Titulo" @onclick="@(()=> AbrirForo(item))"> @item.Titulo</h3>
-                                                    </div>
-                                                    <div class="foro-sub-details" style="flex-direction: column; width:100%; align-items: unset;">
-                                                        <div class="informacionusr">
-                                                            <span>@item.NombreUsuarioCreador</span>
-                                                            <span>@item.FechaCreado.ToShortDateString()</span>
-                                                        </div>
-                                                        <div class="metricas">
-                                                            <div class="foro-views">
-                                                                <i class="fa-regular fa-eye"></i>
-                                                                <span>@item.Visitas</span>
-                                                            </div>
-                                                            <div class="foro-comment">
-                                                                <i class="fa-solid fa-comment"></i>
-                                                                <span>@item.CantidadComentarios</span>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="foro-favorite" @onclick="(()=>GuardarForoFav(item))" role="button">
-                                                    @if (item.NombreUsuarioCreador != user?.UserName)
-                                                    {
-                                                        @if(item.favorito==true)
-                                                        {
-                                                            <i class="fa-solid fa-bookmark"></i>
-                                                        }
-                                                        else
-                                                        {
-                                                            <i class="fa-regular fa-bookmark"></i>
-                                                        }
-                                                    }
-                                                </div>
-                                                @if (user.RoleName == "Admin")
-                                                {
-                                                    <MudMenu Icon="@Icons.Material.Filled.MoreVert"
-                                                                AriaLabel="Open user menu">
-                                                        <MudMenuItem @onclick="@(()=> EliminarForo(item.Codigo))">Eliminar</MudMenuItem>
-                                                    </MudMenu>
-                                                }
-                                            </div>
-                                        }     
-                                    }
-                                }
-                                else
-                                {
-                                    <div class="foro-box foro-first">
-                                        <h3>No hay foros disponibles</h3>
-                                    </div>
-                                }
-                            </div>
-                            <h2 class="foro-row-recommended-title">Foros recomendados por favoritos</h2>
-                            <div class="foro-row-recommended">
-                                @if (ForosRecPorForosFav != null && ForosRecPorForosFav.Any())
-                                {
-                                    @*AGREGAR ENUM PARA LA SUSCRIPCION*@
-                                    @foreach (var item in ForosRecPorForosFav)
-                                    {
-                                        if (ForosRecPorForosFav.Count==0)
-                                        {
-                                            <h1>No se encontraron foros</h1>
-                                        }
-                                        else
-                                        {
-                                            <div class="foro-box">
-                                                @*<div class="foro-img"> <img src="img/302688.jpg" alt="" /></div>*@
-                                                <div class="foro-details">
-                                                    <p>@item.NombreVideoJuego</p>
-                                                    <h3 title="@item.Titulo" @onclick="@(()=> AbrirForo(item))"> @item.Titulo</h3>
-                                                    <div class="foro-sub-details" style="flex-direction: column; width:100%; align-items: unset;">
-                                                        <div class="informacionusr">
-                                                            <span>@item.NombreUsuarioCreador</span>
-                                                            <span>@item.FechaCreado.ToShortDateString()</span>
-                                                        </div>
-                                                        <div class="metricas">
-                                                            <div class="foro-views">
-                                                                <i class="fa-regular fa-eye"></i>
-                                                                <span>@item.Visitas</span>
-                                                            </div>
-                                                            <div class="foro-comment">
-                                                                <i class="fa-solid fa-comment"></i>
-                                                                <span>@item.CantidadComentarios</span>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="foro-favorite" @onclick="(()=>GuardarForoFav(item))" role="button">
-                                                    @if (item.NombreUsuarioCreador != user?.UserName)
-                                                    {
-                                                        @if(item.favorito==true)
-                                                        {
-                                                            <i class="fa-solid fa-bookmark"></i>
-                                                        }
-                                                        else
-                                                        {
-                                                            <i class="fa-regular fa-bookmark"></i>
-                                                        }
-                                                    }
-                                                </div>
-                                                @if (user.RoleName == "Admin")
-                                                {
-                                                    <MudMenu Icon="@Icons.Material.Filled.MoreVert"
-                                                                AriaLabel="Open user menu">
-                                                        <MudMenuItem @onclick="@(()=> EliminarForo(item.Codigo))">Eliminar</MudMenuItem>
-                                                    </MudMenu>
-                                                }
-                                            </div>
-                                        }     
-                                    }
-                                }
-                                else
-                                {
-                                    <div class="foro-box foro-first">
-                                        <h3>No hay foros disponibles</h3>
-                                    </div>
-                                }
-                            </div>
-                            <h2 class="foro-row-recommended-title">Foros recomendados en base a usuarios similares</h2>
-                            <div class="foro-row-recommended">
-                                @if (ForosRecColab != null && ForosRecColab.Any())
-                                {
-                                    @*AGREGAR ENUM PARA LA SUSCRIPCION*@
-                                    @foreach (var item in ForosRecColab)
-                                    {
-                                        if (ForosRecColab.Count==0)
-                                        {
-                                            <h1>No se encontraron foros</h1>
-                                        }
-                                        else
-                                        {
-                                            <div class="foro-box">
-                                                @*<div class="foro-img"> <img src="img/302688.jpg" alt="" /></div>*@
-                                                <div class="foro-details">
-                                                    <p>@item.NombreVideoJuego</p>
-                                                    <h3 title="@item.Titulo" @onclick="@(()=> AbrirForo(item))"> @item.Titulo</h3>
-                                                    <div class="foro-sub-details" style="flex-direction: column; width:100%; align-items: unset;">
-                                                        <div class="informacionusr">
-                                                            <span>@item.NombreUsuarioCreador</span>
-                                                            <span>@item.FechaCreado.ToShortDateString()</span>
-                                                        </div>
-                                                        <div class="metricas">
-                                                            <div class="foro-views">
-                                                                <i class="fa-regular fa-eye"></i>
-                                                                <span>@item.Visitas</span>
-                                                            </div>
-                                                            <div class="foro-comment">
-                                                                <i class="fa-solid fa-comment"></i>
-                                                                <span>@item.CantidadComentarios</span>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <div class="foro-favorite" @onclick="(()=>GuardarForoFav(item))" role="button">
-                                                    @if (item.NombreUsuarioCreador != user?.UserName)
-                                                    {
-                                                        @if(item.favorito==true)
-                                                        {
-                                                            <i class="fa-solid fa-bookmark"></i>
-                                                        }
-                                                        else
-                                                        {
-                                                            <i class="fa-regular fa-bookmark"></i>
-                                                        }
-                                                    }
-                                                </div>
-                                                @if (user.RoleName == "Admin")
-                                                {
-                                                    <MudMenu Icon="@Icons.Material.Filled.MoreVert"
-                                                                AriaLabel="Open user menu">
-                                                        <MudMenuItem @onclick="@(()=> EliminarForo(item.Codigo))">Eliminar</MudMenuItem>
-                                                    </MudMenu>
-                                                }
-                                            </div>
-                                        }     
-                                    }
-                                }
-                                else
-                                {
-                                    <div class="foro-box foro-first">
-                                        <h3>No hay foros disponibles</h3>
-                                    </div>
-                                }
-                            </div>
-                        </div>
-                        
-                    }
-                    else
-                    {
-                       <SpinnerLoading show=@isForumsLoading/>
-                    }
-                }
-                else
-                {
-                    <div class="detalleForo-main">
-                        <div class="comments-container">
-                            <ul id="comments-list" class="comments-list">
-                                <li>
-                                    <div class="comment-main-level">
-                                        <div class="comment-avatar"><img src="http://i9.photobucket.com/albums/a88/creaticode/avatar_1_zps8e1c80cd.jpg" alt=""></div>
-                                        <div class="comment-box">
-                                            <div class="comment-head">
-                                                <h6 class="comment-name by-author">@ForoSeleccionado.NombreUsuarioCreador</h6>
-                                                <span>@ForoSeleccionado.FechaCreado</span>
-                                                @*<i class="fa fa-reply"></i>
-                                                <i class="fa fa-heart"></i>*@
-                                            </div>
-                                            <div class="comment-content">
-                                               @ForoSeleccionado.Descripcion
-                                            </div>
-                                        </div>
-                                    </div>
-                                </li>
-                            </ul>
-                        </div>
-                        @if (user.Suscripcion!="Basico")
-                        {
-                            <ComponenteCargaComentario CargaComentarioInicialCallBack="CargaComentarioInicialCallBack" foro_Codigo="ForoSeleccionado.Codigo" />
-                        }
-                        <!-- Contenedor Principal -->
-                        <div class="comments-container">
-                            @if (ComentariosRaiz.Count<1)
-                            {
-                                <h1>No se han registrado comentarios </h1>
-                            }
-                            else
-                            {
-                                <h1>Comentarios </h1>
-                            <ul id="comments-list" class="comments-list">
-                                @foreach (var comentario in ComentariosRaiz)
-                                {
-                                    <li>
-                                        <div class="comment-main-level">
-                                            <!-- Avatar -->
-                                            <div class="comment-avatar">
-                                                <img src="http://i9.photobucket.com/albums/a88/creaticode/avatar_1_zps8e1c80cd.jpg" alt="">
-                                                <MudRating SelectedValue="1" ReadOnly="true" MaxValue="1" />
-                                                <div class="comment-punctuation">
-                                                    @comentario.PromedioPuntaje (@comentario.CantidadVotos)
-                                                </div>
-                                            </div>
-                                            <!-- Contenedor del Comentario -->
-                                            <div class="comment-box">
-                                                <div class="comment-head">
-                                                    @if (comentario.Creador==ForoSeleccionado.NombreUsuarioCreador)
-                                                    {
-                                                        <h6 class="comment-name by-author">@comentario.Creador</h6>
-                                                    }
-                                                    else
-                                                    {
-                                                        <h6 class="comment-name">@comentario.Creador</h6>
-                                                    }
-                                                    <span>@comentario.FechaCreacion</span>
-                                                    @if (user.Suscripcion != "Basico")
-                                                    {
-                                                        <i class="fa fa-reply" @onclick="@(()=> ToggleRespuesta(comentario.Codigo))"></i>
-                                                    }
-                                                    @if (user.RoleName == "Admin")
-                                                    {
-                                                        <i class="fa fa-ban" @onclick="@(()=> EliminarComentario(comentario.Codigo))"></i>
-                                                    }
-                                                    @if (comentario.Creador != user?.UserName)
-                                                    {
-                                                        <i class="fa fa-heart" @onclick="@(()=> Abrir(comentario.Codigo,comentario.Creador))"></i>
-                                                    }
-                                                </div>
-                                                <div class="comment-content">
-                                                    @(new MarkupString (@comentario.Contenido))
-                                                </div>
-                                                @if (ComentarioAbierto == comentario.Codigo)
-                                                {
-                                                    @if (user.Suscripcion!="Basico")
-                                                    {
-                                                        <ComponenteCargaRespuesta comentarioPadre_Codigo="comentario.Codigo" foro_Codigo="ForoSeleccionado.Codigo" comentarioPadre_Creador="@comentario.Creador" RegistrarComentarioCallBack="RegistrarComentarioCallBack" />
-                                                    }
-                                                }
-                                            </div>
-                                        </div>
-                                    </li>
-                                    @if (comentario.Respuestas.Any())
-                                    {
-                                        @* Llamada recursiva para mostrar respuestas *@
-                                        <ComponenteComentarios Comentarios="@comentario.Respuestas" ForoSeleccionado="ForoSeleccionado" ComentarioAbierto="ComentarioAbierto" OnToggleRespuesta="@ToggleRespuesta" RegistrarComentarioCallBack="RegistrarComentarioCallBack" />
-
-                                    }
-                                }
-                            </ul>
-                            }
-                        </div>
-                    </div>
-                }
-            </MudTabPanel>
-            <MudTabPanel Text="Foros Favoritos" OnClick="AbrirForosGenerales">
+            <MudTabPanel Text="@Localizer["GeneralForums"]" OnClick="AbrirForosGenerales">
                 @if (!foroAbierto)
                 {
                     @if (!isForumsLoading)
@@ -625,17 +40,18 @@
                                     <div class="foro-inner-left">
                                         @if (ForosGenerales != null && ForosGenerales.Any())
                                         {
-                                            bool tieneForosFavoritos = false;
-                                
                                             @foreach (var item in ForosGenerales)
                                             {
-                                                if (item.favorito == true)
+                                                if (ForosGenerales.Count==0)
                                                 {
-                                                    tieneForosFavoritos = true; @* Se encontró al menos un favorito *@
+                                                    <h1>No se encontraron foros</h1>
+                                                }
+                                                else
+                                                {
                                                     <div class="foro-box">
                                                         <div class="foro-details">
                                                             <p>@item.NombreVideoJuego</p>
-                                                            <h3 @onclick="@(()=> AbrirForo(item))"> @item.Titulo</h3>
+                                                            <h3 @onclick="@(() => AbrirForo(item))">@item.Titulo</h3>
                                                             <div class="foro-sub-details">
                                                                 <span>@item.NombreUsuarioCreador</span>
                                                                 <span>@item.FechaCreado.ToShortDateString()</span>
@@ -649,373 +65,389 @@
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        <div class="foro-favorite" @onclick="(()=>GuardarForoFav(item))" role="button">
-                                                            <i class="fa-solid fa-bookmark"></i>
+                                                        <div class="foro-menu-container">
+                                                            <div class="foro-favorite" @onclick="@(() => GuardarForoFav(item))" role="button">
+                                                            @if (item.NombreUsuarioCreador != user?.UserName)
+                                                            {
+                                                                @if (item.favorito == true)
+                                                                {
+                                                                    <i class="fa-solid fa-bookmark"></i>
+                                                                }
+                                                                else
+                                                                {
+                                                                    <i class="fa-regular fa-bookmark"></i>
+                                                                }
+                                                            }
+                                                            </div>
+                                                            @if (user.RoleName == "Admin")
+                                                            {
+                                                                <MudMenu Icon="@Icons.Material.Filled.MoreVert" AriaLabel="@Localizer["OpenMenu"]">
+                                                                    <MudMenuItem @onclick="@(() => EliminarForo(item.Codigo))">@Localizer["Delete"]</MudMenuItem>
+                                                                </MudMenu>
+                                                            }
                                                         </div>
-                                                        @if (user.RoleName == "Admin")
-                                                        {
-                                                            <MudMenu Icon="@Icons.Material.Filled.MoreVert"
-                                                                        AriaLabel="Open user menu">
-                                                                <MudMenuItem @onclick="@(()=> EliminarForo(item.Codigo))">Eliminar</MudMenuItem>
-                                                            </MudMenu>
-                                                        }
                                                     </div>
                                                 }
-                                            }
 
-                                            @* Mostrar mensaje si no hay foros marcados como favoritos *@
-                                            @if (!tieneForosFavoritos)
-                                            {
-                                                <div class="foro-box foro-first">
-                                                    <h3>No se han marcado foros como favorito</h3>
-                                                </div>
+                                               
                                             }
                                         }
                                         else
                                         {
                                             <div class="foro-box foro-first">
-                                                <h3>No hay foros disponibles</h3>
+                                                <h3>@Localizer["NoForumsAvailable"]</h3>
                                             </div>
                                         }
                                     </div>
                                 </section>
                                 <section class="foro-right">
                                     <div class="foro-box foro-first">
-                                        <h3>InnoviaReach Foros</h3>
+                                        <h3>@Localizer["InnoviaForums"]</h3>
                                         <span>@DateTime.Today.Year.ToString()</span>
-                                        <p>
-                                            Bienvenido a los foros de Innovia. Sumate a descubrir nuevas perspectivas y experiencias!
-                                        </p>
+                                        <p>@Localizer["WelcomeMessage"]</p>
                                         <div class="foro-stats">
                                             <div>
                                                 <h4>@ForosGenerales.Count</h4>
-                                                <span>posts</span>
+                                                <span>@Localizer["Posts"]</span>
                                             </div>
                                             <div>
                                                 <h4>@usuarios.Count</h4>
-                                                <span>members</span>
+                                                <span>@Localizer["Members"]</span>
                                             </div>
                                         </div>
                                         <div class="foro-buttons">
-                                            @*<a href="#" class="foro-btn foro-btn-red"><i class="fa-solid fa-user-large"></i> join community</a>*@
-                                            @if (user.Suscripcion!="Basico")
+                                            @if (user.Suscripcion != "Basico")
                                             {
-                                                <a class="foro-btn foro-btn-white" @onclick="OpenDialogAsync"><i class="fa-solid fa-plus"></i> Crear foro</a>
+                                                <a class="foro-btn foro-btn-white" @onclick="OpenDialogAsync">
+                                                    <i class="fa-solid fa-plus"></i> @Localizer["CreateForum"]
+                                                </a>
                                             }
                                         </div>
                                     </div>
-                                   @* <div class="foro-box foro-top-forums">
-                                        <h3>our top forums</h3>
-                                        <a href="#">View All <i class="fa-solid fa-arrow-right"></i></a>
-                                        <div class="foro-inner-box">
-                                            <h4><a href="#">general bike discussion</a></h4>
-                                            <div class="foro-stats">
-                                                <div class="foro-stat foro-comments">
-                                                    <i class="fa-solid fa-comment"></i><span> 709.4k</span>
-                                                </div>
-                                                <div class="foro-stat foro-views">
-                                                    <i class="fa-regular fa-eye"></i><span>104.4M</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="foro-inner-box">
-                                            <h4><a href="#">technical discussion</a></h4>
-                                            <div class="foro-stats">
-                                                <div class="foro-stat foro-comments">
-                                                    <i class="fa-solid fa-comment"></i><span> 599.1k</span>
-                                                </div>
-                                                <div class="foro-stat foro-views">
-                                                    <i class="fa-regular fa-eye"></i><span>81.3M</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="foro-inner-box">
-                                            <h4><a href="#">member introductions</a></h4>
-                                            <div class="foro-stats">
-                                                <div class="foro-stat foro-comments">
-                                                    <i class="fa-solid fa-comment"></i><span> 189.5k</span>
-                                                </div>
-                                                <div class="foro-stat foro-views">
-                                                    <i class="fa-regular fa-eye"></i><span>19.5M</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="foro-inner-box">
-                                            <h4><a href="#">road stories</a></h4>
-                                            <div class="foro-stats">
-                                                <div class="foro-stat foro-comments">
-                                                    <i class="fa-solid fa-comment"></i><span> 133.5k</span>
-                                                </div>
-                                                <div class="foro-stat foro-views">
-                                                    <i class="fa-regular fa-eye"></i><span>7.7M</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="foro-inner-box">
-                                            <h4><a href="#">honda shadow videos</a></h4>
-                                            <div class="foro-stats">
-                                                <div class="foro-stat foro-comments">
-                                                    <i class="fa-solid fa-comment"></i><span> 123.1k</span>
-                                                </div>
-                                                <div class="foro-stat foro-views">
-                                                    <i class="fa-regular fa-eye"></i><span>16.3M</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>*@
                                 </section>
                             </div>
                         </div>
                     }
                     else
                     {
-                       <SpinnerLoading show=@isForumsLoading/>
+                        <SpinnerLoading show="@isForumsLoading" />
                     }
                 }
                 else
                 {
                     <div class="detalleForo-main">
-                        <div class="comments-container">
-                            <ul id="comments-list" class="comments-list">
-                                <li>
-                                    <div class="comment-main-level">
-                                        <div class="comment-avatar"><img src="http://i9.photobucket.com/albums/a88/creaticode/avatar_1_zps8e1c80cd.jpg" alt=""></div>
-                                        <div class="comment-box">
-                                            <div class="comment-head">
-                                                <h6 class="comment-name by-author">@ForoSeleccionado.NombreUsuarioCreador</h6>
-                                                <span>@ForoSeleccionado.FechaCreado</span>
-                                                @*<i class="fa fa-reply"></i>
-                                                <i class="fa fa-heart"></i>*@
+                        <div class="foro-row">
+                            <div class="foro-inner-left">
+                                <div class="comments-container">
+                                    <ul id="comments-list" class="comments-list">
+                                        <li>
+                                            <div class="comment-main-level">
+                                                <div class="comment-avatar">
+                                                    <img src="http://i9.photobucket.com/albums/a88/creaticode/avatar_1_zps8e1c80cd.jpg" alt="" />
+                                                </div>
+                                                <div class="comment-box">
+                                                    <div class="comment-head">
+                                                        <h6 class="comment-name by-author">@ForoSeleccionado.NombreUsuarioCreador</h6>
+                                                        <span>@ForoSeleccionado.FechaCreado</span>
+                                                    </div>
+                                                    <div class="comment-content">
+                                                        @ForoSeleccionado.Descripcion
+                                                    </div>
+                                                </div>
                                             </div>
-                                            <div class="comment-content">
-                                               @ForoSeleccionado.Descripcion
-                                            </div>
-                                        </div>
-                                    </div>
-                                </li>
-                            </ul>
-                        </div>
-                        @if (user.Suscripcion!="Basico")
-                        {
-                            <ComponenteCargaComentario CargaComentarioInicialCallBack="CargaComentarioInicialCallBack" foro_Codigo="ForoSeleccionado.Codigo" />
-                        }
-                        <!-- Contenedor Principal -->
-                        <div class="comments-container">
-                            @if (ComentariosRaiz.Count<1)
-                            {
-                                <h1>No se han registrado comentarios </h1>
-                            }
-                            else
-                            {
-                                <h1>Comentarios </h1>
-                            <ul id="comments-list" class="comments-list">
-                                @foreach (var comentario in ComentariosRaiz)
+                                        </li>
+                                    </ul>
+                                </div>
+                                @if (user.Suscripcion != "Basico")
                                 {
-                                    <li>
-                                        <div class="comment-main-level">
-                                            <!-- Avatar -->
-                                            <div class="comment-avatar">
-                                                <img src="http://i9.photobucket.com/albums/a88/creaticode/avatar_1_zps8e1c80cd.jpg" alt="">
-                                                <MudRating SelectedValue="1" ReadOnly="true" MaxValue="1" />
-                                                <div class="comment-punctuation">
-                                                    @comentario.PromedioPuntaje (@comentario.CantidadVotos)
-                                                </div>
-                                            </div>
-                                            <!-- Contenedor del Comentario -->
-                                            <div class="comment-box">
-                                                <div class="comment-head">
-                                                    @if (comentario.Creador==ForoSeleccionado.NombreUsuarioCreador)
-                                                    {
-                                                        <h6 class="comment-name by-author">@comentario.Creador</h6>
-                                                    }
-                                                    else
-                                                    {
-                                                        <h6 class="comment-name">@comentario.Creador</h6>
-                                                    }
-                                                    <span>@comentario.FechaCreacion</span>
-                                                    @if (user.Suscripcion != "Basico")
-                                                    {
-                                                        <i class="fa fa-reply" @onclick="@(()=> ToggleRespuesta(comentario.Codigo))"></i>
-                                                    }
-                                                    @if (user.RoleName == "Admin")
-                                                    {
-                                                        <i class="fa fa-ban" @onclick="@(()=> EliminarComentario(comentario.Codigo))"></i>
-                                                    }
-                                                    @if (comentario.Creador != user?.UserName)
-                                                    {
-                                                        <i class="fa fa-heart" @onclick="@(()=> Abrir(comentario.Codigo,comentario.Creador))"></i>
-                                                    }
-                                                </div>
-                                                <div class="comment-content">
-                                                    @(new MarkupString (@comentario.Contenido))
-                                                </div>
-                                                @if (ComentarioAbierto == comentario.Codigo)
-                                                {
-                                                    @if (user.Suscripcion!="Basico")
-                                                    {
-                                                        <ComponenteCargaRespuesta comentarioPadre_Codigo="comentario.Codigo" foro_Codigo="ForoSeleccionado.Codigo" comentarioPadre_Creador="@comentario.Creador" RegistrarComentarioCallBack="RegistrarComentarioCallBack" />
-                                                    }
-                                                }
-                                            </div>
-                                        </div>
-                                    </li>
-                                    @if (comentario.Respuestas.Any())
-                                    {
-                                        @* Llamada recursiva para mostrar respuestas *@
-                                        <ComponenteComentarios Comentarios="@comentario.Respuestas" ForoSeleccionado="ForoSeleccionado" ComentarioAbierto="ComentarioAbierto" OnToggleRespuesta="@ToggleRespuesta" RegistrarComentarioCallBack="RegistrarComentarioCallBack" />
-
-                                    }
+                                    <ComponenteCargaComentario CargaComentarioInicialCallBack="CargaComentarioInicialCallBack" foro_Codigo="ForoSeleccionado.Codigo" />
                                 }
-                            </ul>
-                            }
+                                <div class="comments-container">
+                                    @if (ComentariosRaiz.Count < 1)
+                                    {
+                                        <h1>@Localizer["NoCommentsRegistered"]</h1>
+                                    }
+                                    else
+                                    {
+                                        <h1>@Localizer["Comments"]</h1>
+                                        <ul id="comments-list" class="comments-list">
+                                            @foreach (var comentario in ComentariosRaiz)
+                                            {
+                                                <li>
+                                                    <div class="comment-main-level">
+                                                        <div class="comment-avatar">
+                                                            <img src="http://i9.photobucket.com/albums/a88/creaticode/avatar_1_zps8e1c80cd.jpg" alt="">
+                                                            <MudRating SelectedValue="1" ReadOnly="true" MaxValue="1" />
+                                                            <div class="comment-punctuation">
+                                                                @comentario.PromedioPuntaje (@comentario.CantidadVotos)
+                                                            </div>
+                                                        </div>
+                                                        <div class="comment-box">
+                                                            <div class="comment-head">
+                                                                @if (comentario.Creador==ForoSeleccionado.NombreUsuarioCreador)
+                                                                {
+                                                                    <h6 class="comment-name by-author">@comentario.Creador</h6>
+                                                                }
+                                                                else
+                                                                {
+                                                                    <h6 class="comment-name">@comentario.Creador</h6>
+                                                                }
+                                                                <span>@comentario.FechaCreacion</span>
+                                                                @if (user.Suscripcion != "Basico")
+                                                                {
+                                                                    <i class="fa fa-reply" @onclick="@(() => ToggleRespuesta(comentario.Codigo))"></i>
+                                                                }
+                                                                @if (user.RoleName == "Admin")
+                                                                {
+                                                                    <i class="fa fa-ban" @onclick="@(()=> EliminarComentario(comentario.Codigo))"></i>
+                                                                }
+                                                                @if (comentario.Creador != user?.UserName)
+                                                                {
+                                                                    <i class="fa fa-heart" @onclick="@(()=> Abrir(comentario.Codigo,comentario.Creador))"></i>
+                                                                }
+                                                            </div>
+                                                            <div class="comment-content">
+                                                                @(new MarkupString(@comentario.Contenido))
+                                                            </div>
+                                                            @if (ComentarioAbierto == comentario.Codigo)
+                                                            {
+                                                                @if (user.Suscripcion!="Basico")
+                                                                {
+                                                                    <ComponenteCargaRespuesta comentarioPadre_Codigo="comentario.Codigo" foro_Codigo="ForoSeleccionado.Codigo" comentarioPadre_Creador="@comentario.Creador" RegistrarComentarioCallBack="RegistrarComentarioCallBack" />
+                                                                }
+                                                            }
+                                                        </div>
+                                                    </div>
+                                                </li>
+                                                @if (comentario.Respuestas.Any())
+                                                {
+                                                    @* Llamada recursiva para mostrar respuestas *@
+                                                    <ComponenteComentarios Comentarios="@comentario.Respuestas" ForoSeleccionado="ForoSeleccionado" ComentarioAbierto="ComentarioAbierto" OnToggleRespuesta="@ToggleRespuesta" RegistrarComentarioCallBack="RegistrarComentarioCallBack" />
+
+                                                }
+                                            }
+                                        </ul>
+                                    }
+                                </div>
+                            </div>
+                            <section class="foro-photo-right">
+                                <div class="forum__photo">
+                                    <img src="/assets/Recomendaciones/images/join_image.png" alt="">
+                                </div>
+                            </section>
                         </div>
                     </div>
                 }
             </MudTabPanel>
-            <MudTabPanel Text="Tus Foros" OnClick="AbrirForosGenerales">
+            <MudTabPanel Text="@Localizer["RecommendedForums"]" OnClick="AbrirForosGenerales">
                 @if (!foroAbierto)
                 {
                     @if (!isForumsLoading)
                     {
-                        <div class="foro-container" style="display: flex; overflow-y: auto; height: 100%; width: auto;">
-                            <div class="foro-row">
-                                <section class="foro-left">
-                                    <div class="foro-inner-left">
-                                        @if (ForosGenerales.Any(item => item.NombreUsuarioCreador == user?.UserName))
+                        <div class="foro-container" style="overflow-x: scroll; overflow-y: auto; height: 100%; width: auto;">
+                            <!-- Foros recomendados por visitas -->
+                            <h2 class="foro-row-recommended-title">@Localizer["ForumsByVisits"]</h2>
+                            <div class="foro-row-recommended">
+                                @if (ForosRecPorVisita != null && ForosRecPorVisita.Any())
+                                {
+                                    @foreach (var item in ForosRecPorVisita)
+                                    {
+                                        if (ForosRecPorVisita.Count==0)
                                         {
-                                            @foreach (var item in ForosGenerales)
-                                            {
-                                                if (item.NombreUsuarioCreador == user?.UserName)
-                                                {
-                                                    <div class="foro-box">
-                                                        @*<div class="foro-img"> <img src="img/302688.jpg" alt="" /></div>*@
-                                                        <div class="foro-details">
-                                                            <p>@item.NombreVideoJuego</p>
-                                                            <h3 @onclick="@(()=> AbrirForo(item))">@item.Titulo</h3>
-                                                            <div class="foro-sub-details">
-                                                                <span>@item.NombreUsuarioCreador</span>
-                                                                <span>@item.FechaCreado.ToShortDateString()</span>
-                                                                <div class="foro-views">
-                                                                    <i class="fa-regular fa-eye"></i>
-                                                                    <span>@item.Visitas</span>
-                                                                </div>
-                                                                <div class="foro-comment">
-                                                                    <i class="fa-solid fa-comment"></i>
-                                                                    <span>@item.CantidadComentarios</span>
-                                                                </div>
-                                                            </div>
-                                                        </div>
-                                                        <div class="foro-favorite" @onclick="(()=>GuardarForoFav(item))" role="button"></div>
-                                                        @if (user.RoleName == "Admin")
-                                                        {
-                                                            <MudMenu Icon="@Icons.Material.Filled.MoreVert"
-                                                                        AriaLabel="Open user menu">
-                                                                <MudMenuItem @onclick="@(()=> EliminarForo(item.Codigo))">Eliminar</MudMenuItem>
-                                                            </MudMenu>
-                                                        }
-                                                    </div>
-                                                }
-                                            }
+                                            <h1>No se registraron visitas en foros</h1>
                                         }
                                         else
                                         {
-                                            <div class="foro-box foro-first">
-                                                <h3>No has creado foros</h3>
+                                            <div class="foro-box">
+                                                <div class="foro-details">
+                                                    <p>@item.NombreVideoJuego</p>
+                                                    <div class="foroRecommended-title">
+                                                        <h3 title="@item.Titulo" @onclick="@(() => AbrirForo(item))">@item.Titulo</h3>
+                                                    </div>
+                                                    <div class="foro-sub-details" style="flex-direction: column; width:100%; align-items: unset;">
+                                                        <div class="informacionusr">
+                                                            <span>@item.NombreUsuarioCreador</span>
+                                                            <span>@item.FechaCreado.ToShortDateString()</span>
+                                                        </div>
+                                                        <div class="metricas">
+                                                            <div class="foro-views">
+                                                                <i class="fa-regular fa-eye"></i>
+                                                                <span>@item.Visitas</span>
+                                                            </div>
+                                                            <div class="foro-comment">
+                                                                <i class="fa-solid fa-comment"></i>
+                                                                <span>@item.CantidadComentarios</span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="foro-favorite" @onclick="(() => GuardarForoFav(item))" role="button">
+                                                    @if (item.NombreUsuarioCreador != user?.UserName)
+                                                    {
+                                                        @if (item.favorito == true)
+                                                        {
+                                                            <i class="fa-solid fa-bookmark"></i>
+                                                        }
+                                                        else
+                                                        {
+                                                            <i class="fa-regular fa-bookmark"></i>
+                                                        }
+                                                    }
+                                                </div>
+                                                @if (user.RoleName == "Admin")
+                                                {
+                                                    <MudMenu Icon="@Icons.Material.Filled.MoreVert" AriaLabel="@Localizer["OpenMenu"]">
+                                                        <MudMenuItem @onclick="@(() => EliminarForo(item.Codigo))">@Localizer["Delete"]</MudMenuItem>
+                                                    </MudMenu>
+                                                }
                                             </div>
                                         }
-                                    </div>
-                                </section>
-                                <section class="foro-right">
+
+                                        
+                                    }
+                                }
+                                else
+                                {
                                     <div class="foro-box foro-first">
-                                        <h3>InnoviaReach Foros</h3>
-                                        <span>@DateTime.Today.Year.ToString()</span>
-                                        <p>
-                                            Bienvenido a los foros de Innovia. Sumate a descubrir nuevas perspectivas y experiencias!
-                                        </p>
-                                        <div class="foro-stats">
-                                            <div>
-                                                <h4>@ForosGenerales.Count</h4>
-                                                <span>posts</span>
-                                            </div>
-                                            <div>
-                                                <h4>@usuarios.Count</h4>
-                                                <span>members</span>
-                                            </div>
-                                        </div>
-                                        <div class="foro-buttons">
-                                           @* <a href="#" class="foro-btn foro-btn-red"><i class="fa-solid fa-user-large"></i> join community</a>*@
-                                            @if (user.Suscripcion!="Basico")
-                                            {
-                                                <a class="foro-btn foro-btn-white" @onclick="OpenDialogAsync"><i class="fa-solid fa-plus"></i> Crear foro</a>
-                                            }
-                                        </div>
+                                        <h3>@Localizer["NoForumsAvailable"]</h3>
                                     </div>
-                                   @* <div class="foro-box foro-top-forums">
-                                        <h3>our top forums</h3>
-                                        <a href="#">View All <i class="fa-solid fa-arrow-right"></i></a>
-                                        <div class="foro-inner-box">
-                                            <h4><a href="#">general bike discussion</a></h4>
-                                            <div class="foro-stats">
-                                                <div class="foro-stat foro-comments">
-                                                    <i class="fa-solid fa-comment"></i><span> 709.4k</span>
+                                }
+                            </div>
+                            <!-- Recomendados por favoritos -->
+                            <h2 class="foro-row-recommended-title">@Localizer["ForumsByFavorites"]</h2>
+                            <div class="foro-row-recommended">
+                                @if (ForosRecPorForosFav != null && ForosRecPorForosFav.Any())
+                                {
+                                    @foreach (var item in ForosRecPorForosFav)
+                                    {
+                                        if (ForosRecPorForosFav.Count==0)
+                                        {
+                                            <h1>No se encontraron foros</h1>
+                                        }
+                                        else
+                                        {
+                                             <div class="foro-box">
+                                                <div class="foro-details">
+                                                    <p>@item.NombreVideoJuego</p>
+                                                    <h3 title="@item.Titulo" @onclick="@(() => AbrirForo(item))">@item.Titulo</h3>
+                                                    <div class="foro-sub-details" style="flex-direction: column; width:100%; align-items: unset;">
+                                                        <div class="informacionusr">
+                                                            <span>@item.NombreUsuarioCreador</span>
+                                                            <span>@item.FechaCreado.ToShortDateString()</span>
+                                                        </div>
+                                                        <div class="metricas">
+                                                            <div class="foro-views">
+                                                                <i class="fa-regular fa-eye"></i>
+                                                                <span>@item.Visitas</span>
+                                                            </div>
+                                                            <div class="foro-comment">
+                                                                <i class="fa-solid fa-comment"></i>
+                                                                <span>@item.CantidadComentarios</span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
                                                 </div>
-                                                <div class="foro-stat foro-views">
-                                                    <i class="fa-regular fa-eye"></i><span>104.4M</span>
+                                                <div class="foro-favorite" @onclick="(() => GuardarForoFav(item))" role="button">
+                                                    @if (item.NombreUsuarioCreador != user?.UserName)
+                                                    {
+                                                        @if (item.favorito == true)
+                                                        {
+                                                            <i class="fa-solid fa-bookmark"></i>
+                                                        }
+                                                        else
+                                                        {
+                                                            <i class="fa-regular fa-bookmark"></i>
+                                                        }
+                                                    }
                                                 </div>
+                                                @if (user.RoleName == "Admin")
+                                                {
+                                                    <MudMenu Icon="@Icons.Material.Filled.MoreVert" AriaLabel="@Localizer["OpenMenu"]">
+                                                        <MudMenuItem @onclick="@(() => EliminarForo(item.Codigo))">@Localizer["Delete"]</MudMenuItem>
+                                                    </MudMenu>
+                                                }
                                             </div>
-                                        </div>
-                                        <div class="foro-inner-box">
-                                            <h4><a href="#">technical discussion</a></h4>
-                                            <div class="foro-stats">
-                                                <div class="foro-stat foro-comments">
-                                                    <i class="fa-solid fa-comment"></i><span> 599.1k</span>
+                                        }
+                                       
+                                    }
+                                }
+                                else
+                                {
+                                    <div class="foro-box foro-first">
+                                        <h3>@Localizer["NoForumsAvailable"]</h3>
+                                    </div>
+                                }
+                            </div>
+                            <!-- Recomendados por usuarios similares -->
+                            <h2 class="foro-row-recommended-title">@Localizer["ForumsBySimilarUsers"]</h2>
+                            <div class="foro-row-recommended">
+                                @if (ForosRecColab != null && ForosRecColab.Any())
+                                {
+                                    @foreach (var item in ForosRecColab)
+                                    {
+                                        if (ForosRecColab.Count==0)
+                                        {
+                                            <h1>No se encontraron foros</h1>
+                                        }
+                                        else
+                                        {
+                                            <div class="foro-box">
+                                                <div class="foro-details">
+                                                    <p>@item.NombreVideoJuego</p>
+                                                    <h3 title="@item.Titulo" @onclick="@(() => AbrirForo(item))">@item.Titulo</h3>
+                                                    <div class="foro-sub-details" style="flex-direction: column; width:100%; align-items: unset;">
+                                                        <div class="informacionusr">
+                                                            <span>@item.NombreUsuarioCreador</span>
+                                                            <span>@item.FechaCreado.ToShortDateString()</span>
+                                                        </div>
+                                                        <div class="metricas">
+                                                            <div class="foro-views">
+                                                                <i class="fa-regular fa-eye"></i>
+                                                                <span>@item.Visitas</span>
+                                                            </div>
+                                                            <div class="foro-comment">
+                                                                <i class="fa-solid fa-comment"></i>
+                                                                <span>@item.CantidadComentarios</span>
+                                                            </div>
+                                                        </div>
+                                                    </div>
                                                 </div>
-                                                <div class="foro-stat foro-views">
-                                                    <i class="fa-regular fa-eye"></i><span>81.3M</span>
+                                                <div class="foro-favorite" @onclick="(() => GuardarForoFav(item))" role="button">
+                                                    @if (item.NombreUsuarioCreador != user?.UserName)
+                                                    {
+                                                        @if (item.favorito == true)
+                                                        {
+                                                            <i class="fa-solid fa-bookmark"></i>
+                                                        }
+                                                        else
+                                                        {
+                                                            <i class="fa-regular fa-bookmark"></i>
+                                                        }
+                                                    }
                                                 </div>
+                                                @if (user.RoleName == "Admin")
+                                                {
+                                                    <MudMenu Icon="@Icons.Material.Filled.MoreVert" AriaLabel="@Localizer["OpenMenu"]">
+                                                        <MudMenuItem @onclick="@(() => EliminarForo(item.Codigo))">@Localizer["Delete"]</MudMenuItem>
+                                                    </MudMenu>
+                                                }
                                             </div>
-                                        </div>
-                                        <div class="foro-inner-box">
-                                            <h4><a href="#">member introductions</a></h4>
-                                            <div class="foro-stats">
-                                                <div class="foro-stat foro-comments">
-                                                    <i class="fa-solid fa-comment"></i><span> 189.5k</span>
-                                                </div>
-                                                <div class="foro-stat foro-views">
-                                                    <i class="fa-regular fa-eye"></i><span>19.5M</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="foro-inner-box">
-                                            <h4><a href="#">road stories</a></h4>
-                                            <div class="foro-stats">
-                                                <div class="foro-stat foro-comments">
-                                                    <i class="fa-solid fa-comment"></i><span> 133.5k</span>
-                                                </div>
-                                                <div class="foro-stat foro-views">
-                                                    <i class="fa-regular fa-eye"></i><span>7.7M</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="foro-inner-box">
-                                            <h4><a href="#">honda shadow videos</a></h4>
-                                            <div class="foro-stats">
-                                                <div class="foro-stat foro-comments">
-                                                    <i class="fa-solid fa-comment"></i><span> 123.1k</span>
-                                                </div>
-                                                <div class="foro-stat foro-views">
-                                                    <i class="fa-regular fa-eye"></i><span>16.3M</span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>*@
-                                </section>
+                                        }
+                                        
+                                    }
+                                }
+                                else
+                                {
+                                    <div class="foro-box foro-first">
+                                        <h3>@Localizer["NoForumsAvailable"]</h3>
+                                    </div>
+                                }
                             </div>
                         </div>
                     }
                     else
                     {
-                       <SpinnerLoading show=@isForumsLoading/>
+                        <SpinnerLoading show="@isForumsLoading" />
                     }
                 }
                 else
@@ -1025,35 +457,37 @@
                             <ul id="comments-list" class="comments-list">
                                 <li>
                                     <div class="comment-main-level">
-                                        <div class="comment-avatar"><img src="http://i9.photobucket.com/albums/a88/creaticode/avatar_1_zps8e1c80cd.jpg" alt=""></div>
+                                        <div class="comment-avatar">
+                                            <img src="http://i9.photobucket.com/albums/a88/creaticode/avatar_1_zps8e1c80cd.jpg" alt="">
+                                        </div>
                                         <div class="comment-box">
                                             <div class="comment-head">
                                                 <h6 class="comment-name by-author">@ForoSeleccionado.NombreUsuarioCreador</h6>
                                                 <span>@ForoSeleccionado.FechaCreado</span>
-                                                @*<i class="fa fa-reply"></i>
-                                                <i class="fa fa-heart"></i>*@
                                             </div>
                                             <div class="comment-content">
-                                               @ForoSeleccionado.Descripcion
+                                                @ForoSeleccionado.Descripcion
                                             </div>
                                         </div>
                                     </div>
                                 </li>
                             </ul>
                         </div>
-                        @if (user.Suscripcion!="Basico")
+                        @if (user.Suscripcion != "Basico")
                         {
-                            <ComponenteCargaComentario CargaComentarioInicialCallBack="CargaComentarioInicialCallBack" foro_Codigo="ForoSeleccionado.Codigo" />
+                            <ComponenteCargaComentario 
+                                CargaComentarioInicialCallBack="CargaComentarioInicialCallBack" 
+                                foro_Codigo="ForoSeleccionado.Codigo" />
                         }
                         <!-- Contenedor Principal -->
                         <div class="comments-container">
-                            @if (ComentariosRaiz.Count<1)
+                            @if (ComentariosRaiz.Count < 1)
                             {
-                                <h1>No se han registrado comentarios </h1>
+                                <h1>@Localizer["NoCommentsRegistered"]</h1>
                             }
                             else
                             {
-                                <h1>Comentarios </h1>
+                                <h1>@Localizer["Comments"]</h1>
                                 <ul id="comments-list" class="comments-list">
                                     @foreach (var comentario in ComentariosRaiz)
                                     {
@@ -1070,7 +504,7 @@
                                                 <!-- Contenedor del Comentario -->
                                                 <div class="comment-box">
                                                     <div class="comment-head">
-                                                        @if (comentario.Creador==ForoSeleccionado.NombreUsuarioCreador)
+                                                        @if (comentario.Creador == ForoSeleccionado.NombreUsuarioCreador)
                                                         {
                                                             <h6 class="comment-name by-author">@comentario.Creador</h6>
                                                         }
@@ -1081,25 +515,29 @@
                                                         <span>@comentario.FechaCreacion</span>
                                                         @if (user.Suscripcion != "Basico")
                                                         {
-                                                            <i class="fa fa-reply" @onclick="@(()=> ToggleRespuesta(comentario.Codigo))"></i>
+                                                            <i class="fa fa-reply" @onclick="@(() => ToggleRespuesta(comentario.Codigo))"></i>
                                                         }
                                                         @if (user.RoleName == "Admin")
                                                         {
-                                                            <i class="fa fa-ban" @onclick="@(()=> EliminarComentario(comentario.Codigo))"></i>
+                                                            <i class="fa fa-ban" @onclick="@(() => EliminarComentario(comentario.Codigo))"></i>
                                                         }
                                                         @if (comentario.Creador != user?.UserName)
                                                         {
-                                                            <i class="fa fa-heart" @onclick="@(()=> Abrir(comentario.Codigo,comentario.Creador))"></i>
+                                                            <i class="fa fa-heart" @onclick="@(() => Abrir(comentario.Codigo, comentario.Creador))"></i>
                                                         }
                                                     </div>
                                                     <div class="comment-content">
-                                                        @(new MarkupString (@comentario.Contenido))
+                                                        @(new MarkupString(@comentario.Contenido))
                                                     </div>
                                                     @if (ComentarioAbierto == comentario.Codigo)
                                                     {
-                                                        @if (user.Suscripcion!="Basico")
+                                                        @if (user.Suscripcion != "Basico")
                                                         {
-                                                            <ComponenteCargaRespuesta comentarioPadre_Codigo="comentario.Codigo" foro_Codigo="ForoSeleccionado.Codigo" comentarioPadre_Creador="@comentario.Creador" RegistrarComentarioCallBack="RegistrarComentarioCallBack" />
+                                                            <ComponenteCargaRespuesta 
+                                                                comentarioPadre_Codigo="comentario.Codigo" 
+                                                                foro_Codigo="ForoSeleccionado.Codigo" 
+                                                                comentarioPadre_Creador="@comentario.Creador" 
+                                                                RegistrarComentarioCallBack="RegistrarComentarioCallBack" />
                                                         }
                                                     }
                                                 </div>
@@ -1107,9 +545,12 @@
                                         </li>
                                         @if (comentario.Respuestas.Any())
                                         {
-                                            @* Llamada recursiva para mostrar respuestas *@
-                                            <ComponenteComentarios Comentarios="@comentario.Respuestas" ForoSeleccionado="ForoSeleccionado" ComentarioAbierto="ComentarioAbierto" OnToggleRespuesta="@ToggleRespuesta" RegistrarComentarioCallBack="RegistrarComentarioCallBack" />
-
+                                            <ComponenteComentarios 
+                                                Comentarios="@comentario.Respuestas" 
+                                                ForoSeleccionado="ForoSeleccionado" 
+                                                ComentarioAbierto="ComentarioAbierto" 
+                                                OnToggleRespuesta="@ToggleRespuesta" 
+                                                RegistrarComentarioCallBack="RegistrarComentarioCallBack" />
                                         }
                                     }
                                 </ul>
@@ -1118,47 +559,430 @@
                     </div>
                 }
             </MudTabPanel>
-            @if (esAdmin is true)
-            {
-                <MudTabPanel Text="Usuarios" OnClick="AbrirUsuarios">
-                @if (!UsuarioDetalle)
+            <MudTabPanel Text="@Localizer["FavoriteForums"]" OnClick="AbrirForosGenerales">
+                @if (!foroAbierto)
                 {
-                    <div class="userlist-container">
-                        <div class="userlist-row">
-                            <div class="userlist-search">
-                                <label>Search for user</label>
-                                <input type="search" @oninput="FilterUsers" placeholder="Search..." class="form-control">
-                            </div>
-                            <div id="userlist-list" class="userlist-list">
-                                @if (usuarios != null)
-                                {
-                                    @foreach (var item in FilteredUsers)
-                                    {
-                                        <div class="userlist-list-item" @onclick="() => AbrirDetalleUsuario(item.UserName)">
-                                            <div class="userlist-list-item__avatar">
-                                               <img src="/assets/Usuario Menu/user.png" alt="">
+                    @if (!isForumsLoading)
+                    {
+                        <div class="foro-container" style="display: flex; overflow-y: auto; height: 100%; width: auto;">
+                            <div class="foro-row">
+                                <section class="foro-left">
+                                    <div class="foro-inner-left">
+                                        @if (ForosGenerales != null && ForosGenerales.Any())
+                                        {
+                                            bool tieneForosFavoritos = false;
+
+                                            @foreach (var item in ForosGenerales)
+                                            {
+                                                if (item.favorito == true)
+                                                {
+                                                    tieneForosFavoritos = true; @* Se encontró al menos un favorito *@
+                                                    <div class="foro-box">
+                                                        <div class="foro-details">
+                                                            <p>@item.NombreVideoJuego</p>
+                                                            <h3 @onclick="@(() => AbrirForo(item))">@item.Titulo</h3>
+                                                            <div class="foro-sub-details">
+                                                                <span>@item.NombreUsuarioCreador</span>
+                                                                <span>@item.FechaCreado.ToShortDateString()</span>
+                                                                <div class="foro-views">
+                                                                    <i class="fa-regular fa-eye"></i>
+                                                                    <span>@item.Visitas</span>
+                                                                </div>
+                                                                <div class="foro-comment">
+                                                                    <i class="fa-solid fa-comment"></i>
+                                                                    <span>@item.CantidadComentarios</span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="foro-favorite" @onclick="(() => GuardarForoFav(item))" role="button">
+                                                            <i class="fa-solid fa-bookmark"></i>
+                                                        </div>
+                                                        @if (user.RoleName == "Admin")
+                                                        {
+                                                            <MudMenu Icon="@Icons.Material.Filled.MoreVert" AriaLabel="@Localizer["OpenMenu"]">
+                                                                <MudMenuItem @onclick="@(() => EliminarForo(item.Codigo))">@Localizer["Delete"]</MudMenuItem>
+                                                            </MudMenu>
+                                                        }
+                                                    </div>
+                                                }
+                                            }
+
+                                            @* Mostrar mensaje si no hay foros marcados como favoritos *@
+                                            @if (!tieneForosFavoritos)
+                                            {
+                                                <div class="foro-box foro-first">
+                                                    <h3>@Localizer["NoFavoriteForums"]</h3>
+                                                </div>
+                                            }
+                                        }
+                                        else
+                                        {
+                                            <div class="foro-box foro-first">
+                                                <h3>@Localizer["NoForumsAvailable"]</h3>
                                             </div>
-                                            <div class="userlist-list-item__content">
-                                                <strong class="userlist-list-item__name">
-                                                    @item.UserName
-                                                </strong>
-                                                <span class="userlist-list-item__info">
-                                                    @item.Email <br>
-                                                    Estado: @(item.Active ? "Activo" : "Inactivo")
-                                                </span>
+                                        }
+                                    </div>
+                                </section>
+                                <section class="foro-right">
+                                    <div class="foro-box foro-first">
+                                        <h3>@Localizer["InnoviaForums"]</h3>
+                                        <span>@DateTime.Today.Year.ToString()</span>
+                                        <p>
+                                            @Localizer["WelcomeForumMessage"]
+                                        </p>
+                                        <div class="foro-stats">
+                                            <div>
+                                                <h4>@ForosGenerales.Count</h4>
+                                                <span>@Localizer["Posts"]</span>
+                                            </div>
+                                            <div>
+                                                <h4>@usuarios.Count</h4>
+                                                <span>@Localizer["Members"]</span>
                                             </div>
                                         </div>
-                                    }
-                                }
+                                        <div class="foro-buttons">
+                                            @if (user.Suscripcion != "Basico")
+                                            {
+                                                <a class="foro-btn foro-btn-white" @onclick="OpenDialogAsync"><i class="fa-solid fa-plus"></i> @Localizer["CreateForum"]</a>
+                                            }
+                                        </div>
+                                    </div>
+                                </section>
                             </div>
                         </div>
-                    </div>
+                    }
+                    else
+                    {
+                        <SpinnerLoading show="@isForumsLoading" />
+                    }
                 }
                 else
                 {
-                   <ComponenteDetalleUsuario UserName="@usuarioSeleccionado"/>
+                    <div class="detalleForo-main">
+                        <div class="foro-row">
+                            <div class="foro-inner-left">
+                                <div class="comments-container">
+                                    <ul id="comments-list" class="comments-list">
+                                        <li>
+                                            <div class="comment-main-level">
+                                                <div class="comment-avatar"><img src="http://i9.photobucket.com/albums/a88/creaticode/avatar_1_zps8e1c80cd.jpg" alt=""></div>
+                                                <div class="comment-box">
+                                                    <div class="comment-head">
+                                                        <h6 class="comment-name by-author">@ForoSeleccionado.NombreUsuarioCreador</h6>
+                                                        <span>@ForoSeleccionado.FechaCreado</span>
+                                                    </div>
+                                                    <div class="comment-content">
+                                                        @ForoSeleccionado.Descripcion
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                                @if (user.Suscripcion != "Basico")
+                                {
+                                    <ComponenteCargaComentario CargaComentarioInicialCallBack="CargaComentarioInicialCallBack" foro_Codigo="ForoSeleccionado.Codigo" />
+                                }
+                                <div class="comments-container">
+                                    @if (ComentariosRaiz.Count < 1)
+                                    {
+                                        <h1>@Localizer["NoCommentsRegistered"]</h1>
+                                    }
+                                    else
+                                    {
+                                        <h1>@Localizer["Comments"]</h1>
+                                        <ul id="comments-list" class="comments-list">
+                                            @foreach (var comentario in ComentariosRaiz)
+                                            {
+                                                <li>
+                                                    <div class="comment-main-level">
+                                                        <div class="comment-avatar">
+                                                            <img src="http://i9.photobucket.com/albums/a88/creaticode/avatar_1_zps8e1c80cd.jpg" alt="">
+                                                            <MudRating SelectedValue="1" ReadOnly="true" MaxValue="1" />
+                                                            <div class="comment-punctuation">
+                                                                @comentario.PromedioPuntaje (@comentario.CantidadVotos)
+                                                            </div>
+                                                        </div>
+                                                        <div class="comment-box">
+                                                            <div class="comment-head">
+                                                                @if (comentario.Creador == ForoSeleccionado.NombreUsuarioCreador)
+                                                                {
+                                                                    <h6 class="comment-name by-author">@comentario.Creador</h6>
+                                                                }
+                                                                else
+                                                                {
+                                                                    <h6 class="comment-name">@comentario.Creador</h6>
+                                                                }
+                                                                <span>@comentario.FechaCreacion</span>
+                                                                @if (user.Suscripcion != "Basico")
+                                                                {
+                                                                    <i class="fa fa-reply" @onclick="@(() => ToggleRespuesta(comentario.Codigo))"></i>
+                                                                }
+                                                                @if (user.RoleName == "Admin")
+                                                                {
+                                                                    <i class="fa fa-ban" @onclick="@(() => EliminarComentario(comentario.Codigo))"></i>
+                                                                }
+                                                                @if (comentario.Creador != user?.UserName)
+                                                                {
+                                                                    <i class="fa fa-heart" @onclick="@(() => Abrir(comentario.Codigo, comentario.Creador))"></i>
+                                                                }
+                                                            </div>
+                                                            <div class="comment-content">
+                                                                @(new MarkupString(@comentario.Contenido))
+                                                            </div>
+                                                            @if (ComentarioAbierto == comentario.Codigo)
+                                                            {
+                                                                @if (user.Suscripcion != "Basico")
+                                                                {
+                                                                    <ComponenteCargaRespuesta comentarioPadre_Codigo="comentario.Codigo" foro_Codigo="ForoSeleccionado.Codigo" comentarioPadre_Creador="@comentario.Creador" RegistrarComentarioCallBack="RegistrarComentarioCallBack" />
+                                                                }
+                                                            }
+                                                        </div>
+                                                    </div>
+                                                </li>
+                                                @if (comentario.Respuestas.Any())
+                                                {
+                                                    <ComponenteComentarios Comentarios="@comentario.Respuestas" ForoSeleccionado="ForoSeleccionado" ComentarioAbierto="ComentarioAbierto" OnToggleRespuesta="@ToggleRespuesta" RegistrarComentarioCallBack="RegistrarComentarioCallBack" />
+                                                }
+                                            }
+                                        </ul>
+                                    }
+                                </div>
+                            </div>
+                            <section class="foro-photo-right">
+                                <div class="forum__photo">
+                                    <img src="/assets/Recomendaciones/images/join_image.png" alt="">
+                                </div>
+                            </section>
+                        </div>
+                    </div>
                 }
             </MudTabPanel>
+            <MudTabPanel Text="@Localizer["YourForums"]" OnClick="AbrirForosGenerales">
+                @if (!foroAbierto)
+                {
+                    @if (!isForumsLoading)
+                    {
+                        <div class="foro-container" style="display: flex; overflow-y: auto; height: 100%; width: auto;">
+                            <div class="foro-row">
+                                <section class="foro-left">
+                                    <div class="foro-inner-left">
+                                        @if (ForosGenerales.Any(item => item.NombreUsuarioCreador == user?.UserName))
+                                        {
+                                            @foreach (var item in ForosGenerales)
+                                            {
+                                                if (item.NombreUsuarioCreador == user?.UserName)
+                                                {
+                                                    <div class="foro-box">
+                                                        <div class="foro-details">
+                                                            <p>@item.NombreVideoJuego</p>
+                                                            <h3 @onclick="@(() => AbrirForo(item))">@item.Titulo</h3>
+                                                            <div class="foro-sub-details">
+                                                                <span>@item.NombreUsuarioCreador</span>
+                                                                <span>@item.FechaCreado.ToShortDateString()</span>
+                                                                <div class="foro-views">
+                                                                    <i class="fa-regular fa-eye"></i>
+                                                                    <span>@item.Visitas</span>
+                                                                </div>
+                                                                <div class="foro-comment">
+                                                                    <i class="fa-solid fa-comment"></i>
+                                                                    <span>@item.CantidadComentarios</span>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="foro-favorite" @onclick="(() => GuardarForoFav(item))" role="button"></div>
+                                                        @if (user.RoleName == "Admin")
+                                                        {
+                                                            <MudMenu Icon="@Icons.Material.Filled.MoreVert" AriaLabel="@Localizer["OpenMenu"]">
+                                                                <MudMenuItem @onclick="@(() => EliminarForo(item.Codigo))">@Localizer["Delete"]</MudMenuItem>
+                                                            </MudMenu>
+                                                        }
+                                                    </div>
+                                                }
+                                            }
+                                        }
+                                        else
+                                        {
+                                            <div class="foro-box foro-first">
+                                                <h3>@Localizer["NoForumsCreated"]</h3>
+                                            </div>
+                                        }
+                                    </div>
+                                </section>
+                                <section class="foro-right">
+                                    <div class="foro-box foro-first">
+                                        <h3>@Localizer["InnoviaForums"]</h3>
+                                        <span>@DateTime.Today.Year.ToString()</span>
+                                        <p>@Localizer["WelcomeForumMessage"]</p>
+                                        <div class="foro-stats">
+                                            <div>
+                                                <h4>@ForosGenerales.Count</h4>
+                                                <span>@Localizer["Posts"]</span>
+                                            </div>
+                                            <div>
+                                                <h4>@usuarios.Count</h4>
+                                                <span>@Localizer["Members"]</span>
+                                            </div>
+                                        </div>
+                                        <div class="foro-buttons">
+                                            @if (user.Suscripcion != "Basico")
+                                            {
+                                                <a class="foro-btn foro-btn-white" @onclick="OpenDialogAsync"><i class="fa-solid fa-plus"></i> @Localizer["CreateForum"]</a>
+                                            }
+                                        </div>
+                                    </div>
+                                </section>
+                            </div>
+                        </div>
+                    }
+                    else
+                    {
+                        <SpinnerLoading show="@isForumsLoading" />
+                    }
+                }
+                else
+                {
+                    <div class="detalleForo-main">
+                        <div class="foro-row">
+                            <div class="foro-inner-left">
+                                <div class="comments-container">
+                                    <ul id="comments-list" class="comments-list">
+                                        <li>
+                                            <div class="comment-main-level">
+                                                <div class="comment-avatar"><img src="http://i9.photobucket.com/albums/a88/creaticode/avatar_1_zps8e1c80cd.jpg" alt=""></div>
+                                                <div class="comment-box">
+                                                    <div class="comment-head">
+                                                        <h6 class="comment-name by-author">@ForoSeleccionado.NombreUsuarioCreador</h6>
+                                                        <span>@ForoSeleccionado.FechaCreado</span>
+                                                    </div>
+                                                    <div class="comment-content">
+                                                       @ForoSeleccionado.Descripcion
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                                @if (user.Suscripcion != "Basico")
+                                {
+                                    <ComponenteCargaComentario CargaComentarioInicialCallBack="CargaComentarioInicialCallBack" foro_Codigo="ForoSeleccionado.Codigo" />
+                                }
+                                <div class="comments-container">
+                                    @if (ComentariosRaiz.Count < 1)
+                                    {
+                                        <h1>@Localizer["NoCommentsRegistered"]</h1>
+                                    }
+                                    else
+                                    {
+                                        <h1>@Localizer["Comments"]</h1>
+                                        <ul id="comments-list" class="comments-list">
+                                            @foreach (var comentario in ComentariosRaiz)
+                                            {
+                                                <li>
+                                                    <div class="comment-main-level">
+                                                        <div class="comment-avatar">
+                                                            <img src="http://i9.photobucket.com/albums/a88/creaticode/avatar_1_zps8e1c80cd.jpg" alt="">
+                                                            <MudRating SelectedValue="1" ReadOnly="true" MaxValue="1" />
+                                                            <div class="comment-punctuation">
+                                                                @comentario.PromedioPuntaje (@comentario.CantidadVotos)
+                                                            </div>
+                                                        </div>
+                                                        <div class="comment-box">
+                                                            <div class="comment-head">
+                                                                @if (comentario.Creador == ForoSeleccionado.NombreUsuarioCreador)
+                                                                {
+                                                                    <h6 class="comment-name by-author">@comentario.Creador</h6>
+                                                                }
+                                                                else
+                                                                {
+                                                                    <h6 class="comment-name">@comentario.Creador</h6>
+                                                                }
+                                                                <span>@comentario.FechaCreacion</span>
+                                                                @if (user.Suscripcion != "Basico")
+                                                                {
+                                                                    <i class="fa fa-reply" @onclick="@(() => ToggleRespuesta(comentario.Codigo))"></i>
+                                                                }
+                                                                @if (user.RoleName == "Admin")
+                                                                {
+                                                                    <i class="fa fa-ban" @onclick="@(() => EliminarComentario(comentario.Codigo))"></i>
+                                                                }
+                                                                @if (comentario.Creador != user?.UserName)
+                                                                {
+                                                                    <i class="fa fa-heart" @onclick="@(() => Abrir(comentario.Codigo, comentario.Creador))"></i>
+                                                                }
+                                                            </div>
+                                                            <div class="comment-content">
+                                                                @(new MarkupString(@comentario.Contenido))
+                                                            </div>
+                                                            @if (ComentarioAbierto == comentario.Codigo)
+                                                            {
+                                                                @if (user.Suscripcion != "Basico")
+                                                                {
+                                                                    <ComponenteCargaRespuesta comentarioPadre_Codigo="comentario.Codigo" foro_Codigo="ForoSeleccionado.Codigo" comentarioPadre_Creador="@comentario.Creador" RegistrarComentarioCallBack="RegistrarComentarioCallBack" />
+                                                                }
+                                                            }
+                                                        </div>
+                                                    </div>
+                                                </li>
+                                                @if (comentario.Respuestas.Any())
+                                                {
+                                                    <ComponenteComentarios Comentarios="@comentario.Respuestas" ForoSeleccionado="ForoSeleccionado" ComentarioAbierto="ComentarioAbierto" OnToggleRespuesta="@ToggleRespuesta" RegistrarComentarioCallBack="RegistrarComentarioCallBack" />
+                                                }
+                                            }
+                                        </ul>
+                                    }
+                                </div>
+                            </div>
+                            <section class="foro-photo-right">
+                                <div class="forum__photo">
+                                    <img src="/assets/Recomendaciones/images/join_image.png" alt="">
+                                </div>
+                            </section>
+                        </div>
+                    </div>
+                }
+            </MudTabPanel>
+            @if (esAdmin is true)
+            {
+                <MudTabPanel Text="@Localizer["Users"]" OnClick="AbrirUsuarios">
+                    @if (!UsuarioDetalle)
+                    {
+                        <div class="userlist-container">
+                            <div class="userlist-row">
+                                <div class="userlist-search">
+                                    <label>@Localizer["SearchUser"]</label>
+                                    <input type="search" @oninput="FilterUsers" placeholder="@Localizer["SearchUserPlaceholder"]" class="form-control">
+                                </div>
+                                <div id="userlist-list" class="userlist-list">
+                                    @if (usuarios != null)
+                                    {
+                                        @foreach (var item in FilteredUsers)
+                                        {
+                                            <div class="userlist-list-item" @onclick="() => AbrirDetalleUsuario(item.UserName)">
+                                                <div class="userlist-list-item__avatar">
+                                                    <img src="/assets/Usuario Menu/user.png" alt="@Localizer["UserAvatarAlt"]">
+                                                </div>
+                                                <div class="userlist-list-item__content">
+                                                    <strong class="userlist-list-item__name">
+                                                        @item.UserName
+                                                    </strong>
+                                                    <span class="userlist-list-item__info">
+                                                        @item.Email <br>
+                                                        @Localizer["Status"]: @(item.Active ? Localizer["Active"] : Localizer["Inactive"])
+                                                    </span>
+                                                </div>
+                                            </div>
+                                        }
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    }
+                    else
+                    {
+                        <ComponenteDetalleUsuario UserName="@usuarioSeleccionado" />
+                    }
+                </MudTabPanel>
             }
         </MudTabs>
     </main>
@@ -1166,30 +990,9 @@
 <CreateForumDialog ShowPopup="@showLoginPopup" OnClose="CloseForumDialogAsync"/>
 
 @code {
-    /* LISTADO DE USUARIOS */
     private ICollection<UserResponse> FilteredUsers = new HashSet<UserResponse>();
     private List<string> RecentSearches = new();
     private string SearchTerm { get; set; }
-
-    private void FilterUsers(ChangeEventArgs e)
-    {
-        SearchTerm = e.Value?.ToString(); // Asignamos el valor manualmente
-
-        if (string.IsNullOrWhiteSpace(SearchTerm))
-        {
-            FilteredUsers = usuarios;
-        }
-        else
-        {
-            var term = SearchTerm.ToLower();
-            FilteredUsers = usuarios.Where(u =>
-                u.UserName.ToLower().Contains(term)
-            ).ToList();
-        }
-    }
-    /*----------------------------------------------------------------------------*/
-
-
     private string searchString1 = "";
     private bool isForumsLoading;
     private int? ComentarioAbierto;
@@ -1199,17 +1002,57 @@
     private bool forosrec;
     private bool esAdmin = false;
     private string usuarioSeleccionado = "";
-
     private int _rating;
     private readonly DialogOptions _dialogOptions = new() { FullWidth = true };
+    public List<ForoResponse> ForosGenerales = new();
+    public List<ForoResponse> ForosRecPorVisita = new();
+    public List<ForoResponse> ForosRecPorForosFav = new();
+    public List<ForoResponse> ForosRecColab = new();
+    [Parameter]
+    public ForoResponse ForoSeleccionado { get; set; }
+    public ICollection<UserResponse> usuarios = new HashSet<UserResponse>();
+    public ICollection<ComentarioResponse> Comentarios = new HashSet<ComentarioResponse>();
+    public ICollection<ComentarioResponse> ComentariosRaiz = new HashSet<ComentarioResponse>();
+    public LoginTokenResponse user;
+    public bool foroAbierto;
+    public bool CreacionForo;
+    public bool UsuarioDetalle;
+    public string? foroSeleccionado;
 
+    private void FilterUsers(ChangeEventArgs e)
+    {
+        try
+        {
+            SearchTerm = e.Value?.ToString();
+
+            if (string.IsNullOrWhiteSpace(SearchTerm))
+            {
+                FilteredUsers = usuarios;
+            }
+            else
+            {
+                var term = SearchTerm.ToLower();
+                FilteredUsers = usuarios.Where(u =>
+                    u.UserName.ToLower().Contains(term)
+                ).ToList();
+            }
+        }
+        catch (Exception)
+        {
+            Snackbar.Add("Error al filtrar los usuarios", Severity.Error, options =>
+            {
+                options.VisibleStateDuration = 1000;
+            });
+        }
+        
+    }
+    
     private List<UserResponse> filteredUsuarios => usuarios
         .Where(u => string.IsNullOrWhiteSpace(searchString1) ||
                     u.UserName.Contains(searchString1, StringComparison.OrdinalIgnoreCase) ||
                     u.Email.Contains(searchString1, StringComparison.OrdinalIgnoreCase))
         .ToList();
 
-    // Método para manejar la entrada en tiempo real
     private void OnSearchInput(ChangeEventArgs e)
     {
         searchString1 = e.Value.ToString();
@@ -1217,36 +1060,22 @@
 
     protected async Task Abrir(int codigo, string usuario)
     {
-        var parameters = new DialogParameters { { "CodigoComentario", codigo }, { "Usuario", usuario } };
-        var dialog = DialogService.Show<ForumRatingDialog>("Agregar DSA", parameters);
-        var result = await dialog.Result;
+        try
+        {
+            var parameters = new DialogParameters { { "CodigoComentario", codigo }, { "Usuario", usuario } };
+            var dialog = DialogService.Show<ForumRatingDialog>("Agregar DSA", parameters);
+            var result = await dialog.Result;
+        }
+        catch (Exception)
+        {
+            
+        }
     }
 
     protected void ToggleRespuesta(int codigoComentario)
     {
-        // Si ya está abierto, lo cierra; de lo contrario, lo abre.
-        // Alterna entre abrir o cerrar la respuesta
         ComentarioAbierto = ComentarioAbierto == codigoComentario ? null : codigoComentario;
     }
-
-
-    public List<ForoResponse> ForosGenerales = new();
-    public List<ForoResponse> ForosRecPorVisita = new();
-    public List<ForoResponse> ForosRecPorForosFav = new();
-    public List<ForoResponse> ForosRecColab = new();
-
-    [Parameter]
-    public ForoResponse ForoSeleccionado { get; set; }
-
-    public ICollection<UserResponse> usuarios = new HashSet<UserResponse>();
-    public ICollection<ComentarioResponse> Comentarios = new HashSet<ComentarioResponse>();
-    public ICollection<ComentarioResponse> ComentariosRaiz = new HashSet<ComentarioResponse>();
-    //public ICollection<VideojuegoForoReponse> videojuegosForo = new HashSet<VideojuegoForoReponse>();
-    public LoginTokenResponse user;
-    public bool foroAbierto;
-    public bool CreacionForo;
-    public bool UsuarioDetalle;
-    public string? foroSeleccionado;
 
     protected override async Task OnInitializedAsync()
     {
@@ -1266,7 +1095,6 @@
         catch (Exception)
         {
 
-            throw;
         }
 
     }
@@ -1291,31 +1119,11 @@
                     ForosRecColab = await httpClient.GetFromJsonAsync<List<ForoResponse>>("Recomendaciones/ObtenerForosRecomendadosColab");
                     usuarios = await httpClient.GetFromJsonAsync<List<UserResponse>>("Users/ObtenerUsuarios");
                     FilteredUsers = usuarios;
-
-                    //videojuegosForo = await httpClient.GetFromJsonAsync<List<VideojuegoForoReponse>>("Videojuego/ObtenerVideojuegosForo");
-                    //Snackbar.Clear();
-                    //Snackbar.Add("Conecta tu cuenta de Steam", Severity.Info, (options) =>
-                    //{
-                    //    options.CloseAfterNavigation = false;
-                    //    options.Onclick = snackbar =>
-                    //    {
-                    //        Navigation.NavigateTo("/Config");
-                    //        return Task.CompletedTask;
-                    //    };
-                    //    //config.Onclick = snackbar =>
-                    //    //{
-                    //    //    SayHello();
-                    //    //    return Task.CompletedTask;
-                    //    //};
-                    //});
                 }
                 catch (Exception) 
                 { 
 
                 }
-
-                // Esperar un breve momento para asegurarse de que el componente se haya renderizado completamente
-                //await Task.Delay(3000);
             }
         }
         catch (Exception)
@@ -1354,33 +1162,12 @@
         catch (Exception)
         {
             foroAbierto = false;
-            //<<<IMPORTANTE>>>
-            //SI YO PONGO THROW EN UN CATCH EN ESTA INSTANCIA YO MANDO LA EXCEPCION AL FRONT Y VA A ROMPER LA WEB ABRUPTAMENTE
-            //LO IDEAL ACA ES MOSTRAR UN MENSAJE AL USUARIO QUE OCURRIO UN ERROR AL ABRIR EL FORO
         }
         finally
         {
             StateHasChanged();
         }
     }
-    //protected async Task CrearForo()
-    //{
-    //    try
-    //    {
-    //        CreacionForo = true;
-    //    }
-    //    catch (Exception)
-    //    {
-    //        CreacionForo = false;
-    //        //<<<IMPORTANTE>>>
-    //        //SI YO PONGO THROW EN UN CATCH EN ESTA INSTANCIA YO MANDO LA EXCEPCION AL FRONT Y VA A ROMPER LA WEB ABRUPTAMENTE
-    //        //LO IDEAL ACA ES MOSTRAR UN MENSAJE AL USUARIO QUE OCURRIO UN ERROR AL ABRIR EL FORO
-    //    }
-    //    finally
-    //    {
-    //        StateHasChanged();
-    //    }
-    //}
     protected async Task AbrirDetalleUsuario(string UserName)
     {
         try
@@ -1391,9 +1178,6 @@
         catch (Exception)
         {
             UsuarioDetalle = false;
-            //<<<IMPORTANTE>>>
-            //SI YO PONGO THROW EN UN CATCH EN ESTA INSTANCIA YO MANDO LA EXCEPCION AL FRONT Y VA A ROMPER LA WEB ABRUPTAMENTE
-            //LO IDEAL ACA ES MOSTRAR UN MENSAJE AL USUARIO QUE OCURRIO UN ERROR AL ABRIR EL FORO
         }
         finally
         {
@@ -1402,17 +1186,14 @@
     }
     protected ICollection<ComentarioResponse> ConstruirJerarquiaDeComentarios(ICollection<ComentarioResponse> todosLosComentarios)
     {
-        // Crear un diccionario para buscar comentarios por su código
         var comentarioDict = todosLosComentarios.ToDictionary(c => c.Codigo);
 
-        // Crear una lista para los comentarios raíz
         var comentariosRaiz = new HashSet<ComentarioResponse>();
 
         foreach (var comentario in todosLosComentarios)
         {
             if (comentario.ComentarioPadre_Codigo.HasValue)
             {
-                // Si tiene un comentario padre, agregarlo a las respuestas de su padre
                 if (comentarioDict.TryGetValue(comentario.ComentarioPadre_Codigo.Value, out var padre))
                 {
                     padre.Respuestas.Add(comentario);
@@ -1420,7 +1201,6 @@
             }
             else
             {
-                // Si no tiene un comentario padre, es un comentario raíz
                 comentariosRaiz.Add(comentario);
             }
         }
@@ -1458,7 +1238,10 @@
         }
         catch (Exception)
         {
-
+            Snackbar.Add("Error al obtener listado de foros", Severity.Error, options =>
+            {
+                options.VisibleStateDuration = 1000;
+            });
         }
         finally
         {
@@ -1544,7 +1327,10 @@
         }
         catch (Exception)
         {
-            
+            Snackbar.Add("Error al guardar foro favorito", Severity.Error, options =>
+            {
+                options.VisibleStateDuration = 1000;
+            });
         }
         finally
         {
@@ -1559,16 +1345,27 @@
             httpClient.DefaultRequestHeaders.Clear();
             httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", user.Token);
 
-            await httpClient.DeleteAsync($"Foro/EliminarForo?ForoId={CodForo}");
+            var result = await httpClient.DeleteAsync($"Foro/EliminarForo?ForoId={CodForo}");
 
             ForosGenerales = await httpClient.GetFromJsonAsync<List<ForoResponse>>("Foro/ObtenerForosGenerales");
+
+            if (result.IsSuccessStatusCode)
+            {
+                Snackbar.Add("Foro eliminado", Severity.Success, options =>
+                {
+                    options.VisibleStateDuration = 1000;
+                });
+            }
 
             StateHasChanged();
 
         }
         catch (Exception)
         {
-
+            Snackbar.Add("Error al eliminar foro", Severity.Error, options =>
+            {
+                options.VisibleStateDuration = 1000;
+            });
         }
     }
     private async Task EliminarComentario(int CodComentario)
@@ -1579,14 +1376,25 @@
             httpClient.DefaultRequestHeaders.Clear();
             httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", user.Token);
 
-            await httpClient.DeleteAsync($"Foro/EliminarComentario?ComentarioId={CodComentario}");
+            var result = await httpClient.DeleteAsync($"Foro/EliminarComentario?ComentarioId={CodComentario}");
+
+            if (result.IsSuccessStatusCode)
+            {
+                Snackbar.Add("Comentario eliminado", Severity.Success, options =>
+                {
+                    options.VisibleStateDuration = 1000;
+                });
+            }
 
             await AbrirForo(ForoSeleccionado);
 
         }
         catch (Exception)
         {
-
+            Snackbar.Add("Error eliminar comentario", Severity.Error, options =>
+            {
+                options.VisibleStateDuration = 1000;
+            });
         }
     }
 }

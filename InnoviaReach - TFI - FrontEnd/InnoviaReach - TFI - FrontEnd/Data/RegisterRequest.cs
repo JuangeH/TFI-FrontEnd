@@ -5,6 +5,9 @@ namespace InnoviaReach___TFI___FrontEnd.Data
     public class RegisterRequest
     {
         [Required(ErrorMessage = "Campo requerido")]
+        public string UserName { get; set; }
+
+        [Required(ErrorMessage = "Campo requerido")]
         [RegularExpression(@"\A[\w|.|-]+@[\w|.|-]+\Z", ErrorMessage = "El formato no corresponde al de una dirección de correo")]
         public string Email { get; set; }
 
@@ -29,11 +32,5 @@ namespace InnoviaReach___TFI___FrontEnd.Data
 
         [Required(ErrorMessage = "Campo requerido")]
         public string Idioma { get; set; }
-
-        [Required(ErrorMessage = "Campo requerido")]
-        public bool Actualizaciones { get; set; }
-
-        [Required(ErrorMessage = "Campo requerido")]
-        public bool Descuentos { get; set; }
     }
 }

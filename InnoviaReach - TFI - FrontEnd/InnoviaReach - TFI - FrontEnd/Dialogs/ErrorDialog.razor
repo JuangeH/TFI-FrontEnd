@@ -1,0 +1,31 @@
+﻿@using InnoviaReach___TFI___FrontEnd.Services
+@inject ExceptionHandlerService ExceptionHandlerService
+@inject NavigationManager NavigationManager
+
+@if (ExceptionHandlerService.HasError)
+{
+    <MudDialog Class="error-dialog">
+        <TitleContent>
+            Error inesperado
+        </TitleContent>
+        <DialogContent>
+            <p>@ExceptionHandlerService.ErrorMessage</p>
+        </DialogContent>
+        <DialogActions>
+            <MudButton OnClick="CloseDialog" Color="Color.Primary">Cerrar</MudButton>
+            <MudButton OnClick="ReloadPage" Color="Color.Secondary">Recargar</MudButton>
+        </DialogActions>
+    </MudDialog>
+}
+
+@code {
+    private void CloseDialog()
+    {
+        ExceptionHandlerService.ClearError();
+    }
+
+    private void ReloadPage()
+    {
+        NavigationManager.NavigateTo(NavigationManager.Uri, true);
+    }
+}

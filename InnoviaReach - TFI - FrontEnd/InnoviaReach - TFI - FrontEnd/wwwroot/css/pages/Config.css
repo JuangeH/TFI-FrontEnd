@@ -1242,7 +1242,7 @@ body {
 }
 
 .pricingTable-firstTable_table:nth-of-type(2):before {
-    content: 'Mas Popular';
+    content: 'Popular';
     position: absolute;
     color: white;
     display: block;

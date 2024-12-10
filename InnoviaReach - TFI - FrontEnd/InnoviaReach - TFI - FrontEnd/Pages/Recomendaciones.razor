@@ -5,20 +5,20 @@
 @inject ISessionStorageService sessionStorage
 @inject HttpClient httpClient
 @inject NavigationManager NavManager
-
-@*<SteamAccounDialog Show="@showPopup" OnClose="ClosePopup"></SteamAccounDialog>*@
+@inject IStringLocalizer<Resource> Localizer
+@inject ISnackbar Snackbar
 
 <MudTabs Elevation="2" Rounded="false" ApplyEffectsToContainer="false" PanelClass="pa-6" Centered=true Class="foro-mudTabs" Border="false">
-    <MudTabPanel Text="Recomendaciones individuales">
+    <MudTabPanel Text="@Localizer["IndividualRecommendations"]">
         @if (!areRecsLoading)
         {
             <VideojuegoDetailDialog Show="@showPopup" videojuego="@VideojuegoSeleccionado" OnClose="ClosePopup"></VideojuegoDetailDialog>
             <section class="sc-popular bg-violet-dark-active" style="height: 90vh">
                 <div class="container">
-                    @if (recomendacionesVid.Count==0)
+                    @if (recomendacionesVid.Count == 0)
                     {
                         <div class="sc-title">
-                            <h3>No registra actividad del usuario para recomendaciones</h3>
+                            <h3>@Localizer["NoActivityForRecommendations"]</h3>
                             <div class="line"></div>
                         </div>
                     }
@@ -30,15 +30,15 @@
                             <div class="sc-title">
                                 @if (tipos.Contains("Contenido") && tipos.Contains("Foro"))
                                 {
-                                    <h3>Videojuegos recomendados <span>por la comunidad y visitar @group.Key</span></h3>
+                                    <h3>@string.Format(Localizer["GamesRecommendedCommunityVisit"], group.Key)</h3>
                                 }
                                 else if (tipos.Contains("Contenido"))
                                 {
-                                    <h3>Videojuegos recomendados <span>por visitar @group.Key</span></h3>
+                                    <h3>@string.Format(Localizer["GamesRecommendedVisit"], group.Key)</h3>
                                 }
                                 else if (tipos.Contains("Foro"))
                                 {
-                                    <h3>Videojuegos recomendados <span>por la comunidad de @group.Key</span></h3>
+                                    <h3>@string.Format(Localizer["GamesRecommendedCommunity"], group.Key)</h3>
                                 }
                                 <div class="line"></div>
                             </div>
@@ -47,7 +47,7 @@
                                 <div class="recomendaciones-row-recommended">
                                     @foreach (var item in group.DistinctBy(r => r.VideojuegoRecomendado))
                                     {
-                                        <div class="game-card" @onclick="@(()=> OpenPopup(item.VideojuegoRecomendado))">
+                                        <div class="game-card" @onclick="@(() => OpenPopup(item.VideojuegoRecomendado))">
                                             <div class="game-card-top rec-img-fit-cover">
                                                 <img class="rec-img" src=@item.VideojuegoRecomendadoImagen alt="">
                                             </div>
@@ -64,7 +64,6 @@
                             </div>
                         }
                     }
-                    
                 </div>
             </section>
         }
@@ -73,7 +72,7 @@
             <SpinnerLoading show=@areRecsLoading />
         }
     </MudTabPanel>
-    <MudTabPanel Text="Recomendaciones colaborativas">
+    <MudTabPanel Text="@Localizer["CollaborativeRecommendations"]">
         @if (!areRecsLoading)
         {
             <section class="sc-popular bg-violet-dark-active" style="height: 90vh">
@@ -81,7 +80,7 @@
                     @if (recomendacionesUsr.Count == 0)
                     {
                         <div class="sc-title">
-                            <h3>No registra actividad de usuarios para recomendaciones</h3>
+                            <h3>@Localizer["NoUserActivityForRecommendations"]</h3>
                             <div class="line"></div>
                         </div>
                     }
@@ -93,11 +92,11 @@
                             <div class="sc-title">
                                 @if (tipos.Contains("Visita"))
                                 {
-                                    <h3>Videojuegos recomendados <span>por visitas de otros usuarios</span></h3>
+                                    <h3>@Localizer["GamesRecommendedByVisits"]</h3>
                                 }
                                 else
                                 {
-                                    <h3>Videojuegos recomendados <span>por otros usuarios activos en la comunidad</span></h3>
+                                    <h3>@Localizer["GamesRecommendedByCommunity"]</h3>
                                 }
                                 <div class="line"></div>
                             </div>
@@ -106,7 +105,7 @@
                                 <div class="recomendaciones-row-recommended">
                                     @foreach (var item in group.DistinctBy(r => r.VideojuegoRecomendado))
                                     {
-                                        <div class="game-card" @onclick="@(()=> OpenPopup(item.VideojuegoRecomendado))">
+                                        <div class="game-card" @onclick="@(() => OpenPopup(item.VideojuegoRecomendado))">
                                             <div class="game-card-top rec-img-fit-cover">
                                                 <img class="rec-img" src=@item.VideojuegoRecomendadoImagen alt="">
                                             </div>
@@ -138,7 +137,7 @@
     public LoginTokenResponse user;
 
     private VideojuegoCatalogoDetalleResponse VideojuegoSeleccionado = new VideojuegoCatalogoDetalleResponse();
-    private ICollection<RecomendacionVideojuegoResponse> recomendacionesVid  = new HashSet<RecomendacionVideojuegoResponse>();
+    private ICollection<RecomendacionVideojuegoResponse> recomendacionesVid = new HashSet<RecomendacionVideojuegoResponse>();
     private ICollection<RecomendacionUsuarioResponse> recomendacionesUsr = new HashSet<RecomendacionUsuarioResponse>();
 
     private bool showPopup = false;
@@ -150,77 +149,55 @@
         {
             showPopup = false;
         }
-        catch (Exception)
-        {
-
-        }
         finally
         {
             StateHasChanged();
         }
     }
+
     private async Task OpenPopup(string nombre)
     {
-        showPopup = true;
-        var user = await sessionStorage.GetItemAsync<LoginTokenResponse>("user");
-        httpClient.DefaultRequestHeaders.Clear();
-        httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", user.Token);
-        var response = await httpClient.GetFromJsonAsync<VideojuegoCatalogoDetalleResponse>($"Videojuego/ObtenerVideojuegoDetalleCatalogo?nombre={nombre}");
-        VideojuegoSeleccionado = response;
-    }
-
-    protected override async Task OnInitializedAsync()
-    {
-        areRecsLoading = true;
-        // Verificar si el popup ya fue mostrado en la sesión
-        //var popupShown = await sessionStorage.GetItemAsync<bool>("popupShown");
-
-        //if (!popupShown)
-        //{
-        //    // Si el popup no fue mostrado, lo mostramos y guardamos el estado en sessionStorage
-        //    showPopup = true;
-        //    await sessionStorage.SetItemAsync("popupShown", true);
-        //}
-        StateHasChanged();
+        try
+        {
+            showPopup = true;
+            var user = await sessionStorage.GetItemAsync<LoginTokenResponse>("user");
+            httpClient.DefaultRequestHeaders.Clear();
+            httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", user.Token);
+            var response = await httpClient.GetFromJsonAsync<VideojuegoCatalogoDetalleResponse>($"Videojuego/ObtenerVideojuegoDetalleCatalogo?nombre={nombre}");
+            VideojuegoSeleccionado = response;
+        }
+        catch (Exception)
+        {
+            Snackbar.Add("Error al obtener el detalle del videojuego", Severity.Error, options =>
+            {
+                options.VisibleStateDuration = 1000;
+            });
+        }
+        
     }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
-        try
+        if (firstRender)
         {
-            if (firstRender)
+            try
             {
-                try
-                {
-                    areRecsLoading = true;
-                    user = await sessionStorage.GetItemAsync<LoginTokenResponse>("user");
-                    httpClient.DefaultRequestHeaders.Clear();
-                    httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", user.Token);
-                    recomendacionesVid = await httpClient.GetFromJsonAsync<List<RecomendacionVideojuegoResponse>>("Recomendaciones/ObtenerRecomendacionesIndividuales");
-                    recomendacionesUsr = await httpClient.GetFromJsonAsync<List<RecomendacionUsuarioResponse>>("Recomendaciones/ObtenerRecomendacionesColaborativas");
-                }
-                catch (Exception)
-                {
+                areRecsLoading = true;
+                user = await sessionStorage.GetItemAsync<LoginTokenResponse>("user");
+                httpClient.DefaultRequestHeaders.Clear();
+                httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", user.Token);
+                recomendacionesVid = await httpClient.GetFromJsonAsync<List<RecomendacionVideojuegoResponse>>("Recomendaciones/ObtenerRecomendacionesIndividuales");
+                recomendacionesUsr = await httpClient.GetFromJsonAsync<List<RecomendacionUsuarioResponse>>("Recomendaciones/ObtenerRecomendacionesColaborativas");
+            }
+            catch
+            {
 
-                }
-
-                //// Esperar un breve momento para asegurarse de que el componente se haya renderizado completamente
-                //await Task.Delay(6000);
+            }
+            finally
+            {
+                areRecsLoading = false;
+                StateHasChanged();
             }
         }
-        catch (Exception)
-        {
-
-        }
-        finally
-        {
-            areRecsLoading = false;
-            StateHasChanged();
-        }
-    }
-
-    public void SayHello()
-    {
-        Snackbar.Add("Hello World!");
     }
 }

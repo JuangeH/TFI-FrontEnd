@@ -26,8 +26,8 @@ var localizationOptions = new RequestLocalizationOptions()
 
 
 // Add services to the container.
-builder.Services.AddControllers();
 builder.Services.AddScoped<LocalizationService>();
+builder.Services.AddSingleton<ExceptionHandlerService>();
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddRazorPages();
 builder.Services.AddBlazoredSessionStorage();
@@ -53,7 +53,22 @@ if (!app.Environment.IsDevelopment())
     app.UseHsts();
 }
 
-app.MapControllers();
+var exceptionHandlerService = app.Services.GetRequiredService<ExceptionHandlerService>();
+AppDomain.CurrentDomain.UnhandledException += (sender, args) =>
+{
+    var exception = args.ExceptionObject as Exception;
+    Console.Error.WriteLine($"Unhandled exception: {exception?.Message}");
+    exceptionHandlerService.HandleException(exception);
+};
+
+TaskScheduler.UnobservedTaskException += (sender, args) =>
+{
+    Console.Error.WriteLine($"Unobserved exception: {args.Exception?.Message}");
+    exceptionHandlerService.HandleException(args.Exception);
+    args.SetObserved(); // Evitar cierre inesperado
+};
+app.UseExceptionHandler("/error");
+
 
 app.UseHttpsRedirection();
 
@@ -62,18 +77,6 @@ app.UseStaticFiles();
 app.UseRouting();
 
 app.UseRequestLocalization(localizationOptions);
-
-app.MapGet("Culture/Set", (string culture, string redirectUri, HttpContext context) =>
-{
-    if (culture is not null)
-    {
-        context.Response.Cookies.Append(CookieRequestCultureProvider.DefaultCookieName,
-            CookieRequestCultureProvider.MakeCookieValue(new RequestCulture(culture, culture)),
-            new CookieOptions { Expires = DateTimeOffset.Now.AddDays(30) });
-    }
-
-    return Results.LocalRedirect(redirectUri);
-});
 
 app.MapBlazorHub();
 app.MapFallbackToPage("/_Host");

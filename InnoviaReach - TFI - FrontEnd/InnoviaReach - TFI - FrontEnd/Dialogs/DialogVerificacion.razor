@@ -1,9 +1,11 @@
-﻿<MudDialog>
+﻿@inject IStringLocalizer<Resource> Localizer
+
+<MudDialog>
     <DialogContent>
-        Operación Exitosa
+        @Localizer["OperationResult"]
     </DialogContent>
     <DialogActions>
-        <MudButton Color="Color.Primary" OnClick="Submit">Ok</MudButton>
+        <MudButton Color="Color.Primary" OnClick="Submit">@Localizer["Ok"]</MudButton>
     </DialogActions>
 </MudDialog>
 @code {

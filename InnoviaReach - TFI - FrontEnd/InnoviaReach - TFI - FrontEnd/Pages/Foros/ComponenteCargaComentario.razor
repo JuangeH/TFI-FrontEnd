@@ -2,9 +2,11 @@
 @inject ISessionStorageService sessionStorage
 @inject HttpClient httpClient
 @inject IJSRuntime JS
+@inject IStringLocalizer<Resource> Localizer
+@inject ISnackbar Snackbar
 
 <div class="newPost">
-    <h3>Agregar comentario</h3>
+    <h3>@Localizer["AddComment"]</h3>
     <div class="toolbar">
         <button type="button" data-func="bold"><i class="fa fa-bold"></i></button>
         <button type="button" data-func="italic"><i class="fa fa-italic"></i></button>
@@ -12,13 +14,12 @@
     </div>
     <div class="editor" contenteditable></div>
     <div class="buttons">
-        <button data-func="clear" type="button" @onclick="@(() => Limpiar())">Limpiar</button>
-        <button data-func="save" type="button" @onclick="@(() => RegistrarComentario())">Cargar</button>
+        <button data-func="clear" type="button" @onclick="@(() => Limpiar())">@Localizer["Clear"]</button>
+        <button data-func="save" type="button" @onclick="@(() => RegistrarComentario())">@Localizer["Submit"]</button>
     </div>
 </div>
 
 @code {
-
     public string contenido { get; set; }
 
     [Parameter]
@@ -49,33 +50,41 @@
                 };
             var result = await httpClient.PostAsJsonAsync<ComentarioRequest>("Foro/RegistrarComentario", request);
 
+            if (result.IsSuccessStatusCode)
+            {
+                Snackbar.Add("Comentario registrado", Severity.Success, options =>
+                {
+                    options.VisibleStateDuration = 1000;
+                });
+            }
+
             Limpiar();
 
             await CargaComentarioInicialCallBack.InvokeAsync();
         }
         catch (Exception ex)
         {
-            // Manejar la excepción de forma adecuada
+            Snackbar.Add("Error al registrar comentario", Severity.Error, options =>
+            {
+                options.VisibleStateDuration = 1000;
+            });
         }
     }
-
 
     private async Task Limpiar()
     {
         try
         {
-            // Limpiar el contenido del editor en la página
             await JS.InvokeVoidAsync("eval", "document.querySelector('.editor').innerHTML = '';");
-
-            // Borrar el contenido del localStorage
             await JS.InvokeVoidAsync("eval", "localStorage.removeItem('wysiwyg');");
-
-            // Opcional: Puedes actualizar la propiedad 'contenido' si es necesario
             contenido = string.Empty;
         }
         catch (Exception ex)
         {
-            // Manejar la excepción de forma adecuada
+            Snackbar.Add("Error al intentar limpar la carga de comentario", Severity.Warning, options =>
+            {
+                options.VisibleStateDuration = 1000;
+            });
         }
     }
 

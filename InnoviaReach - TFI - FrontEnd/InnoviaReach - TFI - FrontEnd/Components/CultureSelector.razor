@@ -1,7 +1,11 @@
 ﻿@using System.Globalization
+@using System.Net.Http.Headers
 @inject IJSRuntime JS
 @inject NavigationManager Navigation
 @inject IStringLocalizer<Resource> Localizer
+@inject HttpClient httpClient
+@inject ISessionStorageService sessionStorage
+@inject ISnackbar Snackbar
 
 <p>
     <label>
@@ -17,6 +21,8 @@
 
 @code
 {
+    public LoginTokenResponse user;
+
     private CultureInfo[] supportedCultures = new[]
     {
         new CultureInfo("en"),
@@ -32,19 +38,46 @@
 
     private async Task HandleSelectedCultureChanged(ChangeEventArgs args)
     {
-        var selectedValue = (string)args.Value!;
-        selectedCulture = CultureInfo.GetCultureInfo(selectedValue);
-
-        if (CultureInfo.CurrentCulture != selectedCulture)
+        try
         {
-            var uri = new Uri(Navigation.Uri)
-                .GetComponents(UriComponents.PathAndQuery, UriFormat.Unescaped);
-            var cultureEscaped = Uri.EscapeDataString(selectedCulture.Name);
-            var uriEscaped = Uri.EscapeDataString(uri);
+            var selectedValue = (string)args.Value!;
+            selectedCulture = CultureInfo.GetCultureInfo(selectedValue);
 
-            Navigation.NavigateTo(
-                $"Culture/Set?culture={cultureEscaped}&redirectUri={uriEscaped}",
+            if (CultureInfo.CurrentCulture != selectedCulture)
+            {
+                var currentUri = Navigation.Uri;
+
+                var uri = new Uri(currentUri).GetComponents(UriComponents.PathAndQuery, UriFormat.Unescaped);
+
+                var cultureEscaped = Uri.EscapeDataString(selectedCulture.Name);
+                var uriEscaped = Uri.EscapeDataString(currentUri);
+
+                user = await sessionStorage.GetItemAsync<LoginTokenResponse>("user");
+                httpClient.DefaultRequestHeaders.Clear();
+                httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", user?.Token ?? string.Empty);
+
+                @if (user != null)
+                {
+                    var response = await httpClient.PostAsJsonAsync<CultureRequest>($"Users/Culture/Set", new CultureRequest() { culture = cultureEscaped, redirectUri = uriEscaped });
+                }
+                Navigation.NavigateTo(
+                $"https://localhost:44308/Users/Culture?culture={cultureEscaped}&redirectUri={uriEscaped}",
                 forceLoad: true);
+
+                Snackbar.Add("Idioma modificado", Severity.Success, options =>
+                {
+                    options.VisibleStateDuration = 1000;
+                });
+            }
         }
+        catch (Exception)
+        {
+            Snackbar.Add("Error al cambiar el idioma", Severity.Error, options =>
+            {
+                options.VisibleStateDuration = 1000;
+            });
+        }
+
+        
     }
 }

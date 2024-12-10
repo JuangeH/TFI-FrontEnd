@@ -1,22 +1,20 @@
 ﻿@using InnoviaReach___TFI___FrontEnd.Dialogs
-@inject ISessionStorageService sessionStorage
-
-@inject HttpClient httpClient
-@inject ISessionStorageService sessionStorage
-@inject IDialogService DialogService
 @using System.Net.Http.Headers
+@inject ISessionStorageService sessionStorage
+@inject HttpClient httpClient
+@inject IDialogService DialogService
 @inject NavigationManager Navigation
 @inject ISnackbar Snackbar
+@inject IStringLocalizer<Resource> Localizer
 
 @* ComponenteComentarios.razor *@
-@inject IDialogService DialogService
 @foreach (var comentario in Comentarios)
 {
     <ul class="comments-list reply-list">
         <li>
             <!-- Avatar -->
             <div class="comment-avatar">
-                <img src="http:i9.photobucket.com/albums/a88/creaticode/avatar_2_zps7de12f8b.jpg" alt="">
+                <img src="http://i9.photobucket.com/albums/a88/creaticode/avatar_2_zps7de12f8b.jpg" alt="Avatar">
                 <MudRating SelectedValue="1" ReadOnly="true" MaxValue="1" />
                 <div class="comment-punctuation">
                     @comentario.PromedioPuntaje (@comentario.CantidadVotos)
@@ -36,34 +34,40 @@
                     <span>@comentario.FechaCreacion</span>
                     @if (user.Suscripcion != "Basico")
                     {
-                        <i class="fa fa-reply" @onclick="@(() => ToggleRespuesta(comentario.Codigo))"></i>
+                        <i class="fa fa-reply" title="@Localizer["Reply"]" @onclick="@(() => ToggleRespuesta(comentario.Codigo))"></i>
                     }
                     @if (user.RoleName == "Admin")
                     {
-                        <i class="fa fa-ban" @onclick="@(() => EliminarComentario(comentario.Codigo))"></i>
+                        <i class="fa fa-ban" title="@Localizer["Delete"]" @onclick="@(() => EliminarComentario(comentario.Codigo))"></i>
                     }
                     @if (comentario.Creador != user?.UserName)
                     {
-                        <i class="fa fa-heart" @onclick="@(()=> Abrir(comentario.Codigo,comentario.Creador))"></i>
+                        <i class="fa fa-heart" title="@Localizer["Like"]" @onclick="@(() => Abrir(comentario.Codigo, comentario.Creador))"></i>
                     }
                 </div>
                 <div class="comment-content">
-                    @(new MarkupString (@comentario.Contenido))
+                    @(new MarkupString(@comentario.Contenido))
                 </div>
                 @if (ComentarioAbierto == comentario.Codigo)
                 {
                     @if (user.Suscripcion != "Basico")
                     {
-                        <ComponenteCargaRespuesta comentarioPadre_Codigo="comentario.Codigo" foro_Codigo="ForoSeleccionado.Codigo" comentarioPadre_Creador="@comentario.Creador" RegistrarComentarioCallBack="RegistrarComentarioCallBack" />
+                        <ComponenteCargaRespuesta comentarioPadre_Codigo="comentario.Codigo"
+                                      foro_Codigo="ForoSeleccionado.Codigo"
+                                      comentarioPadre_Creador="@comentario.Creador"
+                                      RegistrarComentarioCallBack="RegistrarComentarioCallBack" />
                     }
-                    
                 }
             </div>
         </li>
     </ul>
     @if (comentario.Respuestas.Any())
     {
-        <ComponenteComentarios Comentarios="@comentario.Respuestas" ForoSeleccionado="ForoSeleccionado" ComentarioAbierto="ComentarioAbierto" OnToggleRespuesta="@ToggleRespuesta" RegistrarComentarioCallBack="RegistrarComentarioCallBack" />
+        <ComponenteComentarios Comentarios="@comentario.Respuestas"
+                       ForoSeleccionado="ForoSeleccionado"
+                       ComentarioAbierto="ComentarioAbierto"
+                       OnToggleRespuesta="@ToggleRespuesta"
+                       RegistrarComentarioCallBack="RegistrarComentarioCallBack" />
     }
 }
 
@@ -74,7 +78,6 @@
     [Parameter]
     public ForoResponse ForoSeleccionado { get; set; }
 
-    // Propiedad para rastrear cuál comentario tiene la respuesta abierta
     [Parameter]
     public int? ComentarioAbierto { get; set; }
 
@@ -84,8 +87,7 @@
     [Parameter]
     public EventCallback RegistrarComentarioCallBack { get; set; }
 
-
-    public LoginTokenResponse user;
+    public LoginTokenResponse user = new();
 
     private async Task ToggleRespuesta(int codigoComentario)
     {
@@ -95,30 +97,25 @@
     protected async Task Abrir(int codigo, string usuario)
     {
         var parameters = new DialogParameters { { "CodigoComentario", codigo }, { "Usuario", usuario } };
-        var dialog = DialogService.Show<ForumRatingDialog>("Agregar DSA", parameters);
+        var dialog = DialogService.Show<ForumRatingDialog>(Localizer["AddRating"], parameters);
         var result = await dialog.Result;
     }
+
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
-        try
+        if (firstRender)
         {
-            if (firstRender)
+            try
             {
-                try
-                {
-                    user = await sessionStorage.GetItemAsync<LoginTokenResponse>("user");
-                }
-                catch (Exception)
-                {
+                user = await sessionStorage.GetItemAsync<LoginTokenResponse>("user");
+            }
+            catch (Exception)
+            {
 
-                }
             }
         }
-        catch (Exception)
-        {
-
-        }
     }
+
     private async Task EliminarComentario(int CodComentario)
     {
         try
@@ -127,12 +124,24 @@
             httpClient.DefaultRequestHeaders.Clear();
             httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", user.Token);
 
-            await httpClient.DeleteAsync($"Foro/EliminarComentario?ComentarioId={CodComentario}");
+            var result = await httpClient.DeleteAsync($"Foro/EliminarComentario?ComentarioId={CodComentario}");
+
+            if (result.IsSuccessStatusCode)
+            {
+                Snackbar.Add("Comentario eliminado", Severity.Success, options =>
+                {
+                    options.VisibleStateDuration = 1000;
+                });
+            }
+
             StateHasChanged();
         }
         catch (Exception)
         {
-
+            Snackbar.Add("Error al eliminar comentario", Severity.Error, options =>
+            {
+                options.VisibleStateDuration = 1000;
+            });
         }
     }
 }

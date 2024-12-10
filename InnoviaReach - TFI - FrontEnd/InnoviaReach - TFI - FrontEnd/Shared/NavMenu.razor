@@ -4,58 +4,54 @@
 @inject ISessionStorageService sessionStorage
 @inject HttpClient httpClient
 @inject NavigationManager NavManager
-
+@inject IStringLocalizer<Resource> Localizer
 
 <nav>
     <div class="sidebar-top">
         <span class="expand-btn">
             <img src="assets/ToolBar/chevron.svg" alt="Chevron">
-        </span>@*
-        <img src="assets/ToolBar/logo.svg"
-             class="logo"
-             alt="Laplace Logo">
-        <h3 class="hide">Laplace</h3>*@
+        </span>
     </div>
     <div class="sidebar-links">
         <ul>
             <li>
-                <a href="/" class="active" title="Portfolio link">
+                <a href="/" class="active" title="@Localizer["RecommendationsTooltip"]">
                     <div class="icon">
-                        <img src="assets/ToolBar/portfolio.svg" title="Portfolio Icon">
+                        <img src="assets/ToolBar/portfolio.svg" title="@Localizer["RecommendationsTooltip"]">
                     </div>
-                    <span class="link hide">Recomendaciones</span>
+                    <span class="link hide">@Localizer["Recommendations"]</span>
                 </a>
             </li>
             <li>
-                <a href="Catalogo" title="Portfolio link">
+                <a href="Catalogo" title="@Localizer["CatalogTooltip"]">
                     <div class="icon">
-                        <img src="assets/ToolBar/portfolio.svg" title="Portfolio Icon">
+                        <img src="assets/ToolBar/portfolio.svg" title="@Localizer["CatalogTooltip"]">
                     </div>
-                    <span class="link hide">Catálogo</span>
+                    <span class="link hide">@Localizer["Catalog"]</span>
                 </a>
             </li>
             <li>
-                <a href="foros" title="Analytics link">
+                <a href="foros" title="@Localizer["ForumsTooltip"]">
                     <div class="icon">
-                        <img src="assets/ToolBar/analytics.svg" title="Analytics Icon">
+                        <img src="assets/ToolBar/analytics.svg" title="@Localizer["ForumsTooltip"]">
                     </div>
-                    <span class="link hide">Foros</span>
+                    <span class="link hide">@Localizer["Forums"]</span>
                 </a>
             </li>
             <li>
-                <a href="Auditoria" title="Performance link">
+                <a href="Auditoria" title="@Localizer["AuditTooltip"]">
                     <div class="icon">
-                        <img src="assets/ToolBar/dashboard.svg" title="Performance Icon">
+                        <img src="assets/ToolBar/dashboard.svg" title="@Localizer["AuditTooltip"]">
                     </div>
-                    <span class="link hide">Auditoría</span>
+                    <span class="link hide">@Localizer["Audit"]</span>
                 </a>
             </li>
             <li>
-                <a href="Bitacora" title="Reports Link">
+                <a href="Bitacora" title="@Localizer["LogsTooltip"]">
                     <div class="icon">
-                        <img src="assets/ToolBar/reports.svg" title="Reports Icon">
+                        <img src="assets/ToolBar/reports.svg" title="@Localizer["LogsTooltip"]">
                     </div>
-                    <span class="link hide">Bitácora</span>
+                    <span class="link hide">@Localizer["Logs"]</span>
                 </a>
             </li>
         </ul>
@@ -64,20 +60,20 @@
         <div class="sidebar-links">
             <ul>
                 <li>
-                    <a href="Config" title="Suscripcion" class="tooltip">
+                    <a href="Config" title="@Localizer["SubscriptionTooltip"]" class="tooltip">
                         <img src="assets/ToolBar/settings.svg" alt="Settings">
-                        <span class="link hide">Suscripción</span>
-                        <span class="tooltip__content">Settings</span>
+                        <span class="link hide">@Localizer["Subscription"]</span>
+                        <span class="tooltip__content">@Localizer["SettingsTooltip"]</span>
                     </a>
                 </li>
             </ul>
             <ul>
                 <li>
-                    <a href="javascript:void(0)" @onclick="CerrarSesion" title="Reports Link">
+                    <a href="javascript:void(0)" @onclick="CerrarSesion" title="@Localizer["LogoutTooltip"]">
                         <div class="icon">
-                            <img src="/assets/Toolbar/door-enter-svgrepo-com (2).svg" title="Reports Icon">
+                            <img src="/assets/Toolbar/door-enter-svgrepo-com (2).svg" title="@Localizer["LogoutTooltip"]">
                         </div>
-                        <span class="link hide">Salir</span>
+                        <span class="link hide">@Localizer["Logout"]</span>
                     </a>
                 </li>
             </ul>
@@ -86,10 +82,6 @@
             <div class="avatar__wrapper">
                 <img class="avatar" src="/assets/Usuario Menu/user.png" alt="Profile">
             </div>
-            @*<div class="avatar__wrapper">
-                <img class="avatar" src="assets/ToolBar/profile.jpg" alt="Profile">
-                <div class="online__status"></div>
-            </div>*@
             <div class="avatar__name hide">
                 @if (user != null)
                 {
@@ -97,17 +89,14 @@
                 }
                 else
                 {
-                    <div class="email">Cargando...</div>
+                    <div class="email">@Localizer["Loading"]</div>
                 }
             </div>
         </div>
     </div>
 </nav>
 
-
-
 @code {
-
     public LoginTokenResponse? user;
 
     protected override async Task OnInitializedAsync()
@@ -125,41 +114,25 @@
             {
                 await JSRuntime.InvokeVoidAsync("expandCollapseBody");
                 await JSRuntime.InvokeVoidAsync("activateLinks");
-                
             }
-            catch (Exception)
+            catch
             {
-
             }
         }
-    }
-
-    private bool collapseNavMenu = true;
-
-    private string? NavMenuCssClass => collapseNavMenu ? "collapse" : null;
-
-    private void ToggleNavMenu()
-    {
-        collapseNavMenu = !collapseNavMenu;
     }
 
     private async Task CerrarSesion()
     {
         await sessionStorage.SetItemAsync("popupShown", false);
-
         await sessionStorage.RemoveItemAsync("user");
 
-        // Limpiar la cabecera de autorización
         httpClient.DefaultRequestHeaders.Authorization = null;
 
-        // Mostrar un mensaje informando que se ha cerrado la sesión
-        Snackbar.Add("Sesión cerrada exitosamente.", Severity.Success, options =>
+        Snackbar.Add(Localizer["LogoutMessage"], Severity.Success, options =>
         {
-            options.VisibleStateDuration = 1000; // Duración en milisegundos (2 segundos)
+            options.VisibleStateDuration = 1000;
         });
 
-        // Redirigir a la página de inicio de sesión
         NavManager.NavigateTo("login");
     }
-
 }

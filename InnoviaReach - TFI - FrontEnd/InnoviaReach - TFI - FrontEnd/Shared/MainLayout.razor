@@ -48,35 +48,20 @@ else
     {
         try
         {
-            // Intenta obtener al usuario logueado del almacenamiento de sesión
             user = await _sessionStorageService.GetItemAsync<LoginTokenResponse>("user");
 
             if (user is null)
             {
-                // Redirige al usuario a la página de login si no está autenticado
                 NavManager.NavigateTo("/login");
             }
             else
             {
-                // Marca que el usuario está logueado
                 _LoggedIn = true;
             }
         }
         catch (Exception ex)
         {
-            // Puedes manejar el error aquí si es necesario
+            
         }
     }
-    //protected override async Task OnAfterRenderAsync(bool firstRender)
-    //{
-    //    if (firstRender)
-    //    {
-    //        // Obtener el idioma desde sessionStorage
-    //        var preferredLanguage = await SessionStorageService.GetItemAsync<string>("PreferredLanguage") ?? "en";
-    //        LocalizationService.SetCulture(preferredLanguage);
-
-    //        // Forzar renderizado para que aplique el idioma
-    //        StateHasChanged();
-    //    }
-    //}
 }
