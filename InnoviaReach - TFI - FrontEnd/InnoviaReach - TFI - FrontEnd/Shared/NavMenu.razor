@@ -38,22 +38,26 @@
                     <span class="link hide">@Localizer["Forums"]</span>
                 </a>
             </li>
-            <li>
-                <a href="Auditoria" title="@Localizer["AuditTooltip"]">
-                    <div class="icon">
-                        <img src="assets/ToolBar/dashboard.svg" title="@Localizer["AuditTooltip"]">
-                    </div>
-                    <span class="link hide">@Localizer["Audit"]</span>
-                </a>
-            </li>
-            <li>
-                <a href="Bitacora" title="@Localizer["LogsTooltip"]">
-                    <div class="icon">
-                        <img src="assets/ToolBar/reports.svg" title="@Localizer["LogsTooltip"]">
-                    </div>
-                    <span class="link hide">@Localizer["Logs"]</span>
-                </a>
-            </li>
+            @if (esAdmin)
+            {
+                <li>
+                    <a href="Auditoria" title="@Localizer["AuditTooltip"]">
+                        <div class="icon">
+                            <img src="assets/ToolBar/dashboard.svg" title="@Localizer["AuditTooltip"]">
+                        </div>
+                        <span class="link hide">@Localizer["Audit"]</span>
+                    </a>
+                </li>
+
+                <li>
+                    <a href="Bitacora" title="@Localizer["LogsTooltip"]">
+                        <div class="icon">
+                            <img src="assets/ToolBar/reports.svg" title="@Localizer["LogsTooltip"]">
+                        </div>
+                        <span class="link hide">@Localizer["Logs"]</span>
+                    </a>
+                </li>
+            }
         </ul>
     </div>
     <div class="sidebar-bottom">
@@ -98,10 +102,15 @@
 
 @code {
     public LoginTokenResponse? user;
+    public bool esAdmin = false;
 
     protected override async Task OnInitializedAsync()
     {
         user = await sessionStorage.GetItemAsync<LoginTokenResponse>("user");
+        if (user != null)
+        {
+            esAdmin = user.RoleName == "Admin";
+        }
         httpClient.DefaultRequestHeaders.Clear();
         httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", user.Token);
     }

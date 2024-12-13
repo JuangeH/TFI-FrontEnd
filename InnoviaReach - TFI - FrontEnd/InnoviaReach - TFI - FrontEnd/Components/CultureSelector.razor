@@ -21,7 +21,7 @@
 
 @code
 {
-    public LoginTokenResponse user;
+    public LoginTokenResponse user = new();
 
     private CultureInfo[] supportedCultures = new[]
     {
@@ -51,17 +51,17 @@
 
                 var cultureEscaped = Uri.EscapeDataString(selectedCulture.Name);
                 var uriEscaped = Uri.EscapeDataString(currentUri);
-
+                
                 user = await sessionStorage.GetItemAsync<LoginTokenResponse>("user");
-                httpClient.DefaultRequestHeaders.Clear();
-                httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", user?.Token ?? string.Empty);
-
-                @if (user != null)
+                if (user!=null)
                 {
+                    httpClient.DefaultRequestHeaders.Clear();
+                    httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", user?.Token ?? string.Empty);
                     var response = await httpClient.PostAsJsonAsync<CultureRequest>($"Users/Culture/Set", new CultureRequest() { culture = cultureEscaped, redirectUri = uriEscaped });
                 }
+                
                 Navigation.NavigateTo(
-                $"https://localhost:44308/Users/Culture?culture={cultureEscaped}&redirectUri={uriEscaped}",
+                $"https://api-gateway-apigateway.onrender.com/Users/Culture?culture={cultureEscaped}&redirectUri={uriEscaped}",
                 forceLoad: true);
 
                 Snackbar.Add("Idioma modificado", Severity.Success, options =>

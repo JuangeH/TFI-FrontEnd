@@ -13,7 +13,7 @@
 @inject IStringLocalizer<Resource> Localizer
 
 <div class="foro-principal">
-    <header class="foro-header" id="foro-header">
+    @*<header class="foro-header" id="foro-header">
         <div class="foro-row">
             <div class="foro-container">
                 <div class="foro-header-content">
@@ -26,7 +26,7 @@
                 </div>
             </div>
         </div>
-    </header>
+    </header>*@
     <main class="foro-main">
         <MudTabs Elevation="2" Rounded="false" ApplyEffectsToContainer="false" PanelClass="pa-6" Centered=true Class="foro-mudTabs" Border="false">
             <MudTabPanel Text="@Localizer["GeneralForums"]" OnClick="AbrirForosGenerales">
@@ -281,25 +281,27 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div class="foro-favorite" @onclick="(() => GuardarForoFav(item))" role="button">
-                                                    @if (item.NombreUsuarioCreador != user?.UserName)
+                                                <div class="foro-menu-container">
+                                                    <div class="foro-favorite" @onclick="(() => GuardarForoFav(item))" role="button">
+                                                        @if (item.NombreUsuarioCreador != user?.UserName)
+                                                        {
+                                                            @if (item.favorito == true)
+                                                            {
+                                                                <i class="fa-solid fa-bookmark"></i>
+                                                            }
+                                                            else
+                                                            {
+                                                                <i class="fa-regular fa-bookmark"></i>
+                                                            }
+                                                        }
+                                                    </div>
+                                                    @if (user.RoleName == "Admin")
                                                     {
-                                                        @if (item.favorito == true)
-                                                        {
-                                                            <i class="fa-solid fa-bookmark"></i>
-                                                        }
-                                                        else
-                                                        {
-                                                            <i class="fa-regular fa-bookmark"></i>
-                                                        }
+                                                        <MudMenu Icon="@Icons.Material.Filled.MoreVert" AriaLabel="@Localizer["OpenMenu"]">
+                                                            <MudMenuItem @onclick="@(() => EliminarForo(item.Codigo))">@Localizer["Delete"]</MudMenuItem>
+                                                        </MudMenu>
                                                     }
                                                 </div>
-                                                @if (user.RoleName == "Admin")
-                                                {
-                                                    <MudMenu Icon="@Icons.Material.Filled.MoreVert" AriaLabel="@Localizer["OpenMenu"]">
-                                                        <MudMenuItem @onclick="@(() => EliminarForo(item.Codigo))">@Localizer["Delete"]</MudMenuItem>
-                                                    </MudMenu>
-                                                }
                                             </div>
                                         }
 
@@ -347,25 +349,28 @@
                                                         </div>
                                                     </div>
                                                 </div>
-                                                <div class="foro-favorite" @onclick="(() => GuardarForoFav(item))" role="button">
-                                                    @if (item.NombreUsuarioCreador != user?.UserName)
+                                                <div class="foro-menu-container">
+                                                    <div class="foro-favorite" @onclick="(() => GuardarForoFav(item))" role="button">
+                                                        @if (item.NombreUsuarioCreador != user?.UserName)
+                                                        {
+                                                            @if (item.favorito == true)
+                                                            {
+                                                                <i class="fa-solid fa-bookmark"></i>
+                                                            }
+                                                            else
+                                                            {
+                                                                <i class="fa-regular fa-bookmark"></i>
+                                                            }
+                                                        }
+                                                    </div>
+                                                
+                                                    @if (user.RoleName == "Admin")
                                                     {
-                                                        @if (item.favorito == true)
-                                                        {
-                                                            <i class="fa-solid fa-bookmark"></i>
-                                                        }
-                                                        else
-                                                        {
-                                                            <i class="fa-regular fa-bookmark"></i>
-                                                        }
+                                                        <MudMenu Icon="@Icons.Material.Filled.MoreVert" AriaLabel="@Localizer["OpenMenu"]">
+                                                            <MudMenuItem @onclick="@(() => EliminarForo(item.Codigo))">@Localizer["Delete"]</MudMenuItem>
+                                                        </MudMenu>
                                                     }
                                                 </div>
-                                                @if (user.RoleName == "Admin")
-                                                {
-                                                    <MudMenu Icon="@Icons.Material.Filled.MoreVert" AriaLabel="@Localizer["OpenMenu"]">
-                                                        <MudMenuItem @onclick="@(() => EliminarForo(item.Codigo))">@Localizer["Delete"]</MudMenuItem>
-                                                    </MudMenu>
-                                                }
                                             </div>
                                         }
                                        
@@ -379,70 +384,75 @@
                                 }
                             </div>
                             <!-- Recomendados por usuarios similares -->
-                            <h2 class="foro-row-recommended-title">@Localizer["ForumsBySimilarUsers"]</h2>
-                            <div class="foro-row-recommended">
-                                @if (ForosRecColab != null && ForosRecColab.Any())
-                                {
-                                    @foreach (var item in ForosRecColab)
+                            @if (user.Suscripcion!="Basico")
+                            {
+                                <h2 class="foro-row-recommended-title">@Localizer["ForumsBySimilarUsers"]</h2>
+                                <div class="foro-row-recommended">
+                                    @if (ForosRecColab != null && ForosRecColab.Any())
                                     {
-                                        if (ForosRecColab.Count==0)
+                                        @foreach (var item in ForosRecColab)
                                         {
-                                            <h1>No se encontraron foros</h1>
-                                        }
-                                        else
-                                        {
-                                            <div class="foro-box">
-                                                <div class="foro-details">
-                                                    <p>@item.NombreVideoJuego</p>
-                                                    <h3 title="@item.Titulo" @onclick="@(() => AbrirForo(item))">@item.Titulo</h3>
-                                                    <div class="foro-sub-details" style="flex-direction: column; width:100%; align-items: unset;">
-                                                        <div class="informacionusr">
-                                                            <span>@item.NombreUsuarioCreador</span>
-                                                            <span>@item.FechaCreado.ToShortDateString()</span>
-                                                        </div>
-                                                        <div class="metricas">
-                                                            <div class="foro-views">
-                                                                <i class="fa-regular fa-eye"></i>
-                                                                <span>@item.Visitas</span>
+                                            if (ForosRecColab.Count==0)
+                                            {
+                                                <h1>No se encontraron foros</h1>
+                                            }
+                                            else
+                                            {
+                                                <div class="foro-box">
+                                                    <div class="foro-details">
+                                                        <p>@item.NombreVideoJuego</p>
+                                                        <h3 title="@item.Titulo" @onclick="@(() => AbrirForo(item))">@item.Titulo</h3>
+                                                        <div class="foro-sub-details" style="flex-direction: column; width:100%; align-items: unset;">
+                                                            <div class="informacionusr">
+                                                                <span>@item.NombreUsuarioCreador</span>
+                                                                <span>@item.FechaCreado.ToShortDateString()</span>
                                                             </div>
-                                                            <div class="foro-comment">
-                                                                <i class="fa-solid fa-comment"></i>
-                                                                <span>@item.CantidadComentarios</span>
+                                                            <div class="metricas">
+                                                                <div class="foro-views">
+                                                                    <i class="fa-regular fa-eye"></i>
+                                                                    <span>@item.Visitas</span>
+                                                                </div>
+                                                                <div class="foro-comment">
+                                                                    <i class="fa-solid fa-comment"></i>
+                                                                    <span>@item.CantidadComentarios</span>
+                                                                </div>
                                                             </div>
                                                         </div>
                                                     </div>
-                                                </div>
-                                                <div class="foro-favorite" @onclick="(() => GuardarForoFav(item))" role="button">
-                                                    @if (item.NombreUsuarioCreador != user?.UserName)
-                                                    {
-                                                        @if (item.favorito == true)
+                                                    <div class="foro-menu-container">
+                                                        <div class="foro-favorite" @onclick="(() => GuardarForoFav(item))" role="button">
+                                                            @if (item.NombreUsuarioCreador != user?.UserName)
+                                                            {
+                                                                @if (item.favorito == true)
+                                                                {
+                                                                    <i class="fa-solid fa-bookmark"></i>
+                                                                }
+                                                                else
+                                                                {
+                                                                    <i class="fa-regular fa-bookmark"></i>
+                                                                }
+                                                            }
+                                                        </div>
+                                                        @if (user.RoleName == "Admin")
                                                         {
-                                                            <i class="fa-solid fa-bookmark"></i>
+                                                            <MudMenu Icon="@Icons.Material.Filled.MoreVert" AriaLabel="@Localizer["OpenMenu"]">
+                                                                <MudMenuItem @onclick="@(() => EliminarForo(item.Codigo))">@Localizer["Delete"]</MudMenuItem>
+                                                            </MudMenu>
                                                         }
-                                                        else
-                                                        {
-                                                            <i class="fa-regular fa-bookmark"></i>
-                                                        }
-                                                    }
+                                                     </div>
                                                 </div>
-                                                @if (user.RoleName == "Admin")
-                                                {
-                                                    <MudMenu Icon="@Icons.Material.Filled.MoreVert" AriaLabel="@Localizer["OpenMenu"]">
-                                                        <MudMenuItem @onclick="@(() => EliminarForo(item.Codigo))">@Localizer["Delete"]</MudMenuItem>
-                                                    </MudMenu>
-                                                }
-                                            </div>
-                                        }
+                                            }
                                         
+                                        }
                                     }
-                                }
-                                else
-                                {
-                                    <div class="foro-box foro-first">
-                                        <h3>@Localizer["NoForumsAvailable"]</h3>
-                                    </div>
-                                }
-                            </div>
+                                    else
+                                    {
+                                        <div class="foro-box foro-first">
+                                            <h3>@Localizer["NoForumsAvailable"]</h3>
+                                        </div>
+                                    }
+                                </div>
+                            }
                         </div>
                     }
                     else
@@ -594,15 +604,17 @@
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        <div class="foro-favorite" @onclick="(() => GuardarForoFav(item))" role="button">
-                                                            <i class="fa-solid fa-bookmark"></i>
+                                                        <div class="foro-menu-container">
+                                                            <div class="foro-favorite" @onclick="(() => GuardarForoFav(item))" role="button">
+                                                                <i class="fa-solid fa-bookmark"></i>
+                                                            </div>
+                                                            @if (user.RoleName == "Admin")
+                                                            {
+                                                                <MudMenu Icon="@Icons.Material.Filled.MoreVert" AriaLabel="@Localizer["OpenMenu"]">
+                                                                    <MudMenuItem @onclick="@(() => EliminarForo(item.Codigo))">@Localizer["Delete"]</MudMenuItem>
+                                                                </MudMenu>
+                                                            }
                                                         </div>
-                                                        @if (user.RoleName == "Admin")
-                                                        {
-                                                            <MudMenu Icon="@Icons.Material.Filled.MoreVert" AriaLabel="@Localizer["OpenMenu"]">
-                                                                <MudMenuItem @onclick="@(() => EliminarForo(item.Codigo))">@Localizer["Delete"]</MudMenuItem>
-                                                            </MudMenu>
-                                                        }
                                                     </div>
                                                 }
                                             }
@@ -790,13 +802,15 @@
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                        <div class="foro-favorite" @onclick="(() => GuardarForoFav(item))" role="button"></div>
-                                                        @if (user.RoleName == "Admin")
-                                                        {
-                                                            <MudMenu Icon="@Icons.Material.Filled.MoreVert" AriaLabel="@Localizer["OpenMenu"]">
-                                                                <MudMenuItem @onclick="@(() => EliminarForo(item.Codigo))">@Localizer["Delete"]</MudMenuItem>
-                                                            </MudMenu>
-                                                        }
+                                                        <div class="foro-menu-container">
+                                                            <div class="foro-favorite" @onclick="(() => GuardarForoFav(item))" role="button"></div>
+                                                            @if (user.RoleName == "Admin")
+                                                            {
+                                                                <MudMenu Icon="@Icons.Material.Filled.MoreVert" AriaLabel="@Localizer["OpenMenu"]">
+                                                                    <MudMenuItem @onclick="@(() => EliminarForo(item.Codigo))">@Localizer["Delete"]</MudMenuItem>
+                                                                </MudMenu>
+                                                            }
+                                                        </div>
                                                     </div>
                                                 }
                                             }

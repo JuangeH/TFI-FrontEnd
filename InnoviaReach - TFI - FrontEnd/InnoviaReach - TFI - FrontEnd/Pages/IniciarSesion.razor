@@ -88,7 +88,7 @@
 
         try
         {
-            string url = @$"https://localhost:44308/Auth/Login";
+            string url = @$"https://api-gateway-apigateway.onrender.com/Auth/Login";
             var response = await httpClient.PostAsJsonAsync(url, _loginRequest);
 
             if (response.IsSuccessStatusCode)
@@ -139,7 +139,7 @@
         try
         {
             //string url = "https:localhost:44308/Auth/Login?username=" + _loginRequest.username + "&password=" + _loginRequest.password;
-            string url = @$"https://localhost:44308/Auth/Login";
+            string url = @$"https://api-gateway-apigateway.onrender.com/Auth/Login";
             var response = await httpClient.PostAsJsonAsync(url, new LoginRequest(){username = "juanhenrich1@gmail.com", password="1234567"});
 
             if (response.IsSuccessStatusCode)

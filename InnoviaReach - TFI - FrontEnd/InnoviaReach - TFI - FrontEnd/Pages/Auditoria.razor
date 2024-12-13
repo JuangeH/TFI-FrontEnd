@@ -4,6 +4,8 @@
 @using System.Net.Http.Json
 @using InnoviaReach___TFI___FrontEnd.Data
 @inject HttpClient httpClient
+@inject ISnackbar Snackbar
+
 <MudTable Items="@Elements" Filter ="new Func<LogTableModel,bool>(FilterFunc1)" @bind-SelectedItem="selectedItem1">
     <ToolBarContent>
         <MudText Typo="Typo.h6">Logs</MudText>
@@ -16,7 +18,7 @@
         <MudTh>Timestamp</MudTh>
     </HeaderContent>
     <RowTemplate>
-        <MudTd DataLabel="Message">@context.Message</MudTd>
+        <MudTd DataLabel="Message">@context.RenderedMessage</MudTd>
         <MudTd DataLabel="Level">@context.Level</MudTd>
         <MudTd DataLabel="Timestamp">@context.Timestamp</MudTd>
     </RowTemplate>
@@ -34,7 +36,17 @@
 
     protected override async Task OnInitializedAsync()
     {
-        Elements = await httpClient.GetFromJsonAsync<List<LogTableModel>>("https://localhost:44308/LogTable/ObtenerLogs");
+        try
+        {
+            Elements = await httpClient.GetFromJsonAsync<List<LogTableModel>>("https://api-gateway-apigateway.onrender.com/LogTable/ObtenerLogs");
+        }
+        catch (Exception)
+        {
+            Snackbar.Add("Error al iniciar sesión", Severity.Error, options =>
+            {
+                options.VisibleStateDuration = 1000;
+            });
+        }
     }
 
     private bool FilterFunc1(LogTableModel element) => FilterFunc(element, searchString1);
@@ -43,7 +55,7 @@
     {
         if (string.IsNullOrWhiteSpace(searchString))
             return true;
-        if (element.Message.Contains(searchString, StringComparison.OrdinalIgnoreCase))
+        if (element.RenderedMessage.Contains(searchString, StringComparison.OrdinalIgnoreCase))
             return true;
         if (element.Level.Contains(searchString, StringComparison.OrdinalIgnoreCase))
             return true;
@@ -51,7 +63,5 @@
             return true;
         return false;
  
-    }
-
-    
+    }  
 }   

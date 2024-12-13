@@ -58,19 +58,6 @@
                                    pattern="^\d+$" required />
 
                         </div>
-                        <div class="text-field">
-                            <label for="nombre">@Localizer["FirstNameLabel"]</label>
-                            <input aria-label="@Localizer["FirstNameLabel"]" type="text" @bind="_registerRequest.FirstName" id="nombre"
-                                   name="nombre" placeholder="@Localizer["FirstNamePlaceholder"]" autocomplete="off" 
-                                   pattern="^[A-Za-z]+$" required />
-                        </div>
-
-                        <div class="text-field">
-                            <label for="apellido">@Localizer["LastNameLabel"]</label>
-                            <input aria-label="@Localizer["LastNameLabel"]" type="text" @bind="_registerRequest.LastName" id="apellido"
-                                   name="apellido" placeholder="@Localizer["LastNamePlaceholder"]" autocomplete="off" 
-                                   pattern="^[A-Za-z]+$" required />
-                        </div>
                     </div>
                 </div>
             </div>
@@ -96,7 +83,7 @@
         try
         {
             _registerRequest.Idioma = CultureInfo.CurrentCulture.Name;
-            var result = await httpClient.PostAsJsonAsync("https://localhost:44308/Auth/Register", _registerRequest);
+            var result = await httpClient.PostAsJsonAsync("https://api-gateway-apigateway.onrender.com/Auth/Register", _registerRequest);
 
             if (result.IsSuccessStatusCode)
             {

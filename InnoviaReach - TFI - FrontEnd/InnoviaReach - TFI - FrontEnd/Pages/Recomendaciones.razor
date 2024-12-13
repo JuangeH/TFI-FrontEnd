@@ -72,69 +72,72 @@
             <SpinnerLoading show=@areRecsLoading />
         }
     </MudTabPanel>
-    <MudTabPanel Text="@Localizer["CollaborativeRecommendations"]">
-        @if (!areRecsLoading)
-        {
-            <section class="sc-popular bg-violet-dark-active" style="height: 90vh">
-                <div class="container">
-                    @if (recomendacionesUsr.Count == 0)
-                    {
-                        <div class="sc-title">
-                            <h3>@Localizer["NoUserActivityForRecommendations"]</h3>
-                            <div class="line"></div>
-                        </div>
-                    }
-                    else
-                    {
-                        @foreach (var group in recomendacionesUsr.GroupBy(r => r.TipoRecomendacion))
+    @if (user.Suscripcion!="Basico")
+    {
+        <MudTabPanel Text="@Localizer["CollaborativeRecommendations"]">
+            @if (!areRecsLoading)
+            {
+                <section class="sc-popular bg-violet-dark-active" style="height: 90vh">
+                    <div class="container">
+                        @if (recomendacionesUsr.Count == 0)
                         {
-                            var tipos = group.Select(g => g.TipoRecomendacion).Distinct().ToList();
                             <div class="sc-title">
-                                @if (tipos.Contains("Visita"))
-                                {
-                                    <h3>@Localizer["GamesRecommendedByVisits"]</h3>
-                                }
-                                else
-                                {
-                                    <h3>@Localizer["GamesRecommendedByCommunity"]</h3>
-                                }
+                                <h3>@Localizer["NoUserActivityForRecommendations"]</h3>
                                 <div class="line"></div>
                             </div>
-
-                            <div class="recomendaciones-container" style="overflow-x: scroll; overflow-y: auto; width: auto;">
-                                <div class="recomendaciones-row-recommended">
-                                    @foreach (var item in group.DistinctBy(r => r.VideojuegoRecomendado))
+                        }
+                        else
+                        {
+                            @foreach (var group in recomendacionesUsr.GroupBy(r => r.TipoRecomendacion))
+                            {
+                                var tipos = group.Select(g => g.TipoRecomendacion).Distinct().ToList();
+                                <div class="sc-title">
+                                    @if (tipos.Contains("Visita"))
                                     {
-                                        <div class="game-card" @onclick="@(() => OpenPopup(item.VideojuegoRecomendado))">
-                                            <div class="game-card-top rec-img-fit-cover">
-                                                <img class="rec-img" src=@item.VideojuegoRecomendadoImagen alt="">
-                                            </div>
-                                            <div class="game-card-bottom">
-                                                <div class="flex flex-col sm:flex-row justify-between items-start flex-wrap">
-                                                    <div class="py-1">
-                                                        <h4 class="text-white uppercase game-card-title">@item.VideojuegoRecomendado</h4>
+                                        <h3>@Localizer["GamesRecommendedByVisits"]</h3>
+                                    }
+                                    else
+                                    {
+                                        <h3>@Localizer["GamesRecommendedByCommunity"]</h3>
+                                    }
+                                    <div class="line"></div>
+                                </div>
+
+                                <div class="recomendaciones-container" style="overflow-x: scroll; overflow-y: auto; width: auto;">
+                                    <div class="recomendaciones-row-recommended">
+                                        @foreach (var item in group.DistinctBy(r => r.VideojuegoRecomendado))
+                                        {
+                                            <div class="game-card" @onclick="@(() => OpenPopup(item.VideojuegoRecomendado))">
+                                                <div class="game-card-top rec-img-fit-cover">
+                                                    <img class="rec-img" src=@item.VideojuegoRecomendadoImagen alt="">
+                                                </div>
+                                                <div class="game-card-bottom">
+                                                    <div class="flex flex-col sm:flex-row justify-between items-start flex-wrap">
+                                                        <div class="py-1">
+                                                            <h4 class="text-white uppercase game-card-title">@item.VideojuegoRecomendado</h4>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                    }
+                                        }
+                                    </div>
                                 </div>
-                            </div>
+                            }
                         }
-                    }
-                </div>
-            </section>
-        }
-        else
-        {
-            <SpinnerLoading show=@areRecsLoading />
-        }
-    </MudTabPanel>
+                    </div>
+                </section>
+            }
+            else
+            {
+                <SpinnerLoading show=@areRecsLoading />
+            }
+        </MudTabPanel>
+    }
 </MudTabs>
 
 @code {
     private bool areRecsLoading = true;
-    public LoginTokenResponse user;
+    public LoginTokenResponse user = new();
 
     private VideojuegoCatalogoDetalleResponse VideojuegoSeleccionado = new VideojuegoCatalogoDetalleResponse();
     private ICollection<RecomendacionVideojuegoResponse> recomendacionesVid = new HashSet<RecomendacionVideojuegoResponse>();
