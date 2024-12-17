@@ -116,7 +116,7 @@
                                             </div>
                                         </div>
                                         <div class="foro-buttons">
-                                            @if (user.Suscripcion != "Basico")
+                                            @if (user.Suscripcion != "Basico" && usuarioActual.Active==false)
                                             {
                                                 <a class="foro-btn foro-btn-white" @onclick="OpenDialogAsync">
                                                     <i class="fa-solid fa-plus"></i> @Localizer["CreateForum"]
@@ -158,7 +158,7 @@
                                         </li>
                                     </ul>
                                 </div>
-                                @if (user.Suscripcion != "Basico")
+                                @if (user.Suscripcion != "Basico" && usuarioActual.Active==false)
                                 {
                                     <ComponenteCargaComentario CargaComentarioInicialCallBack="CargaComentarioInicialCallBack" foro_Codigo="ForoSeleccionado.Codigo" />
                                 }
@@ -193,7 +193,7 @@
                                                                     <h6 class="comment-name">@comentario.Creador</h6>
                                                                 }
                                                                 <span>@comentario.FechaCreacion</span>
-                                                                @if (user.Suscripcion != "Basico")
+                                                                @if (user.Suscripcion != "Basico" && usuarioActual.Active==false)
                                                                 {
                                                                     <i class="fa fa-reply" @onclick="@(() => ToggleRespuesta(comentario.Codigo))"></i>
                                                                 }
@@ -222,7 +222,7 @@
                                                 @if (comentario.Respuestas.Any())
                                                 {
                                                     @* Llamada recursiva para mostrar respuestas *@
-                                                    <ComponenteComentarios Comentarios="@comentario.Respuestas" ForoSeleccionado="ForoSeleccionado" ComentarioAbierto="ComentarioAbierto" OnToggleRespuesta="@ToggleRespuesta" RegistrarComentarioCallBack="RegistrarComentarioCallBack" />
+                                                    <ComponenteComentarios Comentarios="@comentario.Respuestas" usuarioActual="usuarioActual" ForoSeleccionado="ForoSeleccionado" ComentarioAbierto="ComentarioAbierto" OnToggleRespuesta="@ToggleRespuesta" RegistrarComentarioCallBack="RegistrarComentarioCallBack" />
 
                                                 }
                                             }
@@ -483,7 +483,7 @@
                                 </li>
                             </ul>
                         </div>
-                        @if (user.Suscripcion != "Basico")
+                        @if (user.Suscripcion != "Basico" && usuarioActual.Active == false)
                         {
                             <ComponenteCargaComentario 
                                 CargaComentarioInicialCallBack="CargaComentarioInicialCallBack" 
@@ -523,7 +523,7 @@
                                                             <h6 class="comment-name">@comentario.Creador</h6>
                                                         }
                                                         <span>@comentario.FechaCreacion</span>
-                                                        @if (user.Suscripcion != "Basico")
+                                                        @if (user.Suscripcion != "Basico" && usuarioActual.Active==false)
                                                         {
                                                             <i class="fa fa-reply" @onclick="@(() => ToggleRespuesta(comentario.Codigo))"></i>
                                                         }
@@ -541,7 +541,7 @@
                                                     </div>
                                                     @if (ComentarioAbierto == comentario.Codigo)
                                                     {
-                                                        @if (user.Suscripcion != "Basico")
+                                                        @if (user.Suscripcion != "Basico" && usuarioActual.Active==false)
                                                         {
                                                             <ComponenteCargaRespuesta 
                                                                 comentarioPadre_Codigo="comentario.Codigo" 
@@ -555,7 +555,8 @@
                                         </li>
                                         @if (comentario.Respuestas.Any())
                                         {
-                                            <ComponenteComentarios 
+                                            <ComponenteComentarios
+                                                usuarioActual="usuarioActual"
                                                 Comentarios="@comentario.Respuestas" 
                                                 ForoSeleccionado="ForoSeleccionado" 
                                                 ComentarioAbierto="ComentarioAbierto" 
@@ -653,7 +654,7 @@
                                             </div>
                                         </div>
                                         <div class="foro-buttons">
-                                            @if (user.Suscripcion != "Basico")
+                                            @if (user.Suscripcion != "Basico" && usuarioActual.Active == false)
                                             {
                                                 <a class="foro-btn foro-btn-white" @onclick="OpenDialogAsync"><i class="fa-solid fa-plus"></i> @Localizer["CreateForum"]</a>
                                             }
@@ -691,7 +692,7 @@
                                         </li>
                                     </ul>
                                 </div>
-                                @if (user.Suscripcion != "Basico")
+                                @if (user.Suscripcion != "Basico" && usuarioActual.Active==false)
                                 {
                                     <ComponenteCargaComentario CargaComentarioInicialCallBack="CargaComentarioInicialCallBack" foro_Codigo="ForoSeleccionado.Codigo" />
                                 }
@@ -726,7 +727,7 @@
                                                                     <h6 class="comment-name">@comentario.Creador</h6>
                                                                 }
                                                                 <span>@comentario.FechaCreacion</span>
-                                                                @if (user.Suscripcion != "Basico")
+                                                                @if (user.Suscripcion != "Basico" && usuarioActual.Active==false)
                                                                 {
                                                                     <i class="fa fa-reply" @onclick="@(() => ToggleRespuesta(comentario.Codigo))"></i>
                                                                 }
@@ -744,7 +745,7 @@
                                                             </div>
                                                             @if (ComentarioAbierto == comentario.Codigo)
                                                             {
-                                                                @if (user.Suscripcion != "Basico")
+                                                                @if (user.Suscripcion != "Basico" && usuarioActual.Active==false)
                                                                 {
                                                                     <ComponenteCargaRespuesta comentarioPadre_Codigo="comentario.Codigo" foro_Codigo="ForoSeleccionado.Codigo" comentarioPadre_Creador="@comentario.Creador" RegistrarComentarioCallBack="RegistrarComentarioCallBack" />
                                                                 }
@@ -754,7 +755,7 @@
                                                 </li>
                                                 @if (comentario.Respuestas.Any())
                                                 {
-                                                    <ComponenteComentarios Comentarios="@comentario.Respuestas" ForoSeleccionado="ForoSeleccionado" ComentarioAbierto="ComentarioAbierto" OnToggleRespuesta="@ToggleRespuesta" RegistrarComentarioCallBack="RegistrarComentarioCallBack" />
+                                                    <ComponenteComentarios usuarioActual="usuarioActual" Comentarios="@comentario.Respuestas" ForoSeleccionado="ForoSeleccionado" ComentarioAbierto="ComentarioAbierto" OnToggleRespuesta="@ToggleRespuesta" RegistrarComentarioCallBack="RegistrarComentarioCallBack" />
                                                 }
                                             }
                                         </ul>
@@ -839,7 +840,7 @@
                                             </div>
                                         </div>
                                         <div class="foro-buttons">
-                                            @if (user.Suscripcion != "Basico")
+                                            @if (user.Suscripcion != "Basico" && usuarioActual.Active==false)
                                             {
                                                 <a class="foro-btn foro-btn-white" @onclick="OpenDialogAsync"><i class="fa-solid fa-plus"></i> @Localizer["CreateForum"]</a>
                                             }
@@ -877,7 +878,7 @@
                                         </li>
                                     </ul>
                                 </div>
-                                @if (user.Suscripcion != "Basico")
+                                @if (user.Suscripcion != "Basico" && usuarioActual.Active==false)
                                 {
                                     <ComponenteCargaComentario CargaComentarioInicialCallBack="CargaComentarioInicialCallBack" foro_Codigo="ForoSeleccionado.Codigo" />
                                 }
@@ -912,7 +913,7 @@
                                                                     <h6 class="comment-name">@comentario.Creador</h6>
                                                                 }
                                                                 <span>@comentario.FechaCreacion</span>
-                                                                @if (user.Suscripcion != "Basico")
+                                                                @if (user.Suscripcion != "Basico" && usuarioActual.Active==false)
                                                                 {
                                                                     <i class="fa fa-reply" @onclick="@(() => ToggleRespuesta(comentario.Codigo))"></i>
                                                                 }
@@ -930,7 +931,7 @@
                                                             </div>
                                                             @if (ComentarioAbierto == comentario.Codigo)
                                                             {
-                                                                @if (user.Suscripcion != "Basico")
+                                                                @if (user.Suscripcion != "Basico" && usuarioActual.Active == false)
                                                                 {
                                                                     <ComponenteCargaRespuesta comentarioPadre_Codigo="comentario.Codigo" foro_Codigo="ForoSeleccionado.Codigo" comentarioPadre_Creador="@comentario.Creador" RegistrarComentarioCallBack="RegistrarComentarioCallBack" />
                                                                 }
@@ -940,7 +941,7 @@
                                                 </li>
                                                 @if (comentario.Respuestas.Any())
                                                 {
-                                                    <ComponenteComentarios Comentarios="@comentario.Respuestas" ForoSeleccionado="ForoSeleccionado" ComentarioAbierto="ComentarioAbierto" OnToggleRespuesta="@ToggleRespuesta" RegistrarComentarioCallBack="RegistrarComentarioCallBack" />
+                                                    <ComponenteComentarios usuarioActual="usuarioActual" Comentarios="@comentario.Respuestas" ForoSeleccionado="ForoSeleccionado" ComentarioAbierto="ComentarioAbierto" OnToggleRespuesta="@ToggleRespuesta" RegistrarComentarioCallBack="RegistrarComentarioCallBack" />
                                                 }
                                             }
                                         </ul>
@@ -982,7 +983,7 @@
                                                     </strong>
                                                     <span class="userlist-list-item__info">
                                                         @item.Email <br>
-                                                        @Localizer["Status"]: @(item.Active ? Localizer["Active"] : Localizer["Inactive"])
+                                                        @Localizer["Status"]: @(item.Active ? Localizer["Inactive"] : Localizer["Active"])
                                                     </span>
                                                 </div>
                                             </div>
@@ -1028,6 +1029,7 @@
     public ICollection<ComentarioResponse> Comentarios = new HashSet<ComentarioResponse>();
     public ICollection<ComentarioResponse> ComentariosRaiz = new HashSet<ComentarioResponse>();
     public LoginTokenResponse user;
+    public UserResponse usuarioActual = new ();
     public bool foroAbierto;
     public bool CreacionForo;
     public bool UsuarioDetalle;
@@ -1058,9 +1060,9 @@
                 options.VisibleStateDuration = 1000;
             });
         }
-        
+
     }
-    
+
     private List<UserResponse> filteredUsuarios => usuarios
         .Where(u => string.IsNullOrWhiteSpace(searchString1) ||
                     u.UserName.Contains(searchString1, StringComparison.OrdinalIgnoreCase) ||
@@ -1082,7 +1084,7 @@
         }
         catch (Exception)
         {
-            
+
         }
     }
 
@@ -1133,6 +1135,19 @@
                     ForosRecColab = await httpClient.GetFromJsonAsync<List<ForoResponse>>("Recomendaciones/ObtenerForosRecomendadosColab");
                     usuarios = await httpClient.GetFromJsonAsync<List<UserResponse>>("Users/ObtenerUsuarios");
                     FilteredUsers = usuarios;
+                    if (usuarios!=null)
+                    {
+                        foreach (var item in usuarios)
+                        {
+                            if (user.Email == item.Email)
+                            {
+                                usuarioActual.Active = item.Active;
+                                usuarioActual.UserName=item.UserName;
+                                usuarioActual.Email = item.Email;
+                            }
+                        }
+                    }
+                    
                 }
                 catch (Exception) 
                 { 

@@ -32,7 +32,7 @@
                         <h6 class="comment-name">@comentario.Creador</h6>
                     }
                     <span>@comentario.FechaCreacion</span>
-                    @if (user.Suscripcion != "Basico")
+                    @if (user.Suscripcion != "Basico" && usuarioActual.Active == false)
                     {
                         <i class="fa fa-reply" title="@Localizer["Reply"]" @onclick="@(() => ToggleRespuesta(comentario.Codigo))"></i>
                     }
@@ -50,7 +50,7 @@
                 </div>
                 @if (ComentarioAbierto == comentario.Codigo)
                 {
-                    @if (user.Suscripcion != "Basico")
+                    @if (user.Suscripcion != "Basico" && usuarioActual.Active == false)
                     {
                         <ComponenteCargaRespuesta comentarioPadre_Codigo="comentario.Codigo"
                                       foro_Codigo="ForoSeleccionado.Codigo"
@@ -63,7 +63,8 @@
     </ul>
     @if (comentario.Respuestas.Any())
     {
-        <ComponenteComentarios Comentarios="@comentario.Respuestas"
+        <ComponenteComentarios usuarioActual="usuarioActual" 
+                       Comentarios="@comentario.Respuestas"
                        ForoSeleccionado="ForoSeleccionado"
                        ComentarioAbierto="ComentarioAbierto"
                        OnToggleRespuesta="@ToggleRespuesta"
@@ -80,6 +81,9 @@
 
     [Parameter]
     public int? ComentarioAbierto { get; set; }
+
+    [Parameter]
+    public UserResponse usuarioActual { get; set; }
 
     [Parameter]
     public EventCallback<int> OnToggleRespuesta { get; set; }
