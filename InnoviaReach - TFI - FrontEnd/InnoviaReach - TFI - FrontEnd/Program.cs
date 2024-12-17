@@ -73,10 +73,8 @@ app.UseExceptionHandler("/error");
 app.UseHttpsRedirection();
 
 app.UseStaticFiles();
-
-app.UseRouting();
-
 app.UseRequestLocalization(localizationOptions);
+app.UseRouting();
 
 app.MapBlazorHub();
 app.MapFallbackToPage("/_Host");

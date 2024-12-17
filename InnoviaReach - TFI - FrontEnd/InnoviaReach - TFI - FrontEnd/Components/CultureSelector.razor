@@ -59,10 +59,15 @@
                     httpClient.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", user?.Token ?? string.Empty);
                     var response = await httpClient.PostAsJsonAsync<CultureRequest>($"Users/Culture/Set", new CultureRequest() { culture = cultureEscaped, redirectUri = uriEscaped });
                 }
-                
+
+                var backendUrl = "https://api-gateway-apigateway.onrender.com";
                 Navigation.NavigateTo(
-                $"https://api-gateway-apigateway.onrender.com/Users/Culture?culture={cultureEscaped}&redirectUri={uriEscaped}",
-                forceLoad: true);
+                    $"{backendUrl}/Users/Culture?culture={cultureEscaped}&redirectUri={uriEscaped}",
+                    forceLoad: true);
+
+                //Navigation.NavigateTo(
+                //$"https:api-gateway-apigateway.onrender.com/Users/Culture?culture={cultureEscaped}&redirectUri={uriEscaped}",
+                //forceLoad: true);
 
                 Snackbar.Add("Idioma modificado", Severity.Success, options =>
                 {
